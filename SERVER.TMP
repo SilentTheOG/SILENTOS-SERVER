@@ -409,7 +409,7 @@ echo "
 ON
 
 elif [ $cmd == "oj_shut_up" ]; then
-echo "WHEN SILENT OS UUPDATE"
+echo "found me lol"
 echo "WHEN SILENT OS UUPDATE"
 echo "WHEN SILENT OS UUPDATE"
 echo "WHEN SILENT OS UUPDATE"
