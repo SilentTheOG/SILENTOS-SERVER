@@ -375,6 +375,11 @@ backupfile="e.sh_backup_name_to_e.sh"
 cp "$thisfile" "$backupfile"
 echo "Created backup."
 
+elif [ $cmd == "update" ]; then
+curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
+cat SERVER.TMP > e.sh | rm SERVER.TMP
+echo "Restart to apply changes."
+
 elif [ $cmd == "oj" ]; then
 echo "oj has joined Silent OS to help with support! Contact him instead of me (pretty please)"
 
