@@ -321,6 +321,7 @@ signin=pass.txt
     oj
     backup
     log
+    update
     Beta command list:
     drugs
     rsbpi"
@@ -340,7 +341,8 @@ else
     changelog
     oj
     backup
-    log"
+    log
+    update"
 fi
 elif [ $cmd == "log" ]; then
 echo "System log:"
@@ -378,7 +380,7 @@ echo "Created backup."
 elif [ $cmd == "update" ]; then
 curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
 cat SERVER.TMP > e.sh | rm SERVER.TMP
-echo "Restart to apply changes."
+echo "CLOSE and REOPEN (NOT RESTART COMMAND) to apply changes."
 
 elif [ $cmd == "oj" ]; then
 echo "oj has joined Silent OS to help with support! Contact him instead of me (pretty please)"
@@ -458,10 +460,10 @@ echo "WHEN SILENT OS UUPDATE"
 
 elif [ $cmd == "changelog" ]; then
 clear
-echo "Silent OS version 3.7"
+echo "Silent OS version 3.8 (The update update :D)"
 echo "Added:
-Bug fixes
-Replaced the check command with a backup command!"
+A new command because Silent is tired of manually uploading updates! :D
+Try it out! (Command: update)"
 read -p "Press Enter to continue..."
 clear
 echo "
