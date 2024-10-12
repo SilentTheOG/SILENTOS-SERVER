@@ -324,7 +324,8 @@ signin=pass.txt
     update
     Beta command list:
     drugs
-    rsbpi"
+    rsbpi
+    app (Unstable at the moment.)"
 else
     echo "Command list:
     debugmode (ONLY USE IF NEEDED)
@@ -460,10 +461,8 @@ echo "WHEN SILENT OS UUPDATE"
 
 elif [ $cmd == "changelog" ]; then
 clear
-echo "Silent OS version 3.8 (The update update :D)"
-echo "Added:
-A new command because Silent is tired of manually uploading updates! :D
-Try it out! (Command: update)"
+echo "Silent OS version 3.9 (Apps update)"
+echo "Added: 'app' command that lets you run Silent OS apps! (.sosa files.)"
 read -p "Press Enter to continue..."
 clear
 echo "
@@ -535,6 +534,57 @@ PLEASE CHECK THE LOG FILE.${NOCOLOR}"
     $cmd0
     " > "LOG.TXT"
     sleep 99999999999999999999999999999999999999999
+
+
+elif [ $cmd == "app" ]; then
+reverse_shift() {
+    local input="$1"
+    local result=""
+    local i=0
+
+    while [ $i -lt ${#input} ]; do
+        if [[ "$i" -le $(( ${#input} - 7 )) && "${input:$i:7}" == "PGYNKPG" ]]; then
+            result+=$'\n'
+            i=$((i + 7))
+        else
+            char="${input:$i:1}"
+            shifted_char=$(printf "\\$(printf '%03o' $(( $(printf '%d' "'$char") - 2 )))")
+            result+="$shifted_char"
+            ((i++))
+        fi
+    done
+
+    echo "$result"
+}
+clear
+read -p "Enter file name (.sosa): " file_name
+    shifted_code=$(<"$file_name")
+    compiled_code=$(reverse_shift "$shifted_code")
+
+    touch RUNNING.tmp
+    echo -e "$compiled_code" > RUNNING.tmp
+    chmod +x RUNNING.tmp
+    ./RUNNING.tmp
+    rm -f RUNNING.tmp
+    clear
+    echo "
+      @@@@@@  @@@@@@ @@@       @@@@@@@@  @@    @@  @@@@@@@@@@
+    @@         @@@   @@@       @@@       @@@@  @@     @@@
+      @@@@     @@@   @@@       @@@@@@    @@  @@@@     @@@
+          @@   @@@   @@@       @@@       @@    @@     @@@
+    @@@@@@    @@@@@@ @@@@@@@@@ @@@@@@@@  @@    @@     @@@
+
+                       @@@@@       @@@@@@@@
+                    @@@@@@@@@@@  @@@@@@@@@@
+                    @@@     @@@  @@
+                    @@@     @@@    @@@@@
+                    @@@     @@@         @@@
+                    @@@@@@@@@@@  @@@@@@@@@@
+                       @@@@@     @@@@@@@"
+
+                       echo "Use command $quote2 for a list of commands
+"
+ON
 
 
 elif [ -z $cmd ]; then
