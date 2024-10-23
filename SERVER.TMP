@@ -88,8 +88,7 @@ cat SERVER.TMP > e.sh | rm SERVER.TMP
 echo "This session will now close in a few seconds.
 You can re-open it after."
 sleep 3
-    echo ""
-    Power=0
+exit
 fi
 }
 
