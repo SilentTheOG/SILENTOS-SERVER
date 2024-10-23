@@ -326,6 +326,7 @@ echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d`
 "
 ON
 fi
+
 echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
 " >> CONFIG/Event-Log.log
 echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
@@ -347,6 +348,7 @@ echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d`
 
                        echo "Use command $quote2 for a list of commands
 "
+
     Power=2
 
 elif [[ $cmd0 == *":"* ]]; then
@@ -555,7 +557,7 @@ echo "WHEN SILENT OS UUPDATE"
 
 elif [ $cmd == "changelog" ]; then
 clear
-echo "Silent OS version 4.0!!!! :D (Recovery update)"
+echo "Silent OS version 4.0! (Recovery update)"
 echo "Added: A recovery screen for if the OS crashes 5 or more times!"
 read -p "Press Enter to continue..."
 clear
