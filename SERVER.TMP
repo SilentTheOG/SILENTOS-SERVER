@@ -1,3 +1,97 @@
+crashed=0
+rec=0
+recovery() {
+    clear
+    printf "\e[44m"  
+    clear
+    printf "\e[97m\e[1mRecovery\n"  
+    printf "\e[0m"
+    printf "\e[44mSilent OS has crashed five (or more) times in this session.
+Here are some recovery options:
+
+1) Reboot and try again
+2) Disable MCMDB Mode (If it's on) and restart
+3) Reinstall Silent OS\n"
+    printf "\e[0m"
+    read -n1 -s rec
+
+    if [[ "$rec" != "1" && "$rec" != "2" && "$rec" != "3" ]]; then
+        recovery
+    elif [ $rec == "1" ]; then
+    clear
+printf "${RED}Restarting...${NOCOLOR}"
+   sleep 4
+   clear
+   echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Event-Log.log
+echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Info-Log.log
+   echo "
+      @@@@@@  @@@@@@ @@@       @@@@@@@@  @@    @@  @@@@@@@@@@
+    @@         @@@   @@@       @@@       @@@@  @@     @@@
+      @@@@     @@@   @@@       @@@@@@    @@  @@@@     @@@
+          @@   @@@   @@@       @@@       @@    @@     @@@
+    @@@@@@    @@@@@@ @@@@@@@@@ @@@@@@@@  @@    @@     @@@
+
+                       @@@@@       @@@@@@@@
+                    @@@@@@@@@@@  @@@@@@@@@@
+                    @@@     @@@  @@
+                    @@@     @@@    @@@@@
+                    @@@     @@@         @@@
+                    @@@@@@@@@@@  @@@@@@@@@@
+                       @@@@@     @@@@@@@"
+
+                       echo "Use command $quote2 for a list of commands
+"
+
+                       printf "${RED}WARNING: Your OS has just recovered from a crash.${NOCOLOR}
+
+"
+ON
+
+elif [ $rec == "2" ]; then
+echo "" > CONFIG/MCMDB.txt
+    clear
+printf "${RED}Restarting...${NOCOLOR}"
+   sleep 4
+   clear
+   echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Event-Log.log
+echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Info-Log.log
+   echo "
+      @@@@@@  @@@@@@ @@@       @@@@@@@@  @@    @@  @@@@@@@@@@
+    @@         @@@   @@@       @@@       @@@@  @@     @@@
+      @@@@     @@@   @@@       @@@@@@    @@  @@@@     @@@
+          @@   @@@   @@@       @@@       @@    @@     @@@
+    @@@@@@    @@@@@@ @@@@@@@@@ @@@@@@@@  @@    @@     @@@
+
+                       @@@@@       @@@@@@@@
+                    @@@@@@@@@@@  @@@@@@@@@@
+                    @@@     @@@  @@
+                    @@@     @@@    @@@@@
+                    @@@     @@@         @@@
+                    @@@@@@@@@@@  @@@@@@@@@@
+                       @@@@@     @@@@@@@"
+
+                       echo "Use command $quote2 for a list of commands
+"
+
+                       printf "${RED}WARNING: Your OS has just recovered from a crash.${NOCOLOR}
+
+"
+ON
+
+elif [ $rec == "3" ]; then
+curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
+cat SERVER.TMP > e.sh | rm SERVER.TMP
+echo "This session will now close in a few seconds.
+You can re-open it after."
+sleep 3
+quit
+fi
+}
+
 BLUE='\033[0;34m'
    NOCOLOR='\033[0m'
 echo "Making sure all logs are up to date..."
@@ -461,8 +555,8 @@ echo "WHEN SILENT OS UUPDATE"
 
 elif [ $cmd == "changelog" ]; then
 clear
-echo "Silent OS version 3.9 (Apps update)"
-echo "Added: 'app' command that lets you run Silent OS apps! (.sosa files.)"
+echo "Silent OS version 4.0!!!! :D (Recovery update)"
+echo "Added: A recovery screen for if the OS crashes 5 or more times!"
 read -p "Press Enter to continue..."
 clear
 echo "
@@ -609,6 +703,10 @@ read -p "Press Enter to restart"
     printf "${RED}Restarting...${NOCOLOR}"
    sleep 4
    clear
+    ((crashed++))
+    if [ "$crashed" -ge 5 ]; then
+        recovery
+    fi
    echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
 " >> CONFIG/Event-Log.log
 echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
@@ -784,10 +882,19 @@ read -p "Press Enter to restart."
     printf "${RED}Restarting...${NOCOLOR}"
    sleep 4
    clear
+       ((crashed++))
+    if [ "$crashed" -ge 5 ]; then
+        recovery
+    fi
    echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
 " >> CONFIG/Event-Log.log
 echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
 " >> CONFIG/Info-Log.log
+    read -r
+    ((crashed++))
+    if [ "$count" -ge 5 ]; then
+        echo "The count has reached 5 or more!"
+    fi
    echo "
       @@@@@@  @@@@@@ @@@       @@@@@@@@  @@    @@  @@@@@@@@@@
     @@         @@@   @@@       @@@       @@@@  @@     @@@
@@ -848,6 +955,10 @@ read -p "Press Enter to restart"
     printf "${RED}Restarting...${NOCOLOR}"
    sleep 4
    clear
+       ((crashed++))
+    if [ "$crashed" -ge 5 ]; then
+        recovery
+    fi
    echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
 " >> CONFIG/Event-Log.log
 echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
@@ -918,6 +1029,10 @@ read -p "Press Enter to restart"
     printf "${RED}Restarting...${NOCOLOR}"
    sleep 4
    clear
+       ((crashed++))
+    if [ "$crashed" -ge 5 ]; then
+        recovery
+    fi
    echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
 " >> CONFIG/Event-Log.log
 echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
