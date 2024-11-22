@@ -397,7 +397,8 @@ filewrite=0
 writefile=0
 einfo=0
 signin=pass.txt
-  read -p "Command: " cmd
+read -p "Command: " cmd
+
   if [ $cmd == "list" ]; then
   if [ $MCMDB == 1 ]; then
   echo "Command list:
@@ -557,8 +558,8 @@ echo "WHEN SILENT OS UUPDATE"
 
 elif [ $cmd == "changelog" ]; then
 clear
-echo "Silent OS version 4.0! (Recovery update)"
-echo "Added: A recovery screen for if the OS crashes 5 or more times!"
+echo "Silent OS version 4.1! (Something update :D)"
+echo "Added: FINALLY fixed the no command crash!"
 read -p "Press Enter to continue..."
 clear
 echo "
@@ -683,58 +684,11 @@ read -p "Enter file name (.sosa): " file_name
 ON
 
 
-elif [ -z $cmd ]; then
-clear
-printf "\e[1mSILENT OS\e[0m
+elif [ -z "$cmd" ]; then
+    tput cuu 15
+    echo -e "\033[J"
 
-Silent OS has encountered an error, and has shut down to pervent further errors.
-This normally isn't an issue and you can reboot, if this is the first time.
-If this isn't your first time having this screen you can try the following:
-- Reinstalling via the same source you have installed it from
-- Finding the cause of the error by its error code
-- Contacting 'silenttheja' or 'oliveoiljester' on Discord for support
 
-ERROR CODE: NO COMMAND FOUND
-"
-echo "<ERROR> No command was found. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Event-Log.log
-echo "<ERROR> No command was found. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Error-Log.log
-read -p "Press Enter to restart"
-  clear
-    printf "${RED}Restarting...${NOCOLOR}"
-   sleep 4
-   clear
-    ((crashed++))
-    if [ "$crashed" -ge 5 ]; then
-        recovery
-    fi
-   echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Event-Log.log
-echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Info-Log.log
-   echo "
-      @@@@@@  @@@@@@ @@@       @@@@@@@@  @@    @@  @@@@@@@@@@
-    @@         @@@   @@@       @@@       @@@@  @@     @@@
-      @@@@     @@@   @@@       @@@@@@    @@  @@@@     @@@
-          @@   @@@   @@@       @@@       @@    @@     @@@
-    @@@@@@    @@@@@@ @@@@@@@@@ @@@@@@@@  @@    @@     @@@
-
-                       @@@@@       @@@@@@@@
-                    @@@@@@@@@@@  @@@@@@@@@@
-                    @@@     @@@  @@
-                    @@@     @@@    @@@@@
-                    @@@     @@@         @@@
-                    @@@@@@@@@@@  @@@@@@@@@@
-                       @@@@@     @@@@@@@"
-
-                       echo "Use command $quote2 for a list of commands
-"
-
-                       printf "${RED}WARNING: Your OS has just recovered from a crash.${NOCOLOR}
-
-"
-ON
 
 
 
