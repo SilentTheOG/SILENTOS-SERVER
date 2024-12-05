@@ -85,10 +85,10 @@ ON
 elif [ $rec == "3" ]; then
 curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
 cat SERVER.TMP > e.sh | rm SERVER.TMP
-echo "This session will now close in a few seconds.
-You can re-open it after."
-sleep 3
-exit
+touch tmp.sh
+echo "./e.sh" >> tmp.sh
+./tmp.sh
+rm tmp.sh
 fi
 }
 
@@ -351,22 +351,7 @@ echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d`
 
     Power=2
 
-elif [[ $cmd0 == *":"* ]]; then
-    clear
-    touch "LOG.TXT"
-    printf "${RED}FATAL ERROR CONTAINING A COLON IN THE '\$cmd0' VARIABLE
-THIS MAY HAVE CAUSED DAMAGE TO ALL VARIABLES AND/OR CONFIG OF THE OS
-PLEASE CHECK THE LOG FILE.${NOCOLOR}"
-    echo "VARIABLES, SOME MAY NOT BE FOUND. ONLY ESSENTIAL VARIABLES WILL BE SHOWN:
-    \$cmd
-    $cmd (EMPTY)
 
-    \$cmd0 (StartAuth)
-    $cmd0
-    ^
-    ERROR: THE CHARACTER ':' IS NOT ALLOWED!
-    " > "LOG.TXT"
-    sleep 99999999999999999999999999999999999999999
 
   elif [ -z "$cmd0" ]; then
   clear
@@ -478,7 +463,11 @@ echo "Created backup."
 elif [ $cmd == "update" ]; then
 curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
 cat SERVER.TMP > e.sh | rm SERVER.TMP
-echo "CLOSE and REOPEN (NOT RESTART COMMAND) to apply changes."
+touch tmp.sh
+echo "./e.sh" >> tmp.sh
+./tmp.sh
+rm tmp.sh
+
 
 elif [ $cmd == "oj" ]; then
 echo "oj has joined Silent OS to help with support! Contact him instead of me (pretty please)"
@@ -558,8 +547,8 @@ echo "WHEN SILENT OS UUPDATE"
 
 elif [ $cmd == "changelog" ]; then
 clear
-echo "Silent OS version 4.1! (Something update :D)"
-echo "Added: FINALLY fixed the no command crash!"
+echo "Silent OS version 4.2! (Update fixer!)"
+echo "Added: Reworked the update system so you don't need to close and re-open!"
 read -p "Press Enter to continue..."
 clear
 echo "
@@ -616,21 +605,7 @@ echo "Type "restart" to activate MCMDB Mode."
 MCMDBON=1
 
 elif [[ $cmd == *":"* ]]; then
-    clear
-    touch "LOG.TXT"
-    printf "${RED}FATAL ERROR CONTAINING A COLON IN THE '\$cmd' VARIABLE
-THIS MAY HAVE CAUSED DAMAGE TO ALL VARIABLES AND/OR CONFIG OF THE OS
-PLEASE CHECK THE LOG FILE.${NOCOLOR}"
-    echo "VARIABLES, SOME MAY NOT BE FOUND. ONLY ESSENTIAL VARIABLES WILL BE SHOWN:
-    \$cmd
-    $cmd
-    ^
-    ERROR: THE CHARACTER ':' IS NOT ALLOWED!
-
-        \$cmd0 (StartAuth)
-    $cmd0
-    " > "LOG.TXT"
-    sleep 99999999999999999999999999999999999999999
+    echo "noo dont do that it hurt :c"
 
 
 elif [ $cmd == "app" ]; then
