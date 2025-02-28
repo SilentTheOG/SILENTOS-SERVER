@@ -1,6 +1,6 @@
 VALIDATION_FUNCTION() {
     echo "Auto update..."
-        curl -s -H https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP > downloaded.tmp
+curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP -o downloaded.tmp
         cmp downloaded.tmp e.sh && echo "System check complete, continuing..." || echo "Your system differs from the current standard version."
        
     read -p ""
