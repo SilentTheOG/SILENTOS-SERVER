@@ -1,10 +1,7 @@
 VALIDATION_FUNCTION() {
-    echo "Auto update..."
-    curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
-    mv SERVER.TMP Validator.sh
-    cmp -s Validator.sh e.sh && echo "System check complete, continuing..." || echo "Your system differs from the current standard version."
-    rm Validator.sh
-    read -p ""
+  cmp -s <(curl -s https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP) e.sh && 
+echo "System check complete, continuing..." || 
+echo "Your system differs from the current standard version."
 }
 chmod -R 777 .
 VALIDATION_FUNCTION
