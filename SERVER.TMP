@@ -1,7 +1,7 @@
 VALIDATION_FUNCTION() {
-  cmp -s <(curl -s https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP) e.sh && 
-echo "System check complete, continuing..." || 
-echo "Your system differs from the current standard version."
+[ "$(curl -s https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP | md5sum | awk '{print $1}')" = "$(md5sum e.sh | awk '{print $1}')" ] &&
+echo "System check complete, continuing..." || echo "Your system differs from the current standard version."
+read -p ""
 }
 chmod -R 777 .
 VALIDATION_FUNCTION
