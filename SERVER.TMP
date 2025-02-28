@@ -1,10 +1,14 @@
 VALIDATION_FUNCTION() {
-[ "$(curl -s https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP | md5sum | awk '{print $1}')" = "$(md5sum e.sh | awk '{print $1}')" ] &&
-echo "System check complete, continuing..." || echo "Your system differs from the current standard version."
-read -p ""
+    echo "Auto update..."
+        curl -s https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP -o downloaded.tmp
+        cmp -s downloaded.tmp e.sh && echo "System check complete, continuing..." || echo "Your system differs from the current standard version."
+    rm downloaded.tmp
+    read -p ""
 }
+
 chmod -R 777 .
 VALIDATION_FUNCTION
+
 
 
 
