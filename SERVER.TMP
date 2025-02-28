@@ -1,11 +1,11 @@
 touch eNEW.sh
 VALIDATION_FUNCTION() {
+    touch Validator.sh
   echo "Auto update..."
   curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
-  mv SERVER.TMP eNEW.sh
-  touch Validator.sh
-  echo "./eNEW.sh" > Validator.sh
-  cmp -s Validator.sh eNEW.sh && echo "System check complete, continuing..." || echo "Your system differs from the current standard version."
+echo SERVER.TMP > Validator.sh
+
+  cmp -s Validator.sh e.sh && echo "System check complete, continuing..." || echo "Your system differs from the current standard version."
   rm Validator.sh
   read -p ""
 }
