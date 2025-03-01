@@ -31,8 +31,8 @@ VALIDATION_FUNCTION() {
     "
 curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP > downloaded.tmp
         cmp downloaded.tmp e.sh && echo "System check complete, continuing..." || VALIDATION_FAILED
+        rm downloaded.tmp
 }
-rm downloaded.tmp
 chmod -R 777 .
 VALIDATION_FUNCTION
 
