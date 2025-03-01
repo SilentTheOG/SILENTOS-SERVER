@@ -19,6 +19,7 @@ touch tmp.sh
 echo "./e.sh" >> tmp.sh
 ./tmp.sh
 rm tmp.sh
+clear
 elif [ $val_opt == 2 ]; then
 echo "Press Enter to continue..."
 elif [ $val_opt == 3 ]; then
@@ -30,8 +31,6 @@ VALIDATION_FUNCTION() {
     "
 curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP > downloaded.tmp
         cmp downloaded.tmp e.sh && echo "System check complete, continuing..." || VALIDATION_FAILED
-       
-    read -p ""
 }
 rm downloaded.tmp
 chmod -R 777 .
