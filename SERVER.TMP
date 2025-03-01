@@ -585,8 +585,8 @@ echo "WHEN SILENT OS UUPDATE"
 
 elif [ $cmd == "changelog" ]; then
 clear
-echo "Silent OS version 4.3! (System Validation!)
-Added: 
+echo "Silent OS version 4.3! (System Validation!)"
+echo "Added: 
 -A way the system checks if it has been tampered with/outdated
 -Faster booting"
 read -p "Press Enter to continue..."
