@@ -1,11 +1,39 @@
+val_opt=0
+VALIDATION_FAILED() {
+  rm downloaded.tmp
+  clear
+  echo "Your system differs from the current standard version.
+This is likely due to using an outdated version of Silent OS.
+NOTE: This feature is still buggy, it is not perfect.
+Please choose a boot option:
+1) Update the system
+2) Continue launching
+3) Terminate this instance"
+read -n1 -s val_opt
+if [[ "$val_opt" != "1" && "$val_opt" != "2" && "$val_opt" != "3" ]]; then
+VALIDATION_FAILED
+elif [ $val_opt == 1 ]; then
+curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
+cat SERVER.TMP > e.sh | rm SERVER.TMP
+touch tmp.sh
+echo "./e.sh" >> tmp.sh
+./tmp.sh
+rm tmp.sh
+elif [ $val_opt == 2 ]; then
+echo "Press Enter to continue..."
+elif [ $val_opt == 3 ]; then
+exit 0
+fi
+}
 VALIDATION_FUNCTION() {
-    echo "Auto update..."
-curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP | sed -e '${/^\s*$/d;}' > downloaded.tmp
-        cmp downloaded.tmp e.sh && echo "System check complete, continuing..." || echo "Your system differs from the current standard version."
+    echo "Validating system...
+    "
+curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP > downloaded.tmp
+        cmp downloaded.tmp e.sh && echo "System check complete, continuing..." || VALIDATION_FAILED
        
     read -p ""
 }
-
+rm downloaded.tmp
 chmod -R 777 .
 VALIDATION_FUNCTION
 
@@ -161,7 +189,6 @@ function e() {
   if [ "$cmd0" == "start" ]; then
 clear
    echo "Checking for MCMDB Mode..."
-sleep 2
 clear
 file2="CONFIG/MCMDB.txt"
 MCMDB=0
@@ -182,7 +209,6 @@ When the system boots it will be restored and you can turn it on."
     clear
 fi
   echo "Booting..."
-  sleep 1
 read -n1 -t 1 cmd0
 sleep 1
   clear
@@ -371,7 +397,6 @@ echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d`
   clear
 echo "Something went wrong...
 Attempting to recover..."
-sleep 5
 clear
 e
   elif ! [ "$cmd0" == "start" ]; then
@@ -561,8 +586,10 @@ echo "WHEN SILENT OS UUPDATE"
 
 elif [ $cmd == "changelog" ]; then
 clear
-echo "Silent OS version 4.2! (Update fixer!)"
-echo "Added: Reworked the update system so you don't need to close and re-open!"
+echo "Silent OS version 4.3! (System Validation!)"
+echo "Added: 
+-A way the system checks if it has been tampered with/outdated
+-Faster booting"
 read -p "Press Enter to continue..."
 clear
 echo "
