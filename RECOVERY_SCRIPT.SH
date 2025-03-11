@@ -1,6 +1,6 @@
 while true
 do
-[ ! "$(wc -c < e.sh)" -gt 3 ]; then
+if [ ! "$(wc -c < e.sh)" -gt 3 ]; then
 clear
 printf "\e[44m"  
 clear
