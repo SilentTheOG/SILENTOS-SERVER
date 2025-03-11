@@ -19,9 +19,9 @@ echo "
                                             
          @@         
         @@@@       
-       @@  @@       ${nc}The system was not found and cannot boot.${red}
-      @@ @@ @@      ${nc}The system will be reinstalled, please wait.${red}
-     @@  @@  @@     ${nc}When it is done you can continue.${red}
+       @@  @@       ${nc}\e[44mThe system was not found and cannot boot.${red}
+      @@ @@ @@      ${nc}\e[44mThe system will be reinstalled, please wait.${red}
+     @@  @@  @@     ${nc}\e[44mWhen it is done you can continue.${red}
     @@   @@   @@  
    @@          @@ 
   @@     @@     @@ 
