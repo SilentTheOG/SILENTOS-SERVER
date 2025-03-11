@@ -33,6 +33,8 @@ curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentThe
 printf "${blbg}Reinstallation complete.
 Press Enter to continue to Silent OS..."
 read -p ""
+printf "${nc}"
+clear
 ./e.sh
 elif [ "$(wc -c < e.sh)" -gt 3 ]; then
 sleep 10
