@@ -1,18 +1,18 @@
 while true
 do
-[ ! "$(wc -c < testlol.sh)" -gt 3 ]; then
+[ ! "$(wc -c < e.sh)" -gt 3 ]; then
 clear
 printf "\e[44m"  
 clear
 echo "                                                                                                                                                                                                                                                                                                            
                                                                                                                                                                                                                                                                                       
-          @@@@@@@ @@@  @@     @@@@@@@  @@@     @@ @@@@@@@@       @@@@@@@@   @@@@@@@                 
-         @@@      @@@  @@     @@@      @@@@    @@    @@@        @@      @@ @@@                      
-          @@@     @@@  @@     @@@      @@ @@   @@    @@@       @@       @@@ @@@                     
-            @@@@  @@@  @@     @@@@@@@  @@  @@  @@    @@@       @@       @@@   @@@@                  
-               @@ @@@  @@     @@@      @@   @@@@@    @@@       @@@      @@       @@                 
-          @    @@ @@@  @@     @@@      @@    @@@@    @@@        @@@    @@   @    @@                 
-          @@@@@    @   @@@@@@@ @@@@@@  @@     @@@     @           @@@@@     @@@@@      
+      @@@@@@@ @@@  @@     @@@@@@@  @@@     @@ @@@@@@@@       @@@@@@@@   @@@@@@@                 
+     @@@      @@@  @@     @@@      @@@@    @@    @@@        @@      @@ @@@                      
+      @@@     @@@  @@     @@@      @@ @@   @@    @@@       @@       @@@ @@@                     
+        @@@@  @@@  @@     @@@@@@@  @@  @@  @@    @@@       @@       @@@   @@@@                  
+           @@ @@@  @@     @@@      @@   @@@@@    @@@       @@@      @@       @@                 
+      @    @@ @@@  @@     @@@      @@    @@@@    @@@        @@@    @@   @    @@                 
+      @@@@@    @   @@@@@@@ @@@@@@  @@     @@@     @           @@@@@     @@@@@      
 
                                             
          @@         
@@ -24,12 +24,12 @@ echo "
    @@          @@ 
   @@     @@     @@ 
  @@@@@@@@@@@@@@@@@@"
-curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP > testlol.sh
+curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP > e.sh
 echo "Reinstallation complete.
 Press Enter to continue to Silent OS..."
 read -p ""
-./testlol.sh
-elif [ "$(wc -c < testlol.sh)" -gt 3 ]; then
+./e.sh
+elif [ "$(wc -c < e.sh)" -gt 3 ]; then
 sleep 10
 fi
 done
