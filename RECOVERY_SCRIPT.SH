@@ -1,5 +1,5 @@
 blbg=$'\e[44m'
-red=$'\033[1;31m'                                                                        
+red=$'\033[1;91m'                                                                        
 nc=$'\033[0m'
 while true
 do
@@ -7,26 +7,28 @@ if [ ! "$(wc -c < e.sh)" -gt 3 ]; then
 clear
 printf "\e[44m"  
 clear
-echo "                                                                                                                                                                                                                                                                                                            
+printf "                                                                                                                                                                                                                                                                                                            
                                                                                                                                                                                                                                                                                       
-      @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                 
-     @@@      @@@  @@     @@@@@@   @@@@    @@ @@@@@@@@@     @@@   @@@  @@@   @@                 
-      @@@     @@@  @@     @@@      @@ @@   @@    @@@       @@@     @@@  @@@                     
-        @@@@  @@@  @@     @@@@@@@  @@  @@  @@    @@@       @@       @@    @@@@                  
-           @@ @@@  @@     @@@      @@   @@@@@    @@@       @@@     @@@       @@                 
-      @    @@ @@@  @@@@@@ @@@@@@   @@    @@@@    @@@        @@@   @@@   @    @@                 
-      @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@${red}      
+      @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                 
+     @@@      @@@  @@     @@@@@@   @@@@    @@ @@@@@@@@@     @@@    @@@  @@@   @@                 
+      @@@     @@@  @@     @@@      @@ @@   @@    @@@       @@@ X   X @@  @@@                     
+        @@@@  @@@  @@     @@@@@@@  @@  @@  @@    @@@       @@  ####  @@    @@@@                  
+           @@ @@@  @@     @@@      @@   @@@@@    @@@       @@ #    # @@       @@                 
+      @    @@ @@@  @@@@@@ @@@@@@   @@    @@@@    @@@        @@@    @@@   @    @@                 
+      @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@${red}      
 
                                             
          @@         
         @@@@       
-       @@  @@       ${nc}${blbg}The system was not found and cannot boot.${red}
-      @@ @@ @@      ${nc}${blbg}The system will be reinstalled, please wait.${red}
-     @@  @@  @@     ${nc}${blbg}When it is done you can continue.${red}
-    @@   @@   @@  
+       @@  @@       ${blbg}The system was not found or has been destroyed.
+      @@ @@ @@      ${blbg}The sustem cannot continue this session.
+     @@  @@  @@     ${blbg}Silent OS will be reinstalled, please wait.
+    @@   @@   @@    ${blbg}When it is installed you can continue.
    @@          @@ 
   @@     @@     @@ 
- @@@@@@@@@@@@@@@@@@${nc}"
+ @@@@@@@@@@@@@@@@@@${nc}
+${blbg}Contact Silent on discord if needed. User:walmartbagfred
+ "
 curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP > e.sh
 printf "${blbg}Reinstallation complete.
 Press Enter to continue to Silent OS..."
