@@ -371,7 +371,8 @@ echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d`
 " >> CONFIG/Event-Log.log
 echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
 " >> CONFIG/Info-Log.log
-    echo "
+./RECOVERY_SCRIPT.SH &
+echo "
       @@@@@@  @@@@@@ @@@       @@@@@@@@  @@    @@  @@@@@@@@@@
     @@         @@@   @@@       @@@       @@@@  @@     @@@
       @@@@     @@@   @@@       @@@@@@    @@  @@@@     @@@
