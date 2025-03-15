@@ -33,7 +33,10 @@ curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentThe
 printf "${blbg}Reinstallation complete.
 Press Enter to continue to Silent OS..."
 read -p ""
+clear
 printf "${nc}"
+clear
+echo "Removing colour..."
 clear
 ./e.sh
 elif [ "$(wc -c < e.sh)" -gt 3 ]; then
