@@ -559,9 +559,13 @@ echo "WHEN SILENT OS UUPDATE"
 
 elif [ $cmd == "changelog" ]; then
 clear
-echo "Silent OS version 4.4! (I don't wanna be deleted!!!)"
+echo "Silent OS version 4.5! (System rework!)"
 echo "Added: 
-- A way for the system to recover even after deletion!"
+-A faster, automatc bootloader
+-Changes to how the system handles errors
+-Restarting is better now
+   !WARNING! This update is an experiment,
+closing the system may be laggy. Please remember that this update is a test."
 read -p "Press Enter to continue..."
 clear
 echo "
