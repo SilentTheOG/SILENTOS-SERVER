@@ -115,7 +115,8 @@ rm tmp.sh
 if [ -e "e.sh" ] && [ ! "$(wc -c < "e.sh")" -gt 3 ]; then
 ./RECOVERY_SCRIPT.SH
 else
-./e.sh" > FAILSAFE.SH
+./e.sh
+fi" > FAILSAFE.SH
 ./FAILSAFE.SH
 fi
 }
@@ -475,7 +476,8 @@ rm tmp.sh
 if [ -e "e.sh" ] && [ ! "$(wc -c < "e.sh")" -gt 3 ]; then
 ./RECOVERY_SCRIPT.SH
 else
-./e.sh" > FAILSAFE.SH
+./e.sh
+fi" > FAILSAFE.SH
 ./FAILSAFE.SH
 
 
