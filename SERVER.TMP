@@ -559,12 +559,13 @@ echo "WHEN SILENT OS UUPDATE"
 
 elif [ $cmd == "changelog" ]; then
 clear
-echo "Silent OS version 4.5! (System rework!)"
+echo "Silent OS version 4.5.000000001! (System rework! (and silent making a mistake))"
 echo "Added: 
+-Fixed this warning message not working!!1
 -A faster, automatc bootloader
 -Changes to how the system handles errors
 -Restarting is better now
-   !WARNING! This update is an experiment,
+   WARNING: This update is an experiment,
 closing the system may be laggy. Please remember that this update is a test."
 read -p "Press Enter to continue..."
 clear
