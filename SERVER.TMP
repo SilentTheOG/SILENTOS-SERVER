@@ -1,6 +1,63 @@
+crashed=0
+file="CONFIG/INFO.TXT"
+file2="CONFIG/MCMDB.txt"
+rec=0
 touch RECOVERY_SCRIPT.SH
 curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/RECOVERY_SCRIPT.SH > RECOVERY_SCRIPT.SH
 ./RECOVERY_SCRIPT.SH &
+crash() {
+printf "\e[1mSILENT OS\e[0m
+
+Silent OS has encountered an error, and has shut down to pervent further errors.
+This normally isn't an issue and you can reboot, if this is the first time.
+If this isn't your first time having this screen you can try the following:
+- Reinstalling via the same source you have installed it from
+- Finding the cause of the error by its error code
+- Contacting 'skibiditoiletcumrocket67' on Discord for support
+
+"
+if [ $cmd == "sed" ]; then
+if [[ ! -e "$file" ]]; then
+echo "This was caused by a request that was too big, however one or more config files was not found.
+They will be re-installed on boot."
+elif [[ ! -e "$file2" ]]; then
+echo "This was caused by a request that was too big, however one or more config files was not found.
+They will be re-installed on boot."
+else
+echo "ERROR CODE: REQUEST TOO BIG"
+fi
+elif [ $cmd == "crashtest" ]; then
+if [[ ! -e "$file" ]]; then
+echo "This was caused by a crash test, however one or more config files was not found.
+They will be re-installed on boot."
+elif [[ ! -e "$file2" ]]; then
+echo "This was caused by a crash test, however one or more config files was not found.
+They will be re-installed on boot."
+else
+echo "ERROR CODE: CRASH TEST"
+fi
+else
+echo "Unknown error, reinstalling Silent OS is likely your best option."
+fi
+echo "<ERROR> The file read request was too big. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Event-Log.log
+echo "<ERROR> The file read request was too big. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Error-Log.log
+read -p "Press Enter to restart"
+  clear
+    printf "${RED}Restarting...${NOCOLOR}"
+   clear
+       ((crashed++))
+    if [ "$crashed" -ge 5 ]; then
+        recovery
+    fi
+   echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Event-Log.log
+echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Info-Log.log
+e
+ON
+}
 val_opt=0
 VALIDATION_FAILED() {
   rm downloaded.tmp
@@ -40,8 +97,7 @@ chmod -R 777 .
 VALIDATION_FUNCTION
 
 
-crashed=0
-rec=0
+
 recovery() {
     clear
     printf "\e[44m"  
@@ -173,7 +229,6 @@ clear
 function e() {
    echo "Checking for MCMDB Mode..."
 clear
-file2="CONFIG/MCMDB.txt"
 MCMDB=0
 
 if [ -e "$file2" ] && [ "$(wc -c < "$file2")" -gt 3 ]; then
@@ -224,9 +279,6 @@ if [ "$cmd0" == "M" ]; then
         clear
     fi
 fi
-
-file="CONFIG/INFO.TXT"
-
 
 if [ ! -e "$file" ]; then
 echo "<ERROR> One or more config file(s) was not found. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
@@ -480,7 +532,9 @@ else
 fi" > FAILSAFE.SH
 ./FAILSAFE.SH
 
-
+elif [ $cmd == "testcrashfunc" ]; then
+clear
+crash
 elif [ $cmd == "oj" ]; then
 echo "oj has joined Silent OS to help with support! Contact him instead of me (pretty please)"
 
@@ -555,19 +609,18 @@ echo "WHEN SILENT OS UUPDATE"
 echo "WHEN SILENT OS UUPDATE"
 
 
-
+    if [ $? -ne 0 ]; then
+        crash
+        sleep 1
+    fi
+    
 
 elif [ $cmd == "changelog" ]; then
 clear
-echo "Silent OS version 4.5.000000002! (System rework! (and silent making 2 mistakes))"
+echo "Silent OS version 4.6! (Crash overhaul!)"
 echo "Added: 
--Fixed this warning message not working lol
--Fixed the line above me not working lol
--A faster, automatc bootloader
--Changes to how the system handles errors
--Restarting is better now
-   WARNING: This update is an experiment,
-closing the system may be laggy. Please remember that this update is a test."
+-Complete, better way that the system crashes during an error
+-Fixed the system closing on some errors"
 read -p "Press Enter to continue..."
 clear
 echo "
@@ -765,37 +818,8 @@ elif [ $cmd == emptyfile ]; then
 read -p "What file would you like to see the contents of? " sedfile
 if [ "$(wc -c < "$sedfile")" -gt 1000000 ]; then
 printf "${RED}REQUEST TOO BIG!"
-sleep 0.5
 clear
-printf "\e[1mSILENT OS\e[0m
-
-Silent OS has encountered an error, and has shut down to pervent further errors.
-This normally isn't an issue and you can reboot, if this is the first time.
-If this isn't your first time having this screen you can try the following:
-- Reinstalling via the same source you have installed it from
-- Finding the cause of the error by its error code
-- Contacting 'silenttheja' or 'oliveoiljester' on Discord for support
-
-ERROR CODE: REQUEST TOO BIG
-"
-echo "<ERROR> The file read request was too big. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Event-Log.log
-echo "<ERROR> The file read request was too big. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Error-Log.log
-read -p "Press Enter to restart"
-  clear
-    printf "${RED}Restarting...${NOCOLOR}"
-   clear
-       ((crashed++))
-    if [ "$crashed" -ge 5 ]; then
-        recovery
-    fi
-   echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Event-Log.log
-echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Info-Log.log
-e
-ON
+crash
 fi
 sed '' "$sedfile"
 echo ""
@@ -819,36 +843,7 @@ echo ""
 
 elif [ $cmd == "crashtest" ]; then
   clear
-  cmd=-z
-printf "\e[1mSILENT OS\e[0m
-
-Silent OS has encountered an error, and has shut down to pervent further errors.
-This normally isn't an issue and you can reboot, if this is the first time.
-If this isn't your first time having this screen you can try the following:
-- Reinstalling via the same source you have installed it from
-- Finding the cause of the error by its error code
-- Contacting 'silenttheja' or 'oliveoiljester' on Discord for support
-
-ERROR CODE: CRASH TEST
-"
-echo "<WARNING> Crash TEST initiated. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Event-Log.log
-echo "<WARNING> Crash TEST initiated. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Warning-Log.log
-read -p "Press Enter to restart"
-  clear
-    printf "${RED}Restarting...${NOCOLOR}"
-   clear
-       ((crashed++))
-    if [ "$crashed" -ge 5 ]; then
-        recovery
-    fi
-   echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Event-Log.log
-echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Info-Log.log
-e
-ON
+crash
 
 
 
