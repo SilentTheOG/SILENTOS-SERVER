@@ -1,3 +1,4 @@
+trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
 exec 2>/dev/null
 rm "save.sh"
 crashed=0
@@ -9,19 +10,15 @@ curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentThe
 ./RECOVERY_SCRIPT.SH &
 
 crashSYS() {
-
-  clear
-  printf "\e[1mSILENT OS\e[0m
-
+  trap - EXIT
+  printf "\033[10;40H\e[1mSILENT OS\e[0m
 Silent OS' kernel has encountered an error, 
 and has shut down to prevent further errors.
 This normally isn't an issue and you can reboot, if this is the first time.
 If this isn't your first time having this screen, you may need to re-install.
 You may contact 'skibiditoiletcumrocket67' on Discord for support.
 \e[1mTHIS DOES REQUIRE A FULL RELOAD OF THE SYSTEM.\e[0m
-
 "
-  trap - EXIT
   echo "KERNEL ERROR CODE: $code"
   read -p "Press Enter to restart" 2>/dev/tty
   clear
@@ -33,9 +30,8 @@ You may contact 'skibiditoiletcumrocket67' on Discord for support.
 }
 
 
-
 crash() {
-printf "\e[1mSILENT OS\e[0m
+printf "\033[10;40H\e[1mSILENT OS\e[0m
 
 Silent OS has encountered an error, and has shut down to pervent further errors.
 This normally isn't an issue and you can reboot, if this is the first time.
@@ -73,6 +69,7 @@ echo "<ERROR> The file read request was too big. [Time log was made: `date +%Y`-
 echo "<ERROR> The file read request was too big. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
 " >> CONFIG/Error-Log.log
 read -p "Press Enter to restart" 2>/dev/tty
+printf "\033[H"
   clear
     printf "${RED}Restarting...${NOCOLOR}"
    clear
@@ -251,6 +248,14 @@ Power=1
 quote=\"start\"
 quote2=\"list\"
 function e() {
+  if declare -f ON > /dev/null; then
+      echo "Continue"
+      else
+        echo "The function that keeps the OS on was not found. 
+Your OS is corrupted, please re-install it."
+        read -p "Press Enter to continue..." 2>/dev/tty
+        exit 0
+      fi
    echo "Checking for MCMDB Mode..."
 clear
 MCMDB=0
@@ -452,14 +457,7 @@ echo "
 
     Power=2
 }
-while [ $Power == 1 ]; do
-  e
-done
   function ON () {
-
-
-
-
 
 
 sedfile=0
@@ -608,12 +606,12 @@ elif [[ $cmd == "KERNEL CRASH TEST CUSTOM" ]]; then
   fi
 elif [ $cmd == "changelog" ]; then
 clear
-echo "Silent OS version 4.7! (Kernel tweaks and more!)"
-echo "Added: 
-- Fixed almost every bug in the entire os
-- Window now does not close under another kernel panic
-- Reworked how the kernel resolves a panic
-- Use the 'KERNEL CRASH TEST 1/2/CUSTOM' command to test it."
+echo "Silent OS version 4.8! (I'M STILL STANDING)"
+printf 'Added: 
+- Visual changes to the crash screen
+- The ability to still use commands if the bootloader is not found
+- Lightning McQueen!!!1111one
+'
 read -p "Press Enter to continue..." 2>/dev/tty
 clear
 echo "
@@ -724,7 +722,38 @@ read -p "Enter file name (.sosa): " file_name 2>/dev/tty
 ON
 
 
-
+elif [[ $cmd == "I AM SPEED" ]]; then
+echo "OMG LIGHTNING MCQUEEN SLAYYYY GIRLIE OMGGGGGGGGGGGG
+                                                              ............--                         
+                                                     .....-++###++++++++##-..             ------     
+                                              ...---++#++-------..   ..----+-......--------------    
+                                           .--++++----------              .++.......--------------   
+                                          -+----++-.                        +-.......+-------------  
+                                         ---+-                    .-.       .+.. .........-..... .-  
+                                        +++.        .+###-      +####-       +-...........-..... ... 
+                                       +-..         -####.      --++.        -+..........-...... ... 
+                                      +-..           .-. ....................  .--. ....        ..#+ 
+                                    .++.....-..............----.....-------....---.  ...       ..-## 
+                     . ............... ....--.------------....----------------+###-.... - .   .+.-## 
+                  ...-.........--..-------------------------------. .--------+#####. .-  ..  ....+## 
+                ...--..-----------------------------------------. ..---------++####-. -   .......+#+ 
+               ----------------------------------------.-. -+--...---------.-.-.-+++.-.   -+--+-.#+- 
+              +--.--..-------------------------..---------------------------+++--..++-.-- .---.--##- 
+             #+-----+. -----------------------------+++++++--------------+++######+-.+++- .-+-+--### 
+            ##+-------++++++++------------------+++++++++###++---+++---+++++##########++.+----++###+ 
+           ###++++++++++####+++++++++++++++###+++------+##+-++++++++++++++++###########++++#.-++#+++ 
+           ###+++++++++++###-----------------....--+####-----++++++++++++++########+####+++-+++#+++- 
+          +###+++++++++++#####+++++++++++############+-------++++++++++++++#+###########++++++##+++- 
+           ####++++++++++++####################++++++-------+++++++++++++++#+++#####+###++######+-#+ 
+           ####+++++++---+++-+--.......--..----+++++--+++++++++++++++++++++#++##++++############-+#+ 
+           #####+++++++++++++++++-------++++++++++++++++++++++++++++++++++----##++++#+.+#########-+- 
+            #####+++++++++++++++++++++++++++++++++++++++++++++++++++++++++-##+-++++##-+###########+  
+             #####+++++++++++++++++++++++++++++++++++++++++++++++######+++----++-+#+..############   
+               #########+++++++++++++++++++++++++++####################+ .+#+++#++- +##              
+       ##################################################################+. -.- -.-##                
+    #########################################################################++#####                 
+     #############################################################################                   
+                     ###############################################"
 
 elif [ $cmd == "restart" ] && [ $MCMDBON == 0 ];then
  clear
@@ -802,7 +831,32 @@ elif [ ! -z "$cmd" ] && { [ "$cmd" != "e" ] && [ "$cmd" != "quit" ]; }; then
 
   fi
   }
+
+while [ $Power -eq 1 ]; do
+    if declare -f e > /dev/null; then
+      e
+      break
+    else
+      echo "BOOT FAILED!"
+      sleep 0.1
+    fi
+
+  echo "Your bootloader cannot load."
+  echo "If the function is found, you will enter the OS."
+  echo "Functionality will be limited."
+  read -p "Press Enter to continue..." 2>/dev/tty
+
+  if declare -f ON > /dev/null; then
+    Power=2
+    ON
+    break
+  else
+    echo "The function that keeps the OS on was not found. 
+Your OS is corrupted, please re-install it."
+    read -p "Press Enter to continue..." 2>/dev/tty
+    exit 0
+  fi
+done
   while [ $Power == 2 ]; do
   ON
 done
-}
