@@ -288,9 +288,12 @@ if [ "$cmd0" == "M" ]; then
 " >> CONFIG/Event-Log.log
     echo "<INFO> Boot menu launched. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
 " >> CONFIG/Info-Log.log
-    echo "Boot config:"
+    echo "Boot menu:"
     echo "1-Safe Mode"
-    echo "2-Continue booting"
+    echo "2-Refresh all files (Except logs.)"
+    echo '3-Bypass bootloader (Not reccommended!)'
+    echo "4-Re-install Silent OS"
+    echo "5-Continue booting"
     BOOTMENU=0
     read -n1 -t 999999999999999999999999 BOOTMENU
     if [ "$BOOTMENU" == "1" ]; then
@@ -302,6 +305,30 @@ if [ "$cmd0" == "M" ]; then
         MCMDB=0
         clear
     elif [ "$BOOTMENU" == "2" ]; then
+    rm CONFIG/MCMDB.TXT
+    touch CONFIG/MCMDB.TXT
+    rm CONFIG/INFO.TXT
+    touch CONFIG/INFO.TXT 
+    clear
+        elif [ "$BOOTMENU" == "3" ]; then
+        clear
+        Power=2
+        ON
+        elif [ "$BOOTMENU" == "4" ]; then
+curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
+touch FAILSAFE.SH
+cat SERVER.TMP > e.sh | rm SERVER.TMP
+echo "touch tmp.sh
+echo "./e.sh" >> tmp.sh
+./tmp.sh
+rm tmp.sh
+if [ -e "e.sh" ] && [ ! "$(wc -c < "e.sh")" -gt 3 ]; then
+./RECOVERY_SCRIPT.SH
+else
+./e.sh
+fi" > FAILSAFE.SH
+./FAILSAFE.SH
+        elif [ "$BOOTMENU" == "5" ]; then
         clear
         else
         clear
@@ -606,11 +633,9 @@ elif [[ $cmd == "KERNEL CRASH TEST CUSTOM" ]]; then
   fi
 elif [ $cmd == "changelog" ]; then
 clear
-echo "Silent OS version 4.8! (I'M STILL STANDING)"
+echo "Silent OS version 4.9! (A whole menu wow very cool)"
 printf 'Added: 
-- Visual changes to the crash screen
-- The ability to still use commands if the bootloader is not found
-- Lightning McQueen!!!1111one
+- Better boot menu (Press a capital M during the first second of booting to use it.)
 '
 read -p "Press Enter to continue..." 2>/dev/tty
 clear
