@@ -1,4 +1,74 @@
 trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
+if [ ! -d "COMMANDS" ]; then
+echo "Making commands folder..."
+    mkdir "COMMANDS"
+fi
+echo "Re-installing commands, this happens every session."
+echo "Please wait..."
+echo 'echo "Command list:
+    clear
+    restart
+    sed
+    echo
+    quit
+    crashtest
+    listfile
+    log
+    update
+    Beta command list:
+    app"' > COMMANDS/listMCMDB.sh
+    echo 'echo "Command list:
+    clear
+    restart
+    sed
+    echo
+    quit
+    crashtest
+    log
+    update"' > COMMANDS/list.sh
+    echo 'echo "Logs have been deprecated and will be removed soon."' > COMMANDS/log.sh
+echo 'echo "Logs have been deprecated and will be removed soon."' > COMMANDS/errorlog.sh
+echo 'echo "Logs have been deprecated and will be removed soon."' > COMMANDS/infolog.sh
+echo 'echo "Logs have been deprecated and will be removed soon."' > COMMANDS/warninglog.sh
+echo 'echo "Logs have been deprecated and will be removed soon."' > COMMANDS/clearlog.sh
+echo 'echo "OMG LIGHTNING MCQUEEN SLAYYYY GIRLIE OMGGGGGGGGGGGG
+                                                              ............--                         
+                                                     .....-++###++++++++##-..             ------     
+                                              ...---++#++-------..   ..----+-......--------------    
+                                           .--++++----------              .++.......--------------   
+                                          -+----++-.                        +-.......+-------------  
+                                         ---+-                    .-.       .+.. .........-..... .-  
+                                        +++.        .+###-      +####-       +-...........-..... ... 
+                                       +-..         -####.      --++.        -+..........-...... ... 
+                                      +-..           .-. ....................  .--. ....        ..#+ 
+                                    .++.....-..............----.....-------....---.  ...       ..-## 
+                     . ............... ....--.------------....----------------+###-.... - .   .+.-## 
+                  ...-.........--..-------------------------------. .--------+#####. .-  ..  ....+## 
+                ...--..-----------------------------------------. ..---------++####-. -   .......+#+ 
+               ----------------------------------------.-. -+--...---------.-.-.-+++.-.   -+--+-.#+- 
+              +--.--..-------------------------..---------------------------+++--..++-.-- .---.--##- 
+             #+-----+. -----------------------------+++++++--------------+++######+-.+++- .-+-+--### 
+            ##+-------++++++++------------------+++++++++###++---+++---+++++##########++.+----++###+ 
+           ###++++++++++####+++++++++++++++###+++------+##+-++++++++++++++++###########++++#.-++#+++ 
+           ###+++++++++++###-----------------....--+####-----++++++++++++++########+####+++-+++#+++- 
+          +###+++++++++++#####+++++++++++############+-------++++++++++++++#+###########++++++##+++- 
+           ####++++++++++++####################++++++-------+++++++++++++++#+++#####+###++######+-#+ 
+           ####+++++++---+++-+--.......--..----+++++--+++++++++++++++++++++#++##++++############-+#+ 
+           #####+++++++++++++++++-------++++++++++++++++++++++++++++++++++----##++++#+.+#########-+- 
+            #####+++++++++++++++++++++++++++++++++++++++++++++++++++++++++-##+-++++##-+###########+  
+             #####+++++++++++++++++++++++++++++++++++++++++++++++######+++----++-+#+..############   
+               #########+++++++++++++++++++++++++++####################+ .+#+++#++- +##              
+       ##################################################################+. -.- -.-##                
+    #########################################################################++#####                 
+     #############################################################################                   
+                     ###############################################"' > COMMANDS/IAMSPEED.sh
+echo 'echo "NOTE: This only works on a Windows system!"
+psc=0
+read -p "Powershell command:" psc 2>/dev/tty
+powershell -command "$psc"' > COMMANDS/powershell.sh
+echo 'read -p "What file would you like to see the contents of? " sedfile 2>/dev/tty
+sed '' "$sedfile"
+echo ""' > COMMANDS/sed.sh
 exec 2>/dev/null
 rm "save.sh"
 crashed=0
@@ -177,7 +247,7 @@ echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d`
                     @@@     @@@         @@@
                     @@@@@@@@@@@  @@@@@@@@@@
                        @@@@@     @@@@@@@"
-
+echo "Version 5.0, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 ON
@@ -391,7 +461,7 @@ echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d`
                     @@@     @@@         @@@
                     @@@@@@@@@@@  @@@@@@@@@@
                        @@@@@     @@@@@@@"
-
+echo "Version 5.0, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 ON
@@ -453,7 +523,7 @@ echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d`
                     @@@     @@@         @@@
                     @@@@@@@@@@@  @@@@@@@@@@
                        @@@@@     @@@@@@@"
-
+echo "Version 5.0, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 ON
@@ -478,7 +548,7 @@ echo "
                     @@@     @@@         @@@
                     @@@@@@@@@@@  @@@@@@@@@@
                        @@@@@     @@@@@@@"
-
+echo "Version 5.0, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 
@@ -496,76 +566,24 @@ read -r -p "Command: " cmd 2>/dev/tty
 
   if [ $cmd == "list" ]; then
   if [ $MCMDB == 1 ]; then
-  echo "Command list:
-    clear
-    restart
-    shutdown
-    write
-    sed
-    emptyfile
-    echo
-    quit
-    crashtest
-    listfile
-    changelog
-    oj
-    backup
-    log
-    update
-    Beta command list:
-    drugs
-    rsbpi
-    app (Unstable at the moment.)"
+  ./COMMANDS/listMCMDB.sh
 else
-    echo "Command list:
-    clear
-    restart
-    shutdown
-    write
-    sed
-    emptyfile
-    echo
-    quit
-    crashtest
-    listfile
-    changelog
-    oj
-    backup
-    log
-    update"
+./COMMANDS/list.sh
 fi
 elif [ $cmd == "log" ]; then
-echo "System log:"
-echo "Tip: You can filter the log by using commands:
-errorlog, warninglog, or infolog. (Clear all logs using clearlog)"
-sed '' "CONFIG/Event-Log.log"
+./COMMANDS/log.sh
 
 elif [ $cmd == "errorlog" ]; then
-echo "System error log:"
-sed '' "CONFIG/Error-Log.log"
+./COMMANDS/errorlog.sh
 
 elif [ $cmd == "infolog" ]; then
-echo "System info log"
-sed '' "CONFIG/Info-Log.log"
+./COMMANDS/infolog.sh
 
 elif [ $cmd == "warninglog" ]; then
-echo "System warning log:"
-sed '' "CONFIG/Warning-Log.log"
+./COMMANDS/warninglog.sh
 
 elif [ $cmd == "clearlog" ]; then
-echo "" > CONFIG/Event-Log.log
-echo "" > CONFIG/Error-Log.log
-echo "" > CONFIG/Info-Log.log
-echo "" > CONFIG/Warning-Log.log
-echo "Cleared."
-
-elif [ $cmd == "backup" ]; then
-thisfile="e.sh"
-    MCMDB=1
-touch e.sh_backup_name_to_e.sh
-backupfile="e.sh_backup_name_to_e.sh"
-cp "$thisfile" "$backupfile"
-echo "Created backup."
+./COMMANDS/clearlog.sh
 
 elif [ $cmd == "update" ]; then
 curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
@@ -585,33 +603,7 @@ fi" > FAILSAFE.SH
 elif [ $cmd == "testcrashfunc" ]; then
 clear
 crash
-elif [ $cmd == "oj" ]; then
-echo "oj has joined Silent OS to help with support! Contact him instead of me (pretty please)"
 
-elif [ $cmd == "listfile" ]; then
-clear
-echo "All files in directory of file '$0'"
-ls *
-read -p "Press Enter to continue..." 2>/dev/tty
-clear
-echo "
-      @@@@@@  @@@@@@ @@@       @@@@@@@@  @@    @@  @@@@@@@@@@
-    @@         @@@   @@@       @@@       @@@@  @@     @@@
-      @@@@     @@@   @@@       @@@@@@    @@  @@@@     @@@
-          @@   @@@   @@@       @@@       @@    @@     @@@
-    @@@@@@    @@@@@@ @@@@@@@@@ @@@@@@@@  @@    @@     @@@
-
-                       @@@@@       @@@@@@@@
-                    @@@@@@@@@@@  @@@@@@@@@@
-                    @@@     @@@  @@
-                    @@@     @@@    @@@@@
-                    @@@     @@@         @@@
-                    @@@@@@@@@@@  @@@@@@@@@@
-                       @@@@@     @@@@@@@"
-
-                       echo "Use command $quote2 for a list of commands
-"
-ON
 
 
     if [ $? -ne 0 ]; then
@@ -632,153 +624,24 @@ elif [[ $cmd == "KERNEL CRASH TEST CUSTOM" ]]; then
     exit 2
   fi
 elif [ $cmd == "changelog" ]; then
-clear
-echo "Silent OS version 4.9! (A whole menu wow very cool)"
-printf 'Added: 
-- Better boot menu (Press a capital M during the first second of booting to use it.)
-'
-read -p "Press Enter to continue..." 2>/dev/tty
-clear
-echo "
-      @@@@@@  @@@@@@ @@@       @@@@@@@@  @@    @@  @@@@@@@@@@
-    @@         @@@   @@@       @@@       @@@@  @@     @@@
-      @@@@     @@@   @@@       @@@@@@    @@  @@@@     @@@
-          @@   @@@   @@@       @@@       @@    @@     @@@
-    @@@@@@    @@@@@@ @@@@@@@@@ @@@@@@@@  @@    @@     @@@
-
-                       @@@@@       @@@@@@@@
-                    @@@@@@@@@@@  @@@@@@@@@@
-                    @@@     @@@  @@
-                    @@@     @@@    @@@@@
-                    @@@     @@@         @@@
-                    @@@@@@@@@@@  @@@@@@@@@@
-                       @@@@@     @@@@@@@"
-
-                       echo "Use command $quote2 for a list of commands
-"
-ON
+./COMMANDS/changelog.sh
 
 
-elif [ $cmd == "rsbpi" ]; then
-clear
-echo "Raspberry Pi install is not finished.
-However, this module can be used on
-Linux-based modules of the Pi.
-The official Pi install will be
-enoded in MicroPython.
-(May be discontinued due to bugs.)"
-read -p "Press Enter to continue..." 2>/dev/tty
-clear
-echo "
-      @@@@@@  @@@@@@ @@@       @@@@@@@@  @@    @@  @@@@@@@@@@
-    @@         @@@   @@@       @@@       @@@@  @@     @@@
-      @@@@     @@@   @@@       @@@@@@    @@  @@@@     @@@
-          @@   @@@   @@@       @@@       @@    @@     @@@
-    @@@@@@    @@@@@@ @@@@@@@@@ @@@@@@@@  @@    @@     @@@
-
-                       @@@@@       @@@@@@@@
-                    @@@@@@@@@@@  @@@@@@@@@@
-                    @@@     @@@  @@
-                    @@@     @@@    @@@@@
-                    @@@     @@@         @@@
-                    @@@@@@@@@@@  @@@@@@@@@@
-                       @@@@@     @@@@@@@"
-
-                       echo "Use command $quote2 for a list of commands
-"
-ON
 elif [ $cmd == "mcmdb" ]; then
 echo "MCMDB MODE" > $file2
 echo "Type "restart" to activate MCMDB Mode."
 MCMDBON=1
 
 elif [[ $cmd == *":"* ]]; then
-    echo "noo dont do that it hurt :c"
+    printf ""
 
 
 elif [ $cmd == "app" ]; then
-reverse_shift() {
-    local input="$1"
-    local result=""
-    local i=0
-
-    while [ $i -lt ${#input} ]; do
-        if [[ "$i" -le $(( ${#input} - 7 )) && "${input:$i:7}" == "PGYNKPG" ]]; then
-            result+=$'\n'
-            i=$((i + 7))
-        else
-            char="${input:$i:1}"
-            shifted_char=$(printf "\\$(printf '%03o' $(( $(printf '%d' "'$char") - 2 )))")
-            result+="$shifted_char"
-            ((i++))
-        fi
-    done
-
-    echo "$result"
-}
-clear
-read -p "Enter file name (.sosa): " file_name 2>/dev/tty
-    shifted_code=$(<"$file_name")
-    compiled_code=$(reverse_shift "$shifted_code")
-
-    touch RUNNING.tmp
-    echo -e "$compiled_code" > RUNNING.tmp
-    chmod +x RUNNING.tmp
-    ./RUNNING.tmp
-    rm -f RUNNING.tmp
-    clear
-    echo "
-      @@@@@@  @@@@@@ @@@       @@@@@@@@  @@    @@  @@@@@@@@@@
-    @@         @@@   @@@       @@@       @@@@  @@     @@@
-      @@@@     @@@   @@@       @@@@@@    @@  @@@@     @@@
-          @@   @@@   @@@       @@@       @@    @@     @@@
-    @@@@@@    @@@@@@ @@@@@@@@@ @@@@@@@@  @@    @@     @@@
-
-                       @@@@@       @@@@@@@@
-                    @@@@@@@@@@@  @@@@@@@@@@
-                    @@@     @@@  @@
-                    @@@     @@@    @@@@@
-                    @@@     @@@         @@@
-                    @@@@@@@@@@@  @@@@@@@@@@
-                       @@@@@     @@@@@@@"
-
-                       echo "Use command $quote2 for a list of commands
-"
-ON
+./COMMANDS/app.sh
 
 
 elif [[ $cmd == "I AM SPEED" ]]; then
-echo "OMG LIGHTNING MCQUEEN SLAYYYY GIRLIE OMGGGGGGGGGGGG
-                                                              ............--                         
-                                                     .....-++###++++++++##-..             ------     
-                                              ...---++#++-------..   ..----+-......--------------    
-                                           .--++++----------              .++.......--------------   
-                                          -+----++-.                        +-.......+-------------  
-                                         ---+-                    .-.       .+.. .........-..... .-  
-                                        +++.        .+###-      +####-       +-...........-..... ... 
-                                       +-..         -####.      --++.        -+..........-...... ... 
-                                      +-..           .-. ....................  .--. ....        ..#+ 
-                                    .++.....-..............----.....-------....---.  ...       ..-## 
-                     . ............... ....--.------------....----------------+###-.... - .   .+.-## 
-                  ...-.........--..-------------------------------. .--------+#####. .-  ..  ....+## 
-                ...--..-----------------------------------------. ..---------++####-. -   .......+#+ 
-               ----------------------------------------.-. -+--...---------.-.-.-+++.-.   -+--+-.#+- 
-              +--.--..-------------------------..---------------------------+++--..++-.-- .---.--##- 
-             #+-----+. -----------------------------+++++++--------------+++######+-.+++- .-+-+--### 
-            ##+-------++++++++------------------+++++++++###++---+++---+++++##########++.+----++###+ 
-           ###++++++++++####+++++++++++++++###+++------+##+-++++++++++++++++###########++++#.-++#+++ 
-           ###+++++++++++###-----------------....--+####-----++++++++++++++########+####+++-+++#+++- 
-          +###+++++++++++#####+++++++++++############+-------++++++++++++++#+###########++++++##+++- 
-           ####++++++++++++####################++++++-------+++++++++++++++#+++#####+###++######+-#+ 
-           ####+++++++---+++-+--.......--..----+++++--+++++++++++++++++++++#++##++++############-+#+ 
-           #####+++++++++++++++++-------++++++++++++++++++++++++++++++++++----##++++#+.+#########-+- 
-            #####+++++++++++++++++++++++++++++++++++++++++++++++++++++++++-##+-++++##-+###########+  
-             #####+++++++++++++++++++++++++++++++++++++++++++++++######+++----++-+#+..############   
-               #########+++++++++++++++++++++++++++####################+ .+#+++#++- +##              
-       ##################################################################+. -.- -.-##                
-    #########################################################################++#####                 
-     #############################################################################                   
-                     ###############################################"
+./"COMMANDS/IAMSPEED.sh"
 
 elif [ $cmd == "restart" ] && [ $MCMDBON == 0 ];then
  clear
@@ -801,38 +664,14 @@ echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d`
 
 
 
-elif [ $cmd == write ]; then
-  read -p "What file would you like to write to? " writefile 2>/dev/tty
-  read -p "What would you like to write? " filewrite 2>/dev/tty
-  echo "$filewrite" >> "$writefile"
-  echo ""
-
-
-
-
+elif [ $cmd == "powershell" ]; then
+./COMMANDS/powershell.sh
 elif [ $cmd == "clear" ]; then
     clear
 
-elif [ $cmd == emptyfile ]; then
-  read -p "What file would you like to empty? " writefile 2>/dev/tty
-  echo "" > "$writefile"
 
-
-    elif [ $cmd == sed ]; then
-read -p "What file would you like to see the contents of? " sedfile 2>/dev/tty
-if [ "$(wc -c < "$sedfile")" -gt 1000000 ]; then
-printf "${RED}REQUEST TOO BIG!"
-clear
-crash
-fi
-sed '' "$sedfile"
-echo ""
-
-   elif [ $cmd == "shutdown" ]; then
-   clear
-   printf "${RED}Shutting Down...${NOCOLOR}"
-   sleep 3
-   clear
+    elif [ $cmd == "sed" ]; then
+./COMMANDS/sed.sh
 
   elif [ $cmd == "quit" ]; then
     echo ""
@@ -851,9 +690,13 @@ crash
 
 
 
-elif [ ! -z "$cmd" ] && { [ "$cmd" != "e" ] && [ "$cmd" != "quit" ]; }; then
+else
+fn="${cmd}.sh"
+    if [ -e "COMMANDS/$fn" ]; then
+    ./COMMANDS/$fn
+else
     printf "$cmd is not a valid command.\n"
-
+fi
   fi
   }
 
