@@ -13,7 +13,7 @@ ${red}
          @@         
         @@@@       
        @@  @@       ${blbg}The system was not found or has been destroyed.
-      @@ @@ @@      ${blbg}The sustem cannot continue this session.
+      @@ @@ @@      ${blbg}The system cannot continue this session.
      @@  @@  @@     ${blbg}LUMINOUS OS will be reinstalled, please wait.
     @@   @@   @@    ${blbg}When it is installed you can continue.
    @@          @@ 
