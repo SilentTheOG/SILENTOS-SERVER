@@ -1,3 +1,4 @@
+printf '\e[8;60;245t'
 trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
 if [ ! -d "COMMANDS" ]; then
 echo "Making commands folder..."
@@ -81,29 +82,43 @@ curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentThe
 
 crashSYS() {
   trap - EXIT
-  printf "\033[10;40H\e[1mSILENT OS\e[0m
-Silent OS' kernel has encountered an error, 
-and has shut down to prevent further errors.
-This normally isn't an issue and you can reboot, if this is the first time.
-If this isn't your first time having this screen, you may need to re-install.
-You may contact 'skibiditoiletcumrocket67' on Discord for support.
-\e[1mTHIS DOES REQUIRE A FULL RELOAD OF THE SYSTEM.\e[0m
+  printf "\033[10;40H\e[1m                        \e[0m
+                                                                                                                                           
+                                                                      
+                                                                       
+                                                                       
+                                                                       
+                                                                       
+                                                                       
+                                                                       
+                                                                       
+                                                                       
+                                                                                                                      
+                                                                       
+                                                                  \e[0m"
+  printf "\033[10;40H\e[1mCRITICAL ERROR\e[0m
+The shell has encountered an error that could not be properly resolved.
+The cause of this error can include (But is not limited to):
+-Buggy updates
+-Modified system
+-Custom commands
+-Buggy terminal
+-User fault
+Please note that the window may close after this, as a very critical error has occoured, if you have a modified or outdated system, please update.
+If you have any questions, please contact 'skibiditoiletcumrocket67' on Discord for support.\e[0m
 "
-  echo "KERNEL ERROR CODE: $code"
+  echo "ERROR CODE: $code"
   read -p "Press Enter to restart" 2>/dev/tty
   clear
   printf "${RED}Restarting...${NOCOLOR}"
   clear
-  touch save.sh
-  echo "./e.sh" > save.sh
-  ./save.sh
+  e
 }
 
-
 crash() {
-printf "\033[10;40H\e[1mSILENT OS\e[0m
+printf "\033[10;40H\e[1mLUMINOUS OS\e[0m
 
-Silent OS has encountered an error, and has shut down to pervent further errors.
+LUMINOUS OS has encountered an error, and has shut down to pervent further errors.
 This normally isn't an issue and you can reboot, if this is the first time.
 If this isn't your first time having this screen you can try the following:
 - Reinstalling via the same source you have installed it from
@@ -132,7 +147,7 @@ else
 echo "ERROR CODE: CRASH TEST"
 fi
 else
-echo "Unknown error, reinstalling Silent OS is likely your best option."
+echo "Unknown error, reinstalling LUMINOUS OS is likely your best option."
 fi
 echo "<ERROR> The file read request was too big. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
 " >> CONFIG/Event-Log.log
@@ -159,7 +174,7 @@ VALIDATION_FAILED() {
   rm downloaded.tmp
   clear
   echo "Your system differs from the current standard version.
-This is likely due to using an outdated version of Silent OS.
+This is likely due to using an outdated version of LUMINOUS OS.
 NOTE: This feature is still buggy, it is not perfect.
 Please choose a boot option:
 1) Update the system
@@ -200,12 +215,12 @@ recovery() {
     clear
     printf "\e[97m\e[1mRecovery\n"  
     printf "\e[0m"
-    printf "\e[44mSilent OS has crashed five (or more) times in this session.
+    printf "\e[44mLUMINOUS OS has crashed five (or more) times in this session.
 Here are some recovery options:
 
 1) Reboot and try again
 2) Disable MCMDB Mode (If it's on) and restart
-3) Reinstall Silent OS\n"
+3) Reinstall LUMINOUS OS\n"
     printf "\e[0m"
     read -n1 -s rec
 
@@ -233,21 +248,15 @@ printf "${RED}Restarting...${NOCOLOR}"
 " >> CONFIG/Event-Log.log
 echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
 " >> CONFIG/Info-Log.log
-   echo "
-      @@@@@@  @@@@@@ @@@       @@@@@@@@  @@    @@  @@@@@@@@@@
-    @@         @@@   @@@       @@@       @@@@  @@     @@@
-      @@@@     @@@   @@@       @@@@@@    @@  @@@@     @@@
-          @@   @@@   @@@       @@@       @@    @@     @@@
-    @@@@@@    @@@@@@ @@@@@@@@@ @@@@@@@@  @@    @@     @@@
-
-                       @@@@@       @@@@@@@@
-                    @@@@@@@@@@@  @@@@@@@@@@
-                    @@@     @@@  @@
-                    @@@     @@@    @@@@@
-                    @@@     @@@         @@@
-                    @@@@@@@@@@@  @@@@@@@@@@
-                       @@@@@     @@@@@@@"
-echo "Version 5.0, contact skibiditoiletcumrocket67 on Discord for more details."
+   echo "      @@@@@         @@@@@    @@@@@      @@@@@@      @@@@@@      @@@@@@      @@@@@     @@@@        @@@@@@@@@       @@@@@@    @@@@@      @@@@@@@@@  
+      @@@@          @@@@      @@@        @@@@@     @@@@@@        @@@@       @@@@@      @        @@@@     @@@@      @@@       @@      @@@@     @@  
+      @@@@          @@@@     @@@        @@ @@@    @@ @@@        @@@@        @@ @@@    @@      @@@@       @@@@     @@@@      @@@      @@@@         
+     @@@@          @@@@      @@@       @@  @@@   @@ @@@@        @@@@       @@  @@@@   @@      @@@@       @@@@     @@@      @@@        @@@@@       
+     @@@@          @@@      @@@        @@  @@@ @@   @@@        @@@@        @@   @@@@ @@      @@@@       @@@@     @@@@      @@@          @@@@@@    
+    @@@@          @@@@      @@@       @@@  @@@@@   @@@@        @@@        @@     @@@ @@      @@@@      @@@@@     @@@@     @@@             @@@@    
+    @@@     @@@   @@@@     @@@        @@    @@@    @@@        @@@@        @@      @@@@       @@@@     @@@@       @@@      @@@      @@     @@@@    
+  @@@@@@@@@@@@      @@@@@@@@         @@@@        @@@@@@      @@@@@@     @@@@      @@@@         @@@@@@@@@          @@@@@@@@@       @@@@@@@@@@      "
+echo "Version 5.1, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 ON
@@ -318,6 +327,7 @@ Power=1
 quote=\"start\"
 quote2=\"list\"
 function e() {
+  trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
   if declare -f ON > /dev/null; then
       echo "Continue"
       else
@@ -362,7 +372,7 @@ if [ "$cmd0" == "M" ]; then
     echo "1-Safe Mode"
     echo "2-Refresh all files (Except logs.)"
     echo '3-Bypass bootloader (Not reccommended!)'
-    echo "4-Re-install Silent OS"
+    echo "4-Re-install LUMINOUS OS"
     echo "5-Continue booting"
     BOOTMENU=0
     read -n1 -t 999999999999999999999999 BOOTMENU
@@ -447,21 +457,15 @@ echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d`
 " >> CONFIG/Event-Log.log
 echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
 " >> CONFIG/Info-Log.log
-   echo "
-      @@@@@@  @@@@@@ @@@       @@@@@@@@  @@    @@  @@@@@@@@@@
-    @@         @@@   @@@       @@@       @@@@  @@     @@@
-      @@@@     @@@   @@@       @@@@@@    @@  @@@@     @@@
-          @@   @@@   @@@       @@@       @@    @@     @@@
-    @@@@@@    @@@@@@ @@@@@@@@@ @@@@@@@@  @@    @@     @@@
-
-                       @@@@@       @@@@@@@@
-                    @@@@@@@@@@@  @@@@@@@@@@
-                    @@@     @@@  @@
-                    @@@     @@@    @@@@@
-                    @@@     @@@         @@@
-                    @@@@@@@@@@@  @@@@@@@@@@
-                       @@@@@     @@@@@@@"
-echo "Version 5.0, contact skibiditoiletcumrocket67 on Discord for more details."
+   echo "      @@@@@         @@@@@    @@@@@      @@@@@@      @@@@@@      @@@@@@      @@@@@     @@@@        @@@@@@@@@       @@@@@@    @@@@@      @@@@@@@@@  
+      @@@@          @@@@      @@@        @@@@@     @@@@@@        @@@@       @@@@@      @        @@@@     @@@@      @@@       @@      @@@@     @@  
+      @@@@          @@@@     @@@        @@ @@@    @@ @@@        @@@@        @@ @@@    @@      @@@@       @@@@     @@@@      @@@      @@@@         
+     @@@@          @@@@      @@@       @@  @@@   @@ @@@@        @@@@       @@  @@@@   @@      @@@@       @@@@     @@@      @@@        @@@@@       
+     @@@@          @@@      @@@        @@  @@@ @@   @@@        @@@@        @@   @@@@ @@      @@@@       @@@@     @@@@      @@@          @@@@@@    
+    @@@@          @@@@      @@@       @@@  @@@@@   @@@@        @@@        @@     @@@ @@      @@@@      @@@@@     @@@@     @@@             @@@@    
+    @@@     @@@   @@@@     @@@        @@    @@@    @@@        @@@@        @@      @@@@       @@@@     @@@@       @@@      @@@      @@     @@@@    
+  @@@@@@@@@@@@      @@@@@@@@         @@@@        @@@@@@      @@@@@@     @@@@      @@@@         @@@@@@@@@          @@@@@@@@@       @@@@@@@@@@      "
+echo "Version 5.1, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 ON
@@ -509,21 +513,15 @@ echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d`
 " >> CONFIG/Event-Log.log
 echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
 " >> CONFIG/Info-Log.log
-   echo "
-      @@@@@@  @@@@@@ @@@       @@@@@@@@  @@    @@  @@@@@@@@@@
-    @@         @@@   @@@       @@@       @@@@  @@     @@@
-      @@@@     @@@   @@@       @@@@@@    @@  @@@@     @@@
-          @@   @@@   @@@       @@@       @@    @@     @@@
-    @@@@@@    @@@@@@ @@@@@@@@@ @@@@@@@@  @@    @@     @@@
-
-                       @@@@@       @@@@@@@@
-                    @@@@@@@@@@@  @@@@@@@@@@
-                    @@@     @@@  @@
-                    @@@     @@@    @@@@@
-                    @@@     @@@         @@@
-                    @@@@@@@@@@@  @@@@@@@@@@
-                       @@@@@     @@@@@@@"
-echo "Version 5.0, contact skibiditoiletcumrocket67 on Discord for more details."
+   echo "      @@@@@         @@@@@    @@@@@      @@@@@@      @@@@@@      @@@@@@      @@@@@     @@@@        @@@@@@@@@       @@@@@@    @@@@@      @@@@@@@@@  
+      @@@@          @@@@      @@@        @@@@@     @@@@@@        @@@@       @@@@@      @        @@@@     @@@@      @@@       @@      @@@@     @@  
+      @@@@          @@@@     @@@        @@ @@@    @@ @@@        @@@@        @@ @@@    @@      @@@@       @@@@     @@@@      @@@      @@@@         
+     @@@@          @@@@      @@@       @@  @@@   @@ @@@@        @@@@       @@  @@@@   @@      @@@@       @@@@     @@@      @@@        @@@@@       
+     @@@@          @@@      @@@        @@  @@@ @@   @@@        @@@@        @@   @@@@ @@      @@@@       @@@@     @@@@      @@@          @@@@@@    
+    @@@@          @@@@      @@@       @@@  @@@@@   @@@@        @@@        @@     @@@ @@      @@@@      @@@@@     @@@@     @@@             @@@@    
+    @@@     @@@   @@@@     @@@        @@    @@@    @@@        @@@@        @@      @@@@       @@@@     @@@@       @@@      @@@      @@     @@@@    
+  @@@@@@@@@@@@      @@@@@@@@         @@@@        @@@@@@      @@@@@@     @@@@      @@@@         @@@@@@@@@          @@@@@@@@@       @@@@@@@@@@      "
+echo "Version 5.1, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 ON
@@ -534,35 +532,26 @@ echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d`
 echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
 " >> CONFIG/Info-Log.log
 ./RECOVERY_SCRIPT.SH &
-echo "
-      @@@@@@  @@@@@@ @@@       @@@@@@@@  @@    @@  @@@@@@@@@@
-    @@         @@@   @@@       @@@       @@@@  @@     @@@
-      @@@@     @@@   @@@       @@@@@@    @@  @@@@     @@@
-          @@   @@@   @@@       @@@       @@    @@     @@@
-    @@@@@@    @@@@@@ @@@@@@@@@ @@@@@@@@  @@    @@     @@@
-
-                       @@@@@       @@@@@@@@
-                    @@@@@@@@@@@  @@@@@@@@@@
-                    @@@     @@@  @@
-                    @@@     @@@    @@@@@
-                    @@@     @@@         @@@
-                    @@@@@@@@@@@  @@@@@@@@@@
-                       @@@@@     @@@@@@@"
-echo "Version 5.0, contact skibiditoiletcumrocket67 on Discord for more details."
+echo "      @@@@@         @@@@@    @@@@@      @@@@@@      @@@@@@      @@@@@@      @@@@@     @@@@        @@@@@@@@@       @@@@@@    @@@@@      @@@@@@@@@  
+      @@@@          @@@@      @@@        @@@@@     @@@@@@        @@@@       @@@@@      @        @@@@     @@@@      @@@       @@      @@@@     @@  
+      @@@@          @@@@     @@@        @@ @@@    @@ @@@        @@@@        @@ @@@    @@      @@@@       @@@@     @@@@      @@@      @@@@         
+     @@@@          @@@@      @@@       @@  @@@   @@ @@@@        @@@@       @@  @@@@   @@      @@@@       @@@@     @@@      @@@        @@@@@       
+     @@@@          @@@      @@@        @@  @@@ @@   @@@        @@@@        @@   @@@@ @@      @@@@       @@@@     @@@@      @@@          @@@@@@    
+    @@@@          @@@@      @@@       @@@  @@@@@   @@@@        @@@        @@     @@@ @@      @@@@      @@@@@     @@@@     @@@             @@@@    
+    @@@     @@@   @@@@     @@@        @@    @@@    @@@        @@@@        @@      @@@@       @@@@     @@@@       @@@      @@@      @@     @@@@    
+  @@@@@@@@@@@@      @@@@@@@@         @@@@        @@@@@@      @@@@@@     @@@@      @@@@         @@@@@@@@@          @@@@@@@@@       @@@@@@@@@@      "
+echo "Version 5.1, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
-
     Power=2
 }
   function ON () {
-
-
 sedfile=0
 filewrite=0
 writefile=0
 einfo=0
 signin=pass.txt
-read -r -p "Command: " cmd 2>/dev/tty
+read -p "Command: " cmd 2>/dev/tty
 
   if [ $cmd == "list" ]; then
   if [ $MCMDB == 1 ]; then
