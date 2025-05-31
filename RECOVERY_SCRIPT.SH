@@ -8,30 +8,22 @@ clear
 printf "\e[44m"  
 clear
 printf "                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                                                                                                      
-      @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                 
-     @@@      @@@  @@     @@@@@@   @@@@    @@ @@@@@@@@@     @@@    @@@  @@@   @@                 
-      @@@     @@@  @@     @@@      @@ @@   @@    @@@       @@@ X   X @@  @@@                     
-        @@@@  @@@  @@     @@@@@@@  @@  @@  @@    @@@       @@  ####  @@    @@@@                  
-           @@ @@@  @@     @@@      @@   @@@@@    @@@       @@ #    # @@       @@                 
-      @    @@ @@@  @@@@@@ @@@@@@   @@    @@@@    @@@        @@@    @@@   @    @@                 
-      @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@${red}      
-
-                                            
+LUMINOUS ERROR RECOVERY.
+${red}                                                  
          @@         
         @@@@       
        @@  @@       ${blbg}The system was not found or has been destroyed.
       @@ @@ @@      ${blbg}The sustem cannot continue this session.
-     @@  @@  @@     ${blbg}Silent OS will be reinstalled, please wait.
+     @@  @@  @@     ${blbg}LUMINOUS OS will be reinstalled, please wait.
     @@   @@   @@    ${blbg}When it is installed you can continue.
    @@          @@ 
   @@     @@     @@ 
  @@@@@@@@@@@@@@@@@@${nc}
-${blbg}Contact Silent on discord if needed. User:walmartbagfred
+${blbg}Contact Silent on discord if needed. User:skibiditoiletcumrocket67
  "
 curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP > e.sh
 printf "${blbg}Reinstallation complete.
-Press Enter to continue to Silent OS..."
+Press Enter to continue to LUMINOUS OS..."
 read -p ""
 clear
 printf "${nc}"
