@@ -1,4 +1,48 @@
+exc='!'
 printf '\e[8;60;245t'
+file=CONFIG/CONFIG.CFG
+beta() {
+  echo "Awesome! Finally, would you like to enable beta features? These may be buggy, but are not required.
+-1 Yeah!
+-2 Nope."
+  BETA=0
+  read -p "Choose 1 or 2: " BETA 2>/dev/tty
+  if [ "$BETA" != "1" ] && [ "$BETA" != "2" ]; then
+    echo "Invalid input, try again."
+    beta
+  elif [ "$BETA" = "1" ]; then
+    echo "1" >> "$file"
+  else
+    echo "0" >> "$file"
+  fi
+}
+check() {
+  if [ -e "$file" ]; then
+    line=$(sed -n '1p' "$file")
+    if [ "$line" = "0" ]; then
+    echo "1" > $file
+      echo "Welcome to LUMINOUS OS Setup...
+First off, what is your name?"
+      read -p "Name: " name 2>/dev/tty
+      echo "$name" >> "$file"
+      beta
+      echo "LUMINOUS OS setup is complete!"
+      read -p "Press Enter to continue..." 2>/dev/tty
+    fi
+  elif [ ! -e "$file" ] || [ -z "$(sed -n '1p' "$file")" ]; then
+    touch CONFIG/CONFIG.CFG
+    echo "1" > "$file"
+    echo "Welcome to LUMINOUS OS Setup...
+First off, what is your name?"
+    read -p "Name: " name 2>/dev/tty
+    echo "$name" >> "$file"
+    beta
+    echo "LUMINOUS OS setup is complete!"
+    read -p "Press Enter to continue..." 2>/dev/tty
+  fi
+}
+
+check
 trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
 if [ ! -d "COMMANDS" ]; then
 echo "Making commands folder..."
@@ -7,6 +51,7 @@ fi
 echo "Re-installing commands, this happens every session."
 echo "Please wait..."
 echo 'echo "Command list:
+    setup (NEW!)
     clear
     restart
     sed
@@ -19,6 +64,7 @@ echo 'echo "Command list:
     Beta command list:
     app"' > COMMANDS/listMCMDB.sh
     echo 'echo "Command list:
+    setup (NEW!)
     clear
     restart
     sed
@@ -73,8 +119,6 @@ echo ""' > COMMANDS/sed.sh
 exec 2>/dev/null
 rm "save.sh"
 crashed=0
-file="CONFIG/INFO.TXT"
-file2="CONFIG/MCMDB.txt"
 rec=0
 touch RECOVERY_SCRIPT.SH
 curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/RECOVERY_SCRIPT.SH > RECOVERY_SCRIPT.SH
@@ -229,7 +273,6 @@ Here are some recovery options:
     elif [ $rec == "1" ]; then
     clear
 printf "${RED}Restarting...${NOCOLOR}"
-   sleep 4
    clear
    echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
 " >> CONFIG/Event-Log.log
@@ -239,27 +282,7 @@ e
 ON
 
 elif [ $rec == "2" ]; then
-echo "" > CONFIG/MCMDB.txt
-    clear
-printf "${RED}Restarting...${NOCOLOR}"
-   sleep 4
-   clear
-   echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Event-Log.log
-echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Info-Log.log
-   echo "      @@@@@         @@@@@    @@@@@      @@@@@@      @@@@@@      @@@@@@      @@@@@     @@@@        @@@@@@@@@       @@@@@@    @@@@@      @@@@@@@@@  
-      @@@@          @@@@      @@@        @@@@@     @@@@@@        @@@@       @@@@@      @        @@@@     @@@@      @@@       @@      @@@@     @@  
-      @@@@          @@@@     @@@        @@ @@@    @@ @@@        @@@@        @@ @@@    @@      @@@@       @@@@     @@@@      @@@      @@@@         
-     @@@@          @@@@      @@@       @@  @@@   @@ @@@@        @@@@       @@  @@@@   @@      @@@@       @@@@     @@@      @@@        @@@@@       
-     @@@@          @@@      @@@        @@  @@@ @@   @@@        @@@@        @@   @@@@ @@      @@@@       @@@@     @@@@      @@@          @@@@@@    
-    @@@@          @@@@      @@@       @@@  @@@@@   @@@@        @@@        @@     @@@ @@      @@@@      @@@@@     @@@@     @@@             @@@@    
-    @@@     @@@   @@@@     @@@        @@    @@@    @@@        @@@@        @@      @@@@       @@@@     @@@@       @@@      @@@      @@     @@@@    
-  @@@@@@@@@@@@      @@@@@@@@         @@@@        @@@@@@      @@@@@@     @@@@      @@@@         @@@@@@@@@          @@@@@@@@@       @@@@@@@@@@      "
-echo "Version 5.1, contact skibiditoiletcumrocket67 on Discord for more details."
-                       echo "Use command $quote2 for a list of commands
-"
-ON
+echo "[REMOVED.]"
 
 elif [ $rec == "3" ]; then
 curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
@@ -336,26 +359,22 @@ Your OS is corrupted, please re-install it."
         read -p "Press Enter to continue..." 2>/dev/tty
         exit 0
       fi
-   echo "Checking for MCMDB Mode..."
 clear
 MCMDB=0
 
-if [ -e "$file2" ] && [ "$(wc -c < "$file2")" -gt 3 ]; then
-    echo "MCMDB Mode is on. You will have more commands (Warning: May be unstable. These are beta features.)"
-    read -p "Press Enter to continue..."  cmd0 2>/dev/tty 
-    MCMDB=1
-    clear
-elif [ ! -e "$file2" ]; then 
-    echo "MCMDB Configuration file was not found.
-When the system boots it will be restored and you can turn it on."
-    read -p "Press Enter to continue..." cmd0 2>/dev/tty
-    clear
-    elif [ -e "$file2" ] && [ ! "$(wc -c < "$file2")" -gt 3 ]; then
-    echo "MDMDB Mode is turned off."
-    read -p "Press Enter to continue..." cmd0 2>/dev/tty
-    clear
-    fi
   echo "Booting..."
+  if [ $setup == 1 ]; then
+  clear
+  check
+  else
+  echo ""
+  fi
+  line=$(sed -n '3p' "$file")
+  if [ $line == 0 ]; then
+  MCMDB=0
+  else
+  MCMDB=1
+  fi
   code=0
   trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
 read -n1 -t 1 cmd0 2>/dev/tty
@@ -377,18 +396,9 @@ if [ "$cmd0" == "M" ]; then
     BOOTMENU=0
     read -n1 -t 999999999999999999999999 BOOTMENU
     if [ "$BOOTMENU" == "1" ]; then
-        echo "<INFO> MCMDB disabled via boot menu. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Event-Log.log
-    echo "<INFO> Boot menu launched. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Info-Log.log
-        echo "" > CONFIG/MCMDB.txt
-        MCMDB=0
-        clear
+  echo "[REMOVED.]"
     elif [ "$BOOTMENU" == "2" ]; then
-    rm CONFIG/MCMDB.TXT
-    touch CONFIG/MCMDB.TXT
-    rm CONFIG/INFO.TXT
-    touch CONFIG/INFO.TXT 
+    echo "[REMOVED.]"
     clear
         elif [ "$BOOTMENU" == "3" ]; then
         clear
@@ -440,16 +450,18 @@ echo "<ERROR> One or more config file(s) was not found. [Time log was made: `dat
                                :      :
                                 ......
 MISSING OS CONFIGURATION INFO!
-RECOVERING CONFIG FILES...
+CREATING CONFIG INFO.
 
 "
 printf "${BLUE}-Note: If you have MCMDB Mode on this will turn it off and you will need to turn it back on.${RED}"
-echo "" > CONFIG/INFO.TXT
-echo "" > CONFIG/MCMDB.txt
-
-sleep 2
+echo "" > CONFIG/CONFIG.CFG
+if [ -e "$file" ]; then
 echo "
 Sucess!"
+./e.sh
+else
+echo "There has been an error creating the configuration file, you may still boot, however you will lose access to a number of features.
+It is reccommended to reinstall LUMINOUS OS."
 read -p "Press Enter to continue..." 2>/dev/tty
 printf "${NOCOLOR}"
 clear
@@ -465,66 +477,32 @@ echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d`
     @@@@          @@@@      @@@       @@@  @@@@@   @@@@        @@@        @@     @@@ @@      @@@@      @@@@@     @@@@     @@@             @@@@    
     @@@     @@@   @@@@     @@@        @@    @@@    @@@        @@@@        @@      @@@@       @@@@     @@@@       @@@      @@@      @@     @@@@    
   @@@@@@@@@@@@      @@@@@@@@         @@@@        @@@@@@      @@@@@@     @@@@      @@@@         @@@@@@@@@          @@@@@@@@@       @@@@@@@@@@      "
-echo "Version 5.1, contact skibiditoiletcumrocket67 on Discord for more details."
+line=$(sed -n '2p' "$file")
+rand=$((RANDOM % 3))
+if [ "$rand" -eq 0 ]; then
+  res="We hope you brought pizza$exc"
+elif [ "$rand" -eq 1 ]; then
+  res="How's your day going?"
+else
+  res="Hope you're doing well$exc"
+fi
+echo "Welcome, $line$exc $res"
+if [ $MCMDB == 1 ]; then 
+echo "Version 5.2 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
-ON
-clear
-
-
-
-
-elif [ ! -e "$file2" ]; then
-echo "<ERROR> One or more config file(s) was not found. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Event-Log.log
-echo "<ERROR> One or more config file(s) was not found. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Error-Log.log
-    printf "${RED}                                ......
-                               :      :
-                               :      :
-                               :      : 
-                               :      : 
-                               :      : 
-                               :      : 
-                               :      : 
-                               :      : 
-                               :      : 
-                               :      : 
-                                ......
-
-                                ......
-                               :      :
-                               :      :
-                                ......
-MISSING OS CONFIGURATION INFO!
-RECOVERING CONFIG FILES...
-
-"
-printf "${BLUE}-Note: If you have MCMDB Mode on this will turn it off and you will need to turn it back on.${RED}"
-echo "" > CONFIG/INFO.TXT
-echo "" > CONFIG/MCMDB.txt
-sleep 2
-echo "
-Sucess!"
-read -p "Press Enter to continue..." 2>/dev/tty
-printf "${NOCOLOR}"
-clear
-echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Event-Log.log
-echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Info-Log.log
-   echo "      @@@@@         @@@@@    @@@@@      @@@@@@      @@@@@@      @@@@@@      @@@@@     @@@@        @@@@@@@@@       @@@@@@    @@@@@      @@@@@@@@@  
-      @@@@          @@@@      @@@        @@@@@     @@@@@@        @@@@       @@@@@      @        @@@@     @@@@      @@@       @@      @@@@     @@  
-      @@@@          @@@@     @@@        @@ @@@    @@ @@@        @@@@        @@ @@@    @@      @@@@       @@@@     @@@@      @@@      @@@@         
-     @@@@          @@@@      @@@       @@  @@@   @@ @@@@        @@@@       @@  @@@@   @@      @@@@       @@@@     @@@      @@@        @@@@@       
-     @@@@          @@@      @@@        @@  @@@ @@   @@@        @@@@        @@   @@@@ @@      @@@@       @@@@     @@@@      @@@          @@@@@@    
-    @@@@          @@@@      @@@       @@@  @@@@@   @@@@        @@@        @@     @@@ @@      @@@@      @@@@@     @@@@     @@@             @@@@    
-    @@@     @@@   @@@@     @@@        @@    @@@    @@@        @@@@        @@      @@@@       @@@@     @@@@       @@@      @@@      @@     @@@@    
-  @@@@@@@@@@@@      @@@@@@@@         @@@@        @@@@@@      @@@@@@     @@@@      @@@@         @@@@@@@@@          @@@@@@@@@       @@@@@@@@@@      "
-echo "Version 5.1, contact skibiditoiletcumrocket67 on Discord for more details."
+else
+echo "Version 5.2, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
+fi
 ON
+clear
+fi
+
+
+
+
 fi
 
 echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
@@ -540,9 +518,25 @@ echo "      @@@@@         @@@@@    @@@@@      @@@@@@      @@@@@@      @@@@@@    
     @@@@          @@@@      @@@       @@@  @@@@@   @@@@        @@@        @@     @@@ @@      @@@@      @@@@@     @@@@     @@@             @@@@    
     @@@     @@@   @@@@     @@@        @@    @@@    @@@        @@@@        @@      @@@@       @@@@     @@@@       @@@      @@@      @@     @@@@    
   @@@@@@@@@@@@      @@@@@@@@         @@@@        @@@@@@      @@@@@@     @@@@      @@@@         @@@@@@@@@          @@@@@@@@@       @@@@@@@@@@      "
-echo "Version 5.1, contact skibiditoiletcumrocket67 on Discord for more details."
+line=$(sed -n '2p' "$file")
+rand=$((RANDOM % 3))
+if [ "$rand" -eq 0 ]; then
+  res="We hope you brought pizza$exc"
+elif [ "$rand" -eq 1 ]; then
+  res="How's your day going?"
+else
+  res="Hope you're doing well$exc"
+fi
+echo "Welcome, $line$exc $res"
+if [ $MCMDB == 1 ]; then 
+echo "Version 5.2 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
+else
+echo "Version 5.2, contact skibiditoiletcumrocket67 on Discord for more details."
+                       echo "Use command $quote2 for a list of commands
+"
+fi
     Power=2
 }
   function ON () {
@@ -573,6 +567,11 @@ elif [ $cmd == "warninglog" ]; then
 
 elif [ $cmd == "clearlog" ]; then
 ./COMMANDS/clearlog.sh
+
+elif [ $cmd == "setup" ]; then
+setup=1
+echo "0" > CONFIG/CONFIG.CFG
+echo "Restart to do the setup process again."
 
 elif [ $cmd == "update" ]; then
 curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
@@ -617,9 +616,12 @@ elif [ $cmd == "changelog" ]; then
 
 
 elif [ $cmd == "mcmdb" ]; then
-echo "MCMDB MODE" > $file2
-echo "Type "restart" to activate MCMDB Mode."
-MCMDBON=1
+line=$(sed -n '2p' "$file")
+name="$line"
+echo "1
+$name
+1" > $file
+MCMDB=1
 
 elif [[ $cmd == *":"* ]]; then
     printf ""
