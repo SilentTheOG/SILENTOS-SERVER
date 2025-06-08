@@ -1,12 +1,43 @@
+chmod -R 777 .
+LO=0
 exc='!'
 printf '\e[8;60;245t'
 file=CONFIG/CONFIG.CFG
+
+MUF() {
+  echo "
+  Finally, would you like to have up to three total users?
+-1 Yes
+-2 No"
+    FLAG=0
+  read -n1 -t 999999999999999999999999 FLAG 2>/dev/tty
+  if [ "$FLAG" != "1" ] && [ "$FLAG" != "2" ]; then
+    echo "
+    Invalid input, try again."
+    MUF
+  elif [ "$FLAG" = "1" ]; then
+  echo "1" >> CONFIG/CONFIG.CFG
+  echo "
+  What will be the users' name(s)? (Name a user '0' to not create that user.)"
+  USR2=0
+read -p "User 2 Name: " USR2
+echo "$USR2" >> CONFIG/CONFIG.CFG
+  USR3=0
+read -p "User 3 Name: " USR3
+echo "$USR3" >> CONFIG/CONFIG.CFG
+  else
+  echo "0" >> CONFIG.CFG
+  echo "0" >> CONFIG.CFG  
+  echo "0" >> CONFIG.CFG
+  fi
+}
+
 beta() {
-  echo "Awesome! Finally, would you like to enable beta features? These may be buggy, but are not required.
+  echo "Awesome! Would you like to enable beta features? These may be buggy, but are not required.
 -1 Yeah!
 -2 Nope."
   BETA=0
-  read -p "Choose 1 or 2: " BETA 2>/dev/tty
+  read -n1 -t 999999999999999999999999 BETA 2>/dev/tty
   if [ "$BETA" != "1" ] && [ "$BETA" != "2" ]; then
     echo "Invalid input, try again."
     beta
@@ -15,6 +46,7 @@ beta() {
   else
     echo "0" >> "$file"
   fi
+  MUF
 }
 check() {
   if [ -e "$file" ]; then
@@ -171,25 +203,9 @@ If this isn't your first time having this screen you can try the following:
 
 "
 if [ $cmd == "sed" ]; then
-if [[ ! -e "$file" ]]; then
-echo "This was caused by a request that was too big, however one or more config files was not found.
-They will be re-installed on boot."
-elif [[ ! -e "$file2" ]]; then
-echo "This was caused by a request that was too big, however one or more config files was not found.
-They will be re-installed on boot."
-else
 echo "ERROR CODE: REQUEST TOO BIG"
-fi
 elif [ $cmd == "crashtest" ]; then
-if [[ ! -e "$file" ]]; then
-echo "This was caused by a crash test, however one or more config files was not found.
-They will be re-installed on boot."
-elif [[ ! -e "$file2" ]]; then
-echo "This was caused by a crash test, however one or more config files was not found.
-They will be re-installed on boot."
-else
 echo "ERROR CODE: CRASH TEST"
-fi
 else
 echo "Unknown error, reinstalling LUMINOUS OS is likely your best option."
 fi
@@ -248,7 +264,6 @@ curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentThe
         cmp downloaded.tmp e.sh && echo "System check complete, continuing..." || VALIDATION_FAILED
         rm downloaded.tmp
 }
-chmod -R 777 .
 VALIDATION_FUNCTION
 
 
@@ -375,6 +390,73 @@ MCMDB=0
   else
   MCMDB=1
   fi
+SIGNIN () {
+  ALLOW=0
+  line=$(sed -n '4p' "$file")
+  if [ "$line" == "1" ]; then
+  clear
+    echo "Select profile:"
+    line=$(sed -n '2p' "$file")
+    echo "User 1 - $line"
+    ALLOW=1
+
+    line=$(sed -n '5p' "$file")
+    if [ "$line" != "0" ]; then
+      echo "User 2 - $line"
+      ALLOW1=1
+    else
+      echo "User 2 not found."
+      ALLOW1=0
+    fi
+
+    line=$(sed -n '6p' "$file")
+    if [ "$line" != "0" ]; then
+      echo "User 3 - $line"
+      ALLOW2=1
+    else
+      echo "User 3 not found."
+      ALLOW2=0
+    fi
+
+    MUL=0
+    read -n1 -t 999999999999999999999999 MUL 2>/dev/tty
+
+    if [ "$MUL" != "1" ] && [ "$MUL" != "2" ] && [ "$MUL" != "3" ]; then
+      echo "
+      Invalid input, try again."
+      SIGNIN
+    elif [ "$MUL" == "1" ]; then 
+      MUL=1
+    elif [ "$MUL" == "2" ]; then
+      if [ "$ALLOW1" == "1" ]; then
+        MUL=2
+      else
+        SIGNIN
+      fi
+    elif [ "$MUL" == "3" ]; then
+      if [ "$ALLOW2" == "1" ]; then
+        MUL=3
+      else
+        SIGNIN
+      fi
+    else
+      MUL=1
+    fi
+  fi
+}
+line=$(sed -n '4p' "$file")
+  if [ -z "$line" ] || [ $line == "" ]; then
+  echo "0" >> CONFIG/CONFIG.CFG
+  LO=1
+  echo "There is a new flag in setup, it is recommended to check it out$exc"
+  read -p "Press Enter to continue..." 2>/dev/tty
+  fi
+if [ $LO == 0 ]; then
+SIGNIN
+else
+MUL=1
+fi
+
   code=0
   trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
 read -n1 -t 1 cmd0 2>/dev/tty
@@ -390,7 +472,7 @@ if [ "$cmd0" == "M" ]; then
     echo "Boot menu:"
     echo "1-Safe Mode"
     echo "2-Refresh all files (Except logs.)"
-    echo '3-Bypass bootloader (Not reccommended!)'
+    echo '3-Bypass bootloader (Not recommended!)'
     echo "4-Re-install LUMINOUS OS"
     echo "5-Continue booting"
     BOOTMENU=0
@@ -461,7 +543,7 @@ Sucess!"
 ./e.sh
 else
 echo "There has been an error creating the configuration file, you may still boot, however you will lose access to a number of features.
-It is reccommended to reinstall LUMINOUS OS."
+It is recommended to reinstall LUMINOUS OS."
 read -p "Press Enter to continue..." 2>/dev/tty
 printf "${NOCOLOR}"
 clear
@@ -477,7 +559,15 @@ echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d`
     @@@@          @@@@      @@@       @@@  @@@@@   @@@@        @@@        @@     @@@ @@      @@@@      @@@@@     @@@@     @@@             @@@@    
     @@@     @@@   @@@@     @@@        @@    @@@    @@@        @@@@        @@      @@@@       @@@@     @@@@       @@@      @@@      @@     @@@@    
   @@@@@@@@@@@@      @@@@@@@@         @@@@        @@@@@@      @@@@@@     @@@@      @@@@         @@@@@@@@@          @@@@@@@@@       @@@@@@@@@@      "
+if [ $MUL == 1 ]; then
 line=$(sed -n '2p' "$file")
+elif [ $MUL == 2 ]; then 
+line=$(sed -n '5p' "$file")
+elif [ $MUL == 3 ]; then
+line=$(sed -n '6p' "$file")
+else
+line="UNKNOWN USER"
+fi
 rand=$((RANDOM % 3))
 if [ "$rand" -eq 0 ]; then
   res="We hope you brought pizza$exc"
@@ -518,7 +608,15 @@ echo "      @@@@@         @@@@@    @@@@@      @@@@@@      @@@@@@      @@@@@@    
     @@@@          @@@@      @@@       @@@  @@@@@   @@@@        @@@        @@     @@@ @@      @@@@      @@@@@     @@@@     @@@             @@@@    
     @@@     @@@   @@@@     @@@        @@    @@@    @@@        @@@@        @@      @@@@       @@@@     @@@@       @@@      @@@      @@     @@@@    
   @@@@@@@@@@@@      @@@@@@@@         @@@@        @@@@@@      @@@@@@     @@@@      @@@@         @@@@@@@@@          @@@@@@@@@       @@@@@@@@@@      "
+if [ $MUL == 1 ]; then
 line=$(sed -n '2p' "$file")
+elif [ $MUL == 2 ]; then 
+line=$(sed -n '5p' "$file")
+elif [ $MUL == 3 ]; then
+line=$(sed -n '6p' "$file")
+else
+line="UNKNOWN USER"
+fi
 rand=$((RANDOM % 3))
 if [ "$rand" -eq 0 ]; then
   res="We hope you brought pizza$exc"
@@ -614,13 +712,18 @@ elif [[ $cmd == "KERNEL CRASH TEST CUSTOM" ]]; then
 elif [ $cmd == "changelog" ]; then
 ./COMMANDS/changelog.sh
 
-
 elif [ $cmd == "mcmdb" ]; then
+line1=$(sed -n '4p' "$file")
+line2=$(sed -n '5p' "$file")
+line3=$(sed -n '6p' "$file")
 line=$(sed -n '2p' "$file")
 name="$line"
 echo "1
 $name
-1" > $file
+1
+$line1
+$line2
+$line3" > $file
 MCMDB=1
 
 elif [[ $cmd == *":"* ]]; then
