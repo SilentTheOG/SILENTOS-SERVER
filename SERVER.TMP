@@ -578,11 +578,11 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
-echo "Version 5.2 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 5.3 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
-echo "Version 5.2, contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 5.3, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 fi
@@ -627,11 +627,11 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
-echo "Version 5.2 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 5.3 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
-echo "Version 5.2, contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 5.3, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 fi
