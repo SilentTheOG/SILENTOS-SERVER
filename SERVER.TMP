@@ -1,369 +1,10 @@
 chmod -R 777 .
 LO=0
+NOCOLOR='\033[0m'
 exc='!'
 printf '\e[8;60;245t'
 file=CONFIG/CONFIG.CFG
 
-MUF() {
-  echo "
-  Finally, would you like to have up to three total users?
--1 Yes
--2 No"
-    FLAG=0
-  read -n1 -t 999999999999999999999999 FLAG 2>/dev/tty
-  if [ "$FLAG" != "1" ] && [ "$FLAG" != "2" ]; then
-    echo "
-    Invalid input, try again."
-    MUF
-  elif [ "$FLAG" = "1" ]; then
-  echo "1" >> CONFIG/CONFIG.CFG
-  echo "
-  What will be the users' name(s)? (Name a user '0' to not create that user.)"
-  USR2=0
-read -p "User 2 Name: " USR2
-echo "$USR2" >> CONFIG/CONFIG.CFG
-  USR3=0
-read -p "User 3 Name: " USR3
-echo "$USR3" >> CONFIG/CONFIG.CFG
-  else
-  echo "0" >> CONFIG.CFG
-  echo "0" >> CONFIG.CFG  
-  echo "0" >> CONFIG.CFG
-  fi
-}
-
-beta() {
-  echo "Awesome! Would you like to enable beta features? These may be buggy, but are not required.
--1 Yeah!
--2 Nope."
-  BETA=0
-  read -n1 -t 999999999999999999999999 BETA 2>/dev/tty
-  if [ "$BETA" != "1" ] && [ "$BETA" != "2" ]; then
-    echo "Invalid input, try again."
-    beta
-  elif [ "$BETA" = "1" ]; then
-    echo "1" >> "$file"
-  else
-    echo "0" >> "$file"
-  fi
-  MUF
-}
-check() {
-  if [ -e "$file" ]; then
-    line=$(sed -n '1p' "$file")
-    if [ "$line" = "0" ]; then
-    echo "1" > $file
-      echo "Welcome to LUMINOUS OS Setup...
-First off, what is your name?"
-      read -p "Name: " name 2>/dev/tty
-      echo "$name" >> "$file"
-      beta
-      echo "LUMINOUS OS setup is complete!"
-      read -p "Press Enter to continue..." 2>/dev/tty
-    fi
-  elif [ ! -e "$file" ] || [ -z "$(sed -n '1p' "$file")" ]; then
-    touch CONFIG/CONFIG.CFG
-    echo "1" > "$file"
-    echo "Welcome to LUMINOUS OS Setup...
-First off, what is your name?"
-    read -p "Name: " name 2>/dev/tty
-    echo "$name" >> "$file"
-    beta
-    echo "LUMINOUS OS setup is complete!"
-    read -p "Press Enter to continue..." 2>/dev/tty
-  fi
-}
-
-check
-trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
-if [ ! -d "COMMANDS" ]; then
-echo "Making commands folder..."
-    mkdir "COMMANDS"
-fi
-echo "Re-installing commands, this happens every session."
-echo "Please wait..."
-echo 'echo "Command list:
-    setup (NEW!)
-    clear
-    restart
-    sed
-    echo
-    quit
-    crashtest
-    listfile
-    log
-    update
-    Beta command list:
-    app"' > COMMANDS/listMCMDB.sh
-    echo 'echo "Command list:
-    setup (NEW!)
-    clear
-    restart
-    sed
-    echo
-    quit
-    crashtest
-    log
-    update"' > COMMANDS/list.sh
-    echo 'echo "Logs have been deprecated and will be removed soon."' > COMMANDS/log.sh
-echo 'echo "Logs have been deprecated and will be removed soon."' > COMMANDS/errorlog.sh
-echo 'echo "Logs have been deprecated and will be removed soon."' > COMMANDS/infolog.sh
-echo 'echo "Logs have been deprecated and will be removed soon."' > COMMANDS/warninglog.sh
-echo 'echo "Logs have been deprecated and will be removed soon."' > COMMANDS/clearlog.sh
-echo 'echo "OMG LIGHTNING MCQUEEN SLAYYYY GIRLIE OMGGGGGGGGGGGG
-                                                              ............--                         
-                                                     .....-++###++++++++##-..             ------     
-                                              ...---++#++-------..   ..----+-......--------------    
-                                           .--++++----------              .++.......--------------   
-                                          -+----++-.                        +-.......+-------------  
-                                         ---+-                    .-.       .+.. .........-..... .-  
-                                        +++.        .+###-      +####-       +-...........-..... ... 
-                                       +-..         -####.      --++.        -+..........-...... ... 
-                                      +-..           .-. ....................  .--. ....        ..#+ 
-                                    .++.....-..............----.....-------....---.  ...       ..-## 
-                     . ............... ....--.------------....----------------+###-.... - .   .+.-## 
-                  ...-.........--..-------------------------------. .--------+#####. .-  ..  ....+## 
-                ...--..-----------------------------------------. ..---------++####-. -   .......+#+ 
-               ----------------------------------------.-. -+--...---------.-.-.-+++.-.   -+--+-.#+- 
-              +--.--..-------------------------..---------------------------+++--..++-.-- .---.--##- 
-             #+-----+. -----------------------------+++++++--------------+++######+-.+++- .-+-+--### 
-            ##+-------++++++++------------------+++++++++###++---+++---+++++##########++.+----++###+ 
-           ###++++++++++####+++++++++++++++###+++------+##+-++++++++++++++++###########++++#.-++#+++ 
-           ###+++++++++++###-----------------....--+####-----++++++++++++++########+####+++-+++#+++- 
-          +###+++++++++++#####+++++++++++############+-------++++++++++++++#+###########++++++##+++- 
-           ####++++++++++++####################++++++-------+++++++++++++++#+++#####+###++######+-#+ 
-           ####+++++++---+++-+--.......--..----+++++--+++++++++++++++++++++#++##++++############-+#+ 
-           #####+++++++++++++++++-------++++++++++++++++++++++++++++++++++----##++++#+.+#########-+- 
-            #####+++++++++++++++++++++++++++++++++++++++++++++++++++++++++-##+-++++##-+###########+  
-             #####+++++++++++++++++++++++++++++++++++++++++++++++######+++----++-+#+..############   
-               #########+++++++++++++++++++++++++++####################+ .+#+++#++- +##              
-       ##################################################################+. -.- -.-##                
-    #########################################################################++#####                 
-     #############################################################################                   
-                     ###############################################"' > COMMANDS/IAMSPEED.sh
-echo 'echo "NOTE: This only works on a Windows system!"
-psc=0
-read -p "Powershell command:" psc 2>/dev/tty
-powershell -command "$psc"' > COMMANDS/powershell.sh
-echo 'read -p "What file would you like to see the contents of? " sedfile 2>/dev/tty
-sed '' "$sedfile"
-echo ""' > COMMANDS/sed.sh
-exec 2>/dev/null
-rm "save.sh"
-crashed=0
-rec=0
-touch RECOVERY_SCRIPT.SH
-curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/RECOVERY_SCRIPT.SH > RECOVERY_SCRIPT.SH
-./RECOVERY_SCRIPT.SH &
-
-crashSYS() {
-  trap - EXIT
-  printf "\033[10;40H\e[1m                        \e[0m
-                                                                                                                                           
-                                                                      
-                                                                       
-                                                                       
-                                                                       
-                                                                       
-                                                                       
-                                                                       
-                                                                       
-                                                                       
-                                                                                                                      
-                                                                       
-                                                                  \e[0m"
-  printf "\033[10;40H\e[1mCRITICAL ERROR\e[0m
-The shell has encountered an error that could not be properly resolved.
-The cause of this error can include (But is not limited to):
--Buggy updates
--Modified system
--Custom commands
--Buggy terminal
--User fault
-Please note that the window may close after this, as a very critical error has occoured, if you have a modified or outdated system, please update.
-If you have any questions, please contact 'skibiditoiletcumrocket67' on Discord for support.\e[0m
-"
-  echo "ERROR CODE: $code"
-  read -p "Press Enter to restart" 2>/dev/tty
-  clear
-  printf "${RED}Restarting...${NOCOLOR}"
-  clear
-  e
-}
-
-crash() {
-printf "\033[10;40H\e[1mLUMINOUS OS\e[0m
-
-LUMINOUS OS has encountered an error, and has shut down to pervent further errors.
-This normally isn't an issue and you can reboot, if this is the first time.
-If this isn't your first time having this screen you can try the following:
-- Reinstalling via the same source you have installed it from
-- Finding the cause of the error by its error code
-- Contacting 'skibiditoiletcumrocket67' on Discord for support
-
-"
-if [ $cmd == "sed" ]; then
-echo "ERROR CODE: REQUEST TOO BIG"
-elif [ $cmd == "crashtest" ]; then
-echo "ERROR CODE: CRASH TEST"
-else
-echo "Unknown error, reinstalling LUMINOUS OS is likely your best option."
-fi
-echo "<ERROR> The file read request was too big. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Event-Log.log
-echo "<ERROR> The file read request was too big. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Error-Log.log
-read -p "Press Enter to restart" 2>/dev/tty
-printf "\033[H"
-  clear
-    printf "${RED}Restarting...${NOCOLOR}"
-   clear
-       ((crashed++))
-    if [ "$crashed" -ge 5 ]; then
-        recovery
-    fi
-   echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Event-Log.log
-echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Info-Log.log
-e
-ON
-}
-val_opt=0
-VALIDATION_FAILED() {
-  rm downloaded.tmp
-  clear
-  echo "Your system differs from the current standard version.
-This is likely due to using an outdated version of LUMINOUS OS.
-NOTE: This feature is still buggy, it is not perfect.
-Please choose a boot option:
-1) Update the system
-2) Continue launching
-3) Terminate this instance"
-read -n1 -s val_opt
-if [[ "$val_opt" != "1" && "$val_opt" != "2" && "$val_opt" != "3" ]]; then
-VALIDATION_FAILED
-elif [ $val_opt == 1 ]; then
-curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
-cat SERVER.TMP > e.sh | rm SERVER.TMP
-touch tmp.sh
-echo "./e.sh" >> tmp.sh
-./tmp.sh
-rm tmp.sh
-clear
-elif [ $val_opt == 2 ]; then
-echo "Press Enter to continue..."
-elif [ $val_opt == 3 ]; then
-exit 0
-fi
-}
-VALIDATION_FUNCTION() {
-    echo "Validating system...
-    "
-curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP > downloaded.tmp
-        cmp downloaded.tmp e.sh && echo "System check complete, continuing..." || VALIDATION_FAILED
-        rm downloaded.tmp
-}
-VALIDATION_FUNCTION
-
-
-
-recovery() {
-    clear
-    printf "\e[44m"  
-    clear
-    printf "\e[97m\e[1mRecovery\n"  
-    printf "\e[0m"
-    printf "\e[44mLUMINOUS OS has crashed five (or more) times in this session.
-Here are some recovery options:
-
-1) Reboot and try again
-2) Disable MCMDB Mode (If it's on) and restart
-3) Reinstall LUMINOUS OS\n"
-    printf "\e[0m"
-    read -n1 -s rec
-
-    if [[ "$rec" != "1" && "$rec" != "2" && "$rec" != "3" ]]; then
-        recovery
-    elif [ $rec == "1" ]; then
-    clear
-printf "${RED}Restarting...${NOCOLOR}"
-   clear
-   echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Event-Log.log
-echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Info-Log.log
-e
-ON
-
-elif [ $rec == "2" ]; then
-echo "[REMOVED.]"
-
-elif [ $rec == "3" ]; then
-curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
-touch FAILSAFE.SH
-cat SERVER.TMP > e.sh | rm SERVER.TMP
-echo "touch tmp.sh
-echo "./e.sh" >> tmp.sh
-./tmp.sh
-rm tmp.sh
-if [ -e "e.sh" ] && [ ! "$(wc -c < "e.sh")" -gt 3 ]; then
-./RECOVERY_SCRIPT.SH
-else
-./e.sh
-fi" > FAILSAFE.SH
-./FAILSAFE.SH
-fi
-}
-
-BLUE='\033[0;34m'
-   NOCOLOR='\033[0m'
-echo "Making sure all logs are up to date..."
-mkdir CONFIG
-clear
-echo "Making sure all logs are up to date..."
-printf "${BLUE}#
-"
-echo "1/5 done."
-clear
-sleep 0.1
-touch CONFIG/Event-Log.log
-printf "${BLUE}##
-"
-echo "2/5 done."
-clear
-sleep 0.1
-touch CONFIG/Error-Log.log
-printf "${BLUE}###
-"
-echo "3/5 done."
-clear
-sleep 0.1
-touch CONFIG/Info-Log.log
-printf "${BLUE}####
-"
-echo "4/5 done."
-clear
-sleep 0.1
-touch CONFIG/Warning-Log.log
-printf "${BLUE}#####
-"
-echo "5/5 done, getting ready."
-printf "${NOCOLOR}"
-sleep 1
-esh1="e.sh"
-rm LOG.TXT
-if [ -e "$esh1" ]; then
-    esh=$(<"$esh1")
-    fi
-
-MCMDBON=0
- RED='\033[0;31m'
- BGB='\e[104m'
-ft=1
-Power=1
-quote=\"start\"
-quote2=\"list\"
 function e() {
   trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
   if declare -f ON > /dev/null; then
@@ -377,7 +18,62 @@ Your OS is corrupted, please re-install it."
 clear
 MCMDB=0
 
-  echo "Booting..."
+  echo "                                                                                                    
+                                                                                                    
+                                                                                                    
+                                              @@@@@                                                 
+                                           @@@@@@@@@@@                                              
+                                          @@@@@@@@@@@@@                                             
+                                   @@@@@@@@@@@@@@@@@@@@@                                            
+              @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                                            
+             @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                                          
+               @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                                      
+                 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                                    
+                   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ @@@@@@@@@@@@                                   
+                     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@   @@@@@@@@@@@                                   
+                     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    @@@@@@@@@@@@                                 
+                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@      @@@@@@  @@@                                
+                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@          @@@  @@@                               
+                   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@           @@@  @@@                              
+                   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@            @@@  @@@                             
+                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@             @@@  @@@                            
+                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@              @@@@  @@@                          
+                     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@               @@@  @@@                         
+                      @@@@@@@@@@@@@@@@@@@@@@@@@@@@@                 @@@  @@@                        
+                        @@@@@@@@@@@@@@@@@@@@@@@@@@@@                 @@@  @@@                       
+                          @@@@@@@@@@@@@    @@@@@@@@@                  @@@  @@@@                     
+                                             @@@@@@@                   @@@@  @@@                    
+                                                @@@@                     @@@  @@@                   
+                                                 @@@                      @@@  @@@                  
+                                                                           @@@ @@@@@@               
+      LUMINOUS IS BOOTING                                                   @@@@@@@@@@@             
+          PLEASE WAIT.                                                       @@@@@@@@@@             
+                                                                             @@@@@@@@@@             
+                                                                             @@@@@@@@@@             
+                                                                            @@@ @@@@                
+                                                                          @@@   @@@                 
+                                                                          @@@  @@@                  
+                                                                         @@@  @@@                   
+                                                                        @@   @@@                    
+                                                                      @@@   @@@                     
+                                                                     @@@   @@@                      
+                                                                    @@@   @@@                       
+                                                                   @@@   @@@                        
+                                                                  @@@   @@@                         
+                                                                 @@@  @@@                           
+                                                                @@@  @@@                            
+                                                               @@@  @@@                             
+                                                              @@@  @@@                              
+                                                             @@@  @@@                               
+                                                            @@@  @@@                                
+                                            @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@              
+                                          @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@              
+                                          @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@              
+                                            @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@              
+                                                                                                    
+                                                                                                    
+                                                                                                    "
+                                                                                                    
   if [ $setup == 1 ]; then
   clear
   check
@@ -469,46 +165,125 @@ if [ "$cmd0" == "M" ]; then
 " >> CONFIG/Event-Log.log
     echo "<INFO> Boot menu launched. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
 " >> CONFIG/Info-Log.log
-    echo "Boot menu:"
-    echo "1-Safe Mode"
-    echo "2-Refresh all files (Except logs.)"
-    echo '3-Bypass bootloader (Not recommended!)'
-    echo "4-Re-install LUMINOUS OS"
-    echo "5-Continue booting"
+    echo "                                                                                                                                                                                                
+                                                                                                    
+                                                                                                    
+                                              @@@@@                                                 
+                                           @@@@@@@@@@@                                              
+                                          @@@@@@@@@@@@@                                             
+                                   @@@@@@@@@@@@@@@@@@@@@                                            
+              @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                                            
+             @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                                          
+               @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                                      
+                 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                                    
+                   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ @@@@@@@@@@@@                                   
+                     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@   @@@@@@@@@@@                                   
+                     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    @@@@@@@@@@@@                                 
+                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@      @@@@@@  @@@                                
+                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@          @@@  @@@                               
+                   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@           @@@  @@@                              
+                   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@            @@@  @@@                             
+                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@             @@@  @@@                            
+                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@              @@@@  @@@                          
+                     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@               @@@  @@@                         
+                      @@@@@@@@@@@@@@@@@@@@@@@@@@@@@                 @@@  @@@                        
+                        @@@@@@@@@@@@@@@@@@@@@@@@@@@@                 @@@  @@@                       
+                          @@@@@@@@@@@@@    @@@@@@@@@                  @@@  @@@@                     
+                                             @@@@@@@                   @@@@  @@@                    
+                                                @@@@                     @@@  @@@                   
+                                                 @@@                      @@@  @@@                  
+  ┏━  ┓ ┳┳┳┳┓┳┳┓┏┓┳┳┏┓  ━┓                                                 @@@ @@@@@@               
+  ┃   ┃ ┃┃┃┃┃┃┃┃┃┃┃┃┗┓   ┃                                                  @@@@@@@@@@             
+  ┗━  ┗┛┗┛┛ ┗┻┛┗┗┛┗┛┗┛  ━┛                                                   @@@@@@@@@@           
+    ┳┓┏┓┏┓┏┳┓  ┳┳┓┏┓┳┓┳┳                                                      @@@@@@@@@@           
+    ┣┫┃┃┃┃ ┃   ┃┃┃┣ ┃┃┃┃                                                       @@@@@@@@@@           
+    ┻┛┗┛┗┛ ┻   ┛ ┗┗┛┛┗┗┛                                                        @@@@@@@@@           
+                                                                                @@@@@@@@     
+     1-Safe Mode                                                                @@@@@@@@   
+     2-Refresh all files (Except logs.)                                        @@@@@@@@ 
+     3-Bypass bootloader (Not recommended$exc)                                   @@@@@@@@@
+     4-Re-install LUMINOUS OS                                                @@@@@@@@@
+     5-Continue booting                                                     @@@@@@@@@             
+                                                                            @@@ @@@@                
+                                                                           @@@  @@@                 
+                                                                          @@@  @@@                  
+                                                                         @@@  @@@                   
+                                                                        @@   @@@                    
+                                                                      @@@   @@@                     
+                                                                     @@@   @@@                      
+                                                                    @@@   @@@                       
+                                                                   @@@   @@@                        
+                                                                  @@@   @@@                         
+                                                                 @@@   @@@                          
+                                                                @@@   @@@                           
+                                                               @@@   @@@                            
+                                                              @@@   @@@                             
+                                                             @@@   @@@                              
+                                                            @@@   @@@                               
+                                            @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@              
+                                          @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@              
+                                          @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@              
+                                            @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+
+    tput civis
+    i=0
+    anm() {
+    prev=-1
+    while :; do
+        if [ "$prev" -ge 0 ]; then
+            tput cup 45 $((2 + prev * 2)); echo " "
+            tput cup 46 $((2 + prev * 2)); echo "O"
+        fi
+        tput cup 45 $((2 + i * 2)); echo "O"
+        tput cup 46 $((2 + i * 2)); echo " "
+        prev=$i
+        i=$(( (i + 1) % 30 ))
+        sleep 0.05
+    done
+}
+
+    anm &
+    PID=$!
+
     BOOTMENU=0
     read -n1 -t 999999999999999999999999 BOOTMENU
+    kill $PID 2>/dev/null
+    wait $PID 2>/dev/null
+    tput cnorm
+
     if [ "$BOOTMENU" == "1" ]; then
-  echo "[REMOVED.]"
+        echo "[REMOVED.]"
     elif [ "$BOOTMENU" == "2" ]; then
-    echo "[REMOVED.]"
-    clear
-        elif [ "$BOOTMENU" == "3" ]; then
+        echo "[REMOVED.]"
+        clear
+    elif [ "$BOOTMENU" == "3" ]; then
         clear
         Power=2
         ON
-        elif [ "$BOOTMENU" == "4" ]; then
-curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
-touch FAILSAFE.SH
-cat SERVER.TMP > e.sh | rm SERVER.TMP
-echo "touch tmp.sh
-echo "./e.sh" >> tmp.sh
+    elif [ "$BOOTMENU" == "4" ]; then
+        curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
+        touch FAILSAFE.SH
+        cat SERVER.TMP > e.sh | rm SERVER.TMP
+        echo "touch tmp.sh
+echo \"./e.sh\" >> tmp.sh
 ./tmp.sh
 rm tmp.sh
-if [ -e "e.sh" ] && [ ! "$(wc -c < "e.sh")" -gt 3 ]; then
+if [ -e \"e.sh\" ] && [ ! \"\$(wc -c < \"e.sh\")\" -gt 3 ]; then
 ./RECOVERY_SCRIPT.SH
 else
 ./e.sh
 fi" > FAILSAFE.SH
-./FAILSAFE.SH
-        elif [ "$BOOTMENU" == "5" ]; then
+        ./FAILSAFE.SH
+    elif [ "$BOOTMENU" == "5" ]; then
         clear
-        else
+    else
         clear
         echo "Not an option!"
         sleep 1
         clear
     fi
 fi
+
 if [ ! -e "$file" ]; then
 echo "<ERROR> One or more config file(s) was not found. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
 " >> CONFIG/Event-Log.log
@@ -578,11 +353,11 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
-echo "Version 5.3 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 5.4 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
-echo "Version 5.3, contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 5.4, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 fi
@@ -627,17 +402,21 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
-echo "Version 5.3 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 5.4 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
-echo "Version 5.3, contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 5.4, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 fi
     Power=2
 }
-  function ON () {
+
+
+# ON FUNCTION IS HERE SILLY
+
+function ON () {
 sedfile=0
 filewrite=0
 writefile=0
@@ -793,6 +572,486 @@ else
 fi
   fi
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MUF() {
+  echo "
+  Finally, would you like to have up to three total users?
+-1 Yes
+-2 No"
+    FLAG=0
+  read -n1 -t 999999999999999999999999 FLAG 2>/dev/tty
+  if [ "$FLAG" != "1" ] && [ "$FLAG" != "2" ]; then
+    echo "
+    Invalid input, try again."
+    MUF
+  elif [ "$FLAG" = "1" ]; then
+  echo "1" >> CONFIG/CONFIG.CFG
+  echo "
+  What will be the users' name(s)? (Name a user '0' to not create that user.)"
+  USR2=0
+read -p "User 2 Name: " USR2
+echo "$USR2" >> CONFIG/CONFIG.CFG
+  USR3=0
+read -p "User 3 Name: " USR3
+echo "$USR3" >> CONFIG/CONFIG.CFG
+  else
+  echo "0" >> CONFIG.CFG
+  echo "0" >> CONFIG.CFG  
+  echo "0" >> CONFIG.CFG
+  fi
+}
+
+beta() {
+  echo "Awesome! Would you like to enable beta features? These may be buggy, but are not required.
+-1 Yeah!
+-2 Nope."
+  BETA=0
+  read -n1 -t 999999999999999999999999 BETA 2>/dev/tty
+  if [ "$BETA" != "1" ] && [ "$BETA" != "2" ]; then
+    echo "Invalid input, try again."
+    beta
+  elif [ "$BETA" = "1" ]; then
+    echo "1" >> "$file"
+  else
+    echo "0" >> "$file"
+  fi
+  MUF
+}
+check() {
+  if [ -e "$file" ]; then
+    line=$(sed -n '1p' "$file")
+    if [ "$line" = "0" ]; then
+    echo "1" > $file
+      echo "Welcome to LUMINOUS OS Setup...
+First off, what is your name?"
+      read -p "Name: " name 2>/dev/tty
+      echo "$name" >> "$file"
+      beta
+      echo "LUMINOUS OS setup is complete!"
+      read -p "Press Enter to continue..." 2>/dev/tty
+    fi
+  elif [ ! -e "$file" ] || [ -z "$(sed -n '1p' "$file")" ]; then
+    touch CONFIG/CONFIG.CFG
+    echo "1" > "$file"
+    echo "Welcome to LUMINOUS OS Setup...
+First off, what is your name?"
+    read -p "Name: " name 2>/dev/tty
+    echo "$name" >> "$file"
+    beta
+    echo "LUMINOUS OS setup is complete!"
+    read -p "Press Enter to continue..." 2>/dev/tty
+  fi
+}
+
+check
+trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
+if [ ! -d "COMMANDS" ]; then
+echo "Making commands folder..."
+    mkdir "COMMANDS"
+fi
+echo "Re-installing commands, this happens every session."
+echo "Please wait..."
+echo 'echo "Command list:
+    setup (NEW!)
+    clear
+    restart
+    sed
+    echo
+    quit
+    crashtest
+    listfile
+    log
+    update
+    Beta command list:
+    app"' > COMMANDS/listMCMDB.sh
+    echo 'echo "Command list:
+    setup (NEW!)
+    clear
+    restart
+    sed
+    echo
+    quit
+    crashtest
+    log
+    update"' > COMMANDS/list.sh
+    echo 'echo "Logs have been deprecated and will be removed soon."' > COMMANDS/log.sh
+echo 'echo "Logs have been deprecated and will be removed soon."' > COMMANDS/errorlog.sh
+echo 'echo "Logs have been deprecated and will be removed soon."' > COMMANDS/infolog.sh
+echo 'echo "Logs have been deprecated and will be removed soon."' > COMMANDS/warninglog.sh
+echo 'echo "Logs have been deprecated and will be removed soon."' > COMMANDS/clearlog.sh
+echo 'echo "OMG LIGHTNING MCQUEEN SLAYYYY GIRLIE OMGGGGGGGGGGGG
+                                                              ............--                         
+                                                     .....-++###++++++++##-..             ------     
+                                              ...---++#++-------..   ..----+-......--------------    
+                                           .--++++----------              .++.......--------------   
+                                          -+----++-.                        +-.......+-------------  
+                                         ---+-                    .-.       .+.. .........-..... .-  
+                                        +++.        .+###-      +####-       +-...........-..... ... 
+                                       +-..         -####.      --++.        -+..........-...... ... 
+                                      +-..           .-. ....................  .--. ....        ..#+ 
+                                    .++.....-..............----.....-------....---.  ...       ..-## 
+                     . ............... ....--.------------....----------------+###-.... - .   .+.-## 
+                  ...-.........--..-------------------------------. .--------+#####. .-  ..  ....+## 
+                ...--..-----------------------------------------. ..---------++####-. -   .......+#+ 
+               ----------------------------------------.-. -+--...---------.-.-.-+++.-.   -+--+-.#+- 
+              +--.--..-------------------------..---------------------------+++--..++-.-- .---.--##- 
+             #+-----+. -----------------------------+++++++--------------+++######+-.+++- .-+-+--### 
+            ##+-------++++++++------------------+++++++++###++---+++---+++++##########++.+----++###+ 
+           ###++++++++++####+++++++++++++++###+++------+##+-++++++++++++++++###########++++#.-++#+++ 
+           ###+++++++++++###-----------------....--+####-----++++++++++++++########+####+++-+++#+++- 
+          +###+++++++++++#####+++++++++++############+-------++++++++++++++#+###########++++++##+++- 
+           ####++++++++++++####################++++++-------+++++++++++++++#+++#####+###++######+-#+ 
+           ####+++++++---+++-+--.......--..----+++++--+++++++++++++++++++++#++##++++############-+#+ 
+           #####+++++++++++++++++-------++++++++++++++++++++++++++++++++++----##++++#+.+#########-+- 
+            #####+++++++++++++++++++++++++++++++++++++++++++++++++++++++++-##+-++++##-+###########+  
+             #####+++++++++++++++++++++++++++++++++++++++++++++++######+++----++-+#+..############   
+               #########+++++++++++++++++++++++++++####################+ .+#+++#++- +##              
+       ##################################################################+. -.- -.-##                
+    #########################################################################++#####                 
+     #############################################################################                   
+                     ###############################################"' > COMMANDS/IAMSPEED.sh
+echo 'echo "NOTE: This only works on a Windows system!"
+psc=0
+read -p "Powershell command:" psc 2>/dev/tty
+powershell -command "$psc"' > COMMANDS/powershell.sh
+echo 'read -p "What file would you like to see the contents of? " sedfile 2>/dev/tty
+sed '' "$sedfile"
+echo ""' > COMMANDS/sed.sh
+exec 2>/dev/null
+rm "save.sh"
+crashed=0
+rec=0
+touch RECOVERY_SCRIPT.SH
+curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/RECOVERY_SCRIPT.SH > RECOVERY_SCRIPT.SH
+./RECOVERY_SCRIPT.SH &
+
+crashSYS() {
+  trap - EXIT
+    line=$(sed -n '1p' "$file")
+      line2=$(sed -n '2p' "$file")
+        line3=$(sed -n '3p' "$file")
+          line4=$(sed -n '4p' "$file")
+            line5=$(sed -n '5p' "$file")
+              line6=$(sed -n '6p' "$file")
+  PK="\033[38;5;199m"
+  BL="\033[38;5;20m"
+  BOL="\033[1m"
+  GR="\033[38;5;2m"
+  GL="\033[38;5;220m"
+  RD="\033[38;5;160m"
+  clear
+  printf "${BOL}${RD}CRITICAL ERROR
+${GR}The shell has encountered an error that could not be properly resolved.${NOCOLOR}
+${BL}CRASH INFO:${NOCOLOR}
+
+${RD}CONFIG FILE FLAGS:${NOCOLOR}
+${GL}- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -${NOCOLOR}
+" 
+if [ $line == "1" ]; then
+line="NO"
+elif [ $line == "0" ]; then
+line="YES"
+else
+line="INVALID OR MISSING"
+fi
+printf "${BOL}${PK}NEW: $line
+"
+if [ $line3 == "1" ]; then
+line3="YES"
+elif [ $line3 == "0" ]; then
+line3="NO"
+else
+line3="INVALID OR MISSING"
+fi
+printf "${BOL}${PK}MCMDB: $line3
+"
+if [ $line4 == "1" ]; then
+line4="YES"
+elif [ $line4 == "0" ]; then
+line4="NO"
+else
+line4="INVALID OR MISSING"
+fi
+printf "${BOL}${PK}MULTIUSER: $line4
+"
+if [ -z "$line2" ]; then
+line2="INVALID OR MISSING"
+fi
+printf "${BOL}${PK}USER 1: $line2
+"
+if [ -z "$line5" ]; then
+line5="INVALID OR MISSING"
+elif [ $line5 == "0" ]; then
+line5="USER NOT IN USE"
+fi
+printf "${BOL}${PK}USER 2: $line5
+"
+if [ -z "$line6" ]; then
+line6="INVALID OR MISSING"
+elif [ $line6 == "0" ]; then
+line6="USER NOT IN USE"
+fi
+printf "${BOL}${PK}USER 3: $line6
+"
+RDCODE="0"
+if [ $code == "1" ]; then
+RDCODE="GENERIC BUILT IN SCRIPT FALIURE
+"
+elif [ $code == "2" ]; then
+RDCODE="MISUSED BUILT IN
+"
+elif [ $code == "130" ]; then
+RDCODE="CTRL C PRESSED
+"
+else
+RDCODE="UNSPECIFIED ERROR ($code)
+"
+fi
+printf "${GL}- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -${NOCOLOR}
+"
+printf "${RD}SYSTEM INFORMATION:${NOCOLOR}
+"
+printf "${GL}- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -${NOCOLOR}
+"
+if [ $valf == "0" ]; then
+valf="YES"
+else
+valf="NO"
+fi
+BTL=0
+if declare -f e > /dev/null; then
+BTL="YES"
+else
+BTL="NO"
+fi
+SYS=0
+if declare -f ON > /dev/null; then
+SYS="YES"
+else
+SYS="NO"
+fi
+if [ $val_opt == "2" ]; then
+val_opt="YES"
+else
+val_opt="NO"
+fi
+printf "${BOL}${PK}VERSION: 5.4
+PASSED VALIDATION: $valf
+IGNORED VALIDATION: $val_opt
+BOOTLOADER INTACT: $BTL
+CRITICAL FUNCTION: $SYS${NOCOLOR}
+${GL}- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -${NOCOLOR}
+" 
+  printf "${RD}ERROR CODE:${NOCOLOR} ${BL}$RDCODE${NOCOLOR}${GR}Apon restarting, the system may be unstable, and the window may close.${NOCOLOR}
+"
+  read -p "Press Enter to continue" 2>/dev/tty
+  clear
+  e
+} # go back
+
+crash() {
+printf "\033[10;40H\e[1mLUMINOUS OS\e[0m
+
+LUMINOUS OS has encountered an error, and has shut down to pervent further errors.
+This normally isn't an issue and you can reboot, if this is the first time.
+If this isn't your first time having this screen you can try the following:
+- Reinstalling via the same source you have installed it from
+- Finding the cause of the error by its error code
+- Contacting 'skibiditoiletcumrocket67' on Discord for support
+
+"
+if [ $cmd == "sed" ]; then
+echo "ERROR CODE: REQUEST TOO BIG"
+elif [ $cmd == "crashtest" ]; then
+echo "ERROR CODE: CRASH TEST"
+else
+echo "Unknown error, reinstalling LUMINOUS OS is likely your best option."
+fi
+echo "<ERROR> The file read request was too big. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Event-Log.log
+echo "<ERROR> The file read request was too big. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Error-Log.log
+read -p "Press Enter to restart" 2>/dev/tty
+printf "\033[H"
+  clear
+    printf "${RED}Restarting...${NOCOLOR}"
+   clear
+       ((crashed++))
+    if [ "$crashed" -ge 5 ]; then
+        recovery
+    fi
+   echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Event-Log.log
+echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Info-Log.log
+e
+ON
+}
+val_opt=0
+VALIDATION_FAILED() {
+  rm downloaded.tmp
+  clear
+  echo "Your system differs from the current standard version.
+This is likely due to using an outdated version of LUMINOUS OS.
+NOTE: This feature is still buggy, it is not perfect.
+Please choose a boot option:
+1) Update the system
+2) Continue launching
+3) Terminate this instance"
+read -n1 -s val_opt
+if [[ "$val_opt" != "1" && "$val_opt" != "2" && "$val_opt" != "3" ]]; then
+VALIDATION_FAILED
+elif [ $val_opt == 1 ]; then
+curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
+cat SERVER.TMP > e.sh | rm SERVER.TMP
+touch tmp.sh
+echo "./e.sh" >> tmp.sh
+./tmp.sh
+rm tmp.sh
+clear
+elif [ $val_opt == 2 ]; then
+echo "Press Enter to continue..."
+elif [ $val_opt == 3 ]; then
+exit 0
+fi
+}
+VALIDATION_FUNCTION() {
+    echo "Validating system...
+    "
+    valf=0
+curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP > downloaded.tmp
+        cmp downloaded.tmp e.sh && echo "System check complete, continuing..." || valf=1; VALIDATION_FAILED
+        rm downloaded.tmp
+}
+VALIDATION_FUNCTION
+
+
+
+recovery() {
+    clear
+    printf "\e[44m"  
+    clear
+    printf "\e[97m\e[1mRecovery\n"  
+    printf "\e[0m"
+    printf "\e[44mLUMINOUS OS has crashed five (or more) times in this session.
+Here are some recovery options:
+
+1) Reboot and try again
+2) Disable MCMDB Mode (If it's on) and restart
+3) Reinstall LUMINOUS OS\n"
+    printf "\e[0m"
+    read -n1 -s rec
+
+    if [[ "$rec" != "1" && "$rec" != "2" && "$rec" != "3" ]]; then
+        recovery
+    elif [ $rec == "1" ]; then
+    clear
+printf "${RED}Restarting...${NOCOLOR}"
+   clear
+   echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Event-Log.log
+echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Info-Log.log
+e
+ON
+
+elif [ $rec == "2" ]; then
+echo "[REMOVED.]"
+
+elif [ $rec == "3" ]; then
+curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
+touch FAILSAFE.SH
+cat SERVER.TMP > e.sh | rm SERVER.TMP
+echo "touch tmp.sh
+echo "./e.sh" >> tmp.sh
+./tmp.sh
+rm tmp.sh
+if [ -e "e.sh" ] && [ ! "$(wc -c < "e.sh")" -gt 3 ]; then
+./RECOVERY_SCRIPT.SH
+else
+./e.sh
+fi" > FAILSAFE.SH
+./FAILSAFE.SH
+fi
+}
+
+BLUE='\033[0;34m'
+
+echo "Making sure all logs are up to date..."
+mkdir CONFIG
+clear
+echo "Making sure all logs are up to date..."
+printf "${BLUE}#
+"
+echo "1/5 done."
+clear
+sleep 0.1
+touch CONFIG/Event-Log.log
+printf "${BLUE}##
+"
+echo "2/5 done."
+clear
+sleep 0.1
+touch CONFIG/Error-Log.log
+printf "${BLUE}###
+"
+echo "3/5 done."
+clear
+sleep 0.1
+touch CONFIG/Info-Log.log
+printf "${BLUE}####
+"
+echo "4/5 done."
+clear
+sleep 0.1
+touch CONFIG/Warning-Log.log
+printf "${BLUE}#####
+"
+echo "5/5 done, getting ready."
+printf "${NOCOLOR}"
+sleep 1
+esh1="e.sh"
+rm LOG.TXT
+if [ -e "$esh1" ]; then
+    esh=$(<"$esh1")
+    fi
+
+MCMDBON=0
+ RED='\033[0;31m'
+ BGB='\e[104m'
+ft=1
+Power=1
+quote=\"start\"
+quote2=\"list\"
+
+  
 
 while [ $Power -eq 1 ]; do
     if declare -f e > /dev/null; then
