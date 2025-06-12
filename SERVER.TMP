@@ -1,3 +1,38 @@
+CF="CONFIG/CRASH-DATA"
+EFUNC()  {
+while [ $Power -eq 1 ]; do
+    if declare -f e > /dev/null; then
+      e
+      break
+    else
+      echo "BOOT FAILED!"
+      sleep 0.1
+    fi
+
+  echo "Your bootloader cannot load."
+  echo "If the function is found, you will enter the OS."
+  echo "Functionality will be limited."
+  read -p "Press Enter to continue..." 2>/dev/tty
+
+  if declare -f ON > /dev/null; then
+    Power=2
+    ON
+    break
+  else
+    echo "The function that keeps the OS on was not found. 
+Your OS is corrupted, please re-install it."
+    read -p "Press Enter to continue..." 2>/dev/tty
+    exit 0
+  fi
+done
+}
+
+ONFUNC() {
+  while [ $Power == 2 ]; do
+  ON
+done
+}
+
 chmod -R 777 .
 LO=0
 NOCOLOR='\033[0m'
@@ -140,7 +175,7 @@ SIGNIN () {
     fi
   fi
 }
-line=$(sed -n '4p' "$file")
+line=$(sed -n '7p' "$file")
   if [ -z "$line" ] || [ $line == "" ]; then
   echo "0" >> CONFIG/CONFIG.CFG
   LO=1
@@ -353,11 +388,11 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
-echo "Version 5.4 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 5.5 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
-echo "Version 5.4, contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 5.5, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 fi
@@ -402,28 +437,33 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
-echo "Version 5.4 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 5.5 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
-echo "Version 5.4, contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 5.5, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 fi
     Power=2
 }
 
-
 # ON FUNCTION IS HERE SILLY
 
 function ON () {
+Power=2
 sedfile=0
 filewrite=0
 writefile=0
 einfo=0
 signin=pass.txt
-read -p "Command: " cmd 2>/dev/tty
+cmd=0
+local code=$?
 
+  if [[ $code == 1 || $code == 2 || $code == 130 ]]; then
+    crashSYS
+  fi
+read -p "Command: " cmd 2>/dev/tty
   if [ $cmd == "list" ]; then
   if [ $MCMDB == 1 ]; then
   ./COMMANDS/listMCMDB.sh
@@ -598,11 +638,26 @@ fi
 
 
 
-
+CRDEV() {
+echo "Do you want to enable extra information in the case of a crash?
+-1 Yes
+-2 No"
+CRDEV=0
+read -n1 -t 999999999999999999999999 CRDEV 2>/dev/tty
+if [ "$CRDEV" != "1" ] && [ "$CRDEV" != "2" ]; then
+    echo "
+    Invalid input, try again."
+    CRDEV 
+    elif [ $CRDEV == "1" ]; then
+    echo "1" >> $file
+    elif [ $CRDEV == "2" ]; then
+    echo "0" >> $file
+    fi
+}
 
 MUF() {
   echo "
-  Finally, would you like to have up to three total users?
+  Alright! Would you like to have up to three total users?
 -1 Yes
 -2 No"
     FLAG=0
@@ -626,6 +681,7 @@ echo "$USR3" >> CONFIG/CONFIG.CFG
   echo "0" >> CONFIG.CFG  
   echo "0" >> CONFIG.CFG
   fi
+  CRDEV
 }
 
 beta() {
@@ -753,13 +809,13 @@ curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentThe
 ./RECOVERY_SCRIPT.SH &
 
 crashSYS() {
-  trap - EXIT
     line=$(sed -n '1p' "$file")
       line2=$(sed -n '2p' "$file")
         line3=$(sed -n '3p' "$file")
           line4=$(sed -n '4p' "$file")
             line5=$(sed -n '5p' "$file")
               line6=$(sed -n '6p' "$file")
+                line7=$(sed -n '7p' "$file")
   PK="\033[38;5;199m"
   BL="\033[38;5;20m"
   BOL="\033[1m"
@@ -820,6 +876,17 @@ line6="USER NOT IN USE"
 fi
 printf "${BOL}${PK}USER 3: $line6
 "
+if [ $line7 == "1" ]; then
+line7="YES"
+ln7=1
+elif [ $line7 == "0" ]; then
+line7="NO"
+ln7=0
+else
+line7="INVALID OR MISSING (WILL BE TREATED AS YES.)"
+fi
+printf "${BOL}${PK}EXTRA CRASH CONTENT: $line7
+"
 RDCODE="0"
 if [ $code == "1" ]; then
 RDCODE="GENERIC BUILT IN SCRIPT FALIURE
@@ -862,19 +929,59 @@ val_opt="YES"
 else
 val_opt="NO"
 fi
-printf "${BOL}${PK}VERSION: 5.4
+printf "${BOL}${PK}VERSION: 5.5
 PASSED VALIDATION: $valf
 IGNORED VALIDATION: $val_opt
 BOOTLOADER INTACT: $BTL
 CRITICAL FUNCTION: $SYS${NOCOLOR}
 ${GL}- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -${NOCOLOR}
 " 
-  printf "${RD}ERROR CODE:${NOCOLOR} ${BL}$RDCODE${NOCOLOR}${GR}Apon restarting, the system may be unstable, and the window may close.${NOCOLOR}
+if [ "$ln7" = "0" ]; then
+  printf "${RD}ERROR CODE:${NOCOLOR} ${BL}$RDCODE${NOCOLOR}${GR}Upon restarting, the system may be unstable, and the window may close.${NOCOLOR}
 "
   read -p "Press Enter to continue" 2>/dev/tty
   clear
   e
-} # go back
+else
+  printf "${RD}EXTRA INFORMATION:${NOCOLOR}
+${GL}- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -${NOCOLOR}
+"
+  sc="$(basename "${BASH_SOURCE[0]}")"
+  sd="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+  sp="$sd/$sc"
+
+  printf "${BOL}${PK}OS FILE NAME (IF NOT e.sh MAY CAUSE PROBLEMS.): $sc
+${BOL}${PK}OS DIRECTORY: $sd
+${BOL}${PK}OS FULL PATH: $sp${NOCOLOR}
+${GL}- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -${NOCOLOR}
+"
+  if [ "$ln7" = "0" ]; then
+    printf "${RD}ERROR CODE:${NOCOLOR} ${BL}$RDCODE${NOCOLOR}${GR}Upon restarting, the system may be unstable, and the window may close.${NOCOLOR}
+"
+  else
+    printf "${RD}ERROR CODE:${NOCOLOR} ${BL}$RDCODE ($code) 
+${NOCOLOR}${GR}There is a new restart, this will only work on Windows. If you are on a different OS, contact skibiditoiletcumrocket67 on Discord, I will create a new restart function if needed :P${NOCOLOR}
+"
+  fi
+fi
+
+read -p "Press Enter to continue..." 2>/dev/tty
+sc="$(basename "${BASH_SOURCE[0]}")"
+  sd="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+  sp="$sd/$sc"
+echo "3MB FILLER TEXT" > $CF
+powershell -command "$sp"
+exit 0
+CRASHEDRESTARTABLE=1
+RESTARTONCRASH
+CRASHEDRESTARTABLE=1
+  RESTARTONCRASH
+  Power=1
+  EFUNC
+  Power=2
+  ONFUNC
+  
+}
 
 crash() {
 printf "\033[10;40H\e[1mLUMINOUS OS\e[0m
@@ -914,9 +1021,11 @@ echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d`
 e
 ON
 }
+
 val_opt=0
+
 VALIDATION_FAILED() {
-  rm downloaded.tmp
+  rm -f downloaded.tmp
   clear
   echo "Your system differs from the current standard version.
 This is likely due to using an outdated version of LUMINOUS OS.
@@ -925,33 +1034,53 @@ Please choose a boot option:
 1) Update the system
 2) Continue launching
 3) Terminate this instance"
-read -n1 -s val_opt
-if [[ "$val_opt" != "1" && "$val_opt" != "2" && "$val_opt" != "3" ]]; then
-VALIDATION_FAILED
-elif [ $val_opt == 1 ]; then
-curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
-cat SERVER.TMP > e.sh | rm SERVER.TMP
-touch tmp.sh
-echo "./e.sh" >> tmp.sh
-./tmp.sh
-rm tmp.sh
-clear
-elif [ $val_opt == 2 ]; then
-echo "Press Enter to continue..."
-elif [ $val_opt == 3 ]; then
-exit 0
-fi
-}
-VALIDATION_FUNCTION() {
-    echo "Validating system...
-    "
-    valf=0
-curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP > downloaded.tmp
-        cmp downloaded.tmp e.sh && echo "System check complete, continuing..." || valf=1; VALIDATION_FAILED
-        rm downloaded.tmp
-}
-VALIDATION_FUNCTION
 
+  read -n1 -s val_opt
+  echo
+
+  case "$val_opt" in
+    1)
+      curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
+      mv SERVER.TMP e.sh
+      chmod +x e.sh
+      ./e.sh
+      exit 0
+      ;;
+    2)
+      echo "ignore"
+      ;;
+    3)
+      exit 0
+      ;;
+    *)
+      VALIDATION_FAILED
+      ;;
+  esac
+}
+
+VALIDATION_FUNCTION() {
+  echo "Validating system..."
+  curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP > downloaded.tmp
+
+  if cmp -s downloaded.tmp e.sh; then
+    echo "System check complete, continuing..."
+  else
+    VALIDATION_FAILED
+  fi
+
+  rm -f downloaded.tmp
+}
+
+
+if [ -e $CF ]; then
+  rm "$CF"
+  Power=1
+  bypassval=1
+  e
+fi
+if [ "$bypassval" != 1 ]; then
+VALIDATION_FUNCTION
+fi
 
 
 recovery() {
@@ -1050,34 +1179,10 @@ ft=1
 Power=1
 quote=\"start\"
 quote2=\"list\"
-
-  
-
-while [ $Power -eq 1 ]; do
-    if declare -f e > /dev/null; then
-      e
-      break
-    else
-      echo "BOOT FAILED!"
-      sleep 0.1
-    fi
-
-  echo "Your bootloader cannot load."
-  echo "If the function is found, you will enter the OS."
-  echo "Functionality will be limited."
-  read -p "Press Enter to continue..." 2>/dev/tty
-
-  if declare -f ON > /dev/null; then
-    Power=2
-    ON
-    break
-  else
-    echo "The function that keeps the OS on was not found. 
-Your OS is corrupted, please re-install it."
-    read -p "Press Enter to continue..." 2>/dev/tty
-    exit 0
-  fi
-done
-  while [ $Power == 2 ]; do
-  ON
-done
+EFUNC
+ONFUNC
+RESTARTONCRASH() {
+  while [ $CRASHEDRESTARTABLE == 1 ]; do
+  trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
+  done
+}
