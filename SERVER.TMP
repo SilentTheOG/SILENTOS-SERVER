@@ -1,7 +1,471 @@
+mkdir BOOTLOADERS
+touch BOOTLOADERS/BACKUP.SH
+cat << 'EOF' > BOOTLOADERS/BACKUP.SH
+function e() {
+  trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
+  if declare -f ON > /dev/null; then
+      echo "Continue"
+      else
+        echo "The function that keeps the OS on was not found. 
+Your OS is corrupted, please re-install it."
+        read -p "Press Enter to continue..." 2>/dev/tty
+        exit 0
+      fi
+clear
+MCMDB=0
+
+  echo "                                                                                                    
+                                                                                                    
+                                                                                                    
+                                              @@@@@                                                 
+                                           @@@@@@@@@@@                                              
+                                          @@@@@@@@@@@@@                                             
+                                   @@@@@@@@@@@@@@@@@@@@@                                            
+              @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                                            
+             @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                                          
+               @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                                      
+                 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                                    
+                   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ @@@@@@@@@@@@                                   
+                     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@   @@@@@@@@@@@                                   
+                     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    @@@@@@@@@@@@                                 
+                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@      @@@@@@  @@@                                
+                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@          @@@  @@@                               
+                   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@           @@@  @@@                              
+                   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@            @@@  @@@                             
+                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@             @@@  @@@                            
+                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@              @@@@  @@@                          
+                     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@               @@@  @@@                         
+                      @@@@@@@@@@@@@@@@@@@@@@@@@@@@@                 @@@  @@@                        
+                        @@@@@@@@@@@@@@@@@@@@@@@@@@@@                 @@@  @@@                       
+                          @@@@@@@@@@@@@    @@@@@@@@@                  @@@  @@@@                     
+                                             @@@@@@@                   @@@@  @@@                    
+                                                @@@@                     @@@  @@@                   
+                                                 @@@                      @@@  @@@                  
+                                                                           @@@ @@@@@@               
+      LUMINOUS IS BOOTING                                                   @@@@@@@@@@@             
+          PLEASE WAIT.                                                       @@@@@@@@@@             
+                                                                             @@@@@@@@@@             
+                                                                             @@@@@@@@@@             
+                                                                            @@@ @@@@                
+                                                                          @@@   @@@                 
+                                                                          @@@  @@@                  
+                                                                         @@@  @@@                   
+                                                                        @@   @@@                    
+                                                                      @@@   @@@                     
+                                                                     @@@   @@@                      
+                                                                    @@@   @@@                       
+                                                                   @@@   @@@                        
+                                                                  @@@   @@@                         
+                                                                 @@@  @@@                           
+                                                                @@@  @@@                            
+                                                               @@@  @@@                             
+                                                              @@@  @@@                              
+                                                             @@@  @@@                               
+                                                            @@@  @@@                                
+                                            @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@              
+                                          @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@              
+                                          @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@              
+                                            @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@              
+                                                                                                    
+                                                                                                    
+                                                                                                    "
+                                                                                                    
+                                                                                                    read -n1 -t 1 cmd0 2>/dev/tty
+  clear
+if [ "$cmd0" == "M" ]; then
+    clear
+    echo "<INFO> Boot menu launched. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Event-Log.log
+    echo "<INFO> Boot menu launched. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Info-Log.log
+    echo "                                                                                                                                                                                                
+                                                                                                    
+                                                                                                    
+                                              @@@@@                                                 
+                                           @@@@@@@@@@@                                              
+                                          @@@@@@@@@@@@@                                             
+                                   @@@@@@@@@@@@@@@@@@@@@                                            
+              @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                                            
+             @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                                          
+               @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                                      
+                 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                                    
+                   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ @@@@@@@@@@@@                                   
+                     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@   @@@@@@@@@@@                                   
+                     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    @@@@@@@@@@@@                                 
+                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@      @@@@@@  @@@                                
+                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@          @@@  @@@                               
+                   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@           @@@  @@@                              
+                   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@            @@@  @@@                             
+                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@             @@@  @@@                            
+                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@              @@@@  @@@                          
+                     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@               @@@  @@@                         
+                      @@@@@@@@@@@@@@@@@@@@@@@@@@@@@                 @@@  @@@                        
+                        @@@@@@@@@@@@@@@@@@@@@@@@@@@@                 @@@  @@@                       
+                          @@@@@@@@@@@@@    @@@@@@@@@                  @@@  @@@@                     
+                                             @@@@@@@                   @@@@  @@@                    
+                                                @@@@                     @@@  @@@                   
+                                                 @@@                      @@@  @@@                  
+  ┏━  ┓ ┳┳┳┳┓┳┳┓┏┓┳┳┏┓  ━┓                                                 @@@ @@@@@@               
+  ┃   ┃ ┃┃┃┃┃┃┃┃┃┃┃┃┗┓   ┃                                                  @@@@@@@@@@             
+  ┗━  ┗┛┗┛┛ ┗┻┛┗┗┛┗┛┗┛  ━┛                                                   @@@@@@@@@@           
+    ┳┓┏┓┏┓┏┳┓  ┳┳┓┏┓┳┓┳┳                                                      @@@@@@@@@@           
+    ┣┫┃┃┃┃ ┃   ┃┃┃┣ ┃┃┃┃                                                       @@@@@@@@@@           
+    ┻┛┗┛┗┛ ┻   ┛ ┗┗┛┛┗┗┛                                                        @@@@@@@@@           
+                                                                                @@@@@@@@     
+     1-Safe Mode                                                                @@@@@@@@   
+     2-Refresh all files (Except logs.)                                        @@@@@@@@ 
+     3-Bypass bootloader (Not recommended$exc)                                   @@@@@@@@@
+     4-Re-install LUMINOUS OS                                                @@@@@@@@@
+     5-Boot with custom arguments                                            @@@@@@@@@
+     6-Continue booting                                                     @@@@@@@@@             
+                                                                            @@@ @@@@                
+                                                                           @@@  @@@                 
+                                                                          @@@  @@@                  
+                                                                         @@@  @@@                   
+                                                                        @@   @@@                    
+                                                                      @@@   @@@                     
+                                                                     @@@   @@@                      
+                                                                    @@@   @@@                       
+                                                                   @@@   @@@                        
+                                                                  @@@   @@@                         
+                                                                 @@@   @@@                          
+                                                                @@@   @@@                           
+                                                               @@@   @@@                            
+                                                              @@@   @@@                             
+                                                             @@@   @@@                              
+                                                            @@@   @@@                               
+                                            @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@              
+                                          @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@              
+                                          @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@              
+                                            @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+
+    tput civis
+    i=0
+    anm() {
+    prev=-1
+    while :; do
+        if [ "$prev" -ge 0 ]; then
+            tput cup 45 $((2 + prev * 2)); echo " "
+            tput cup 46 $((2 + prev * 2)); echo "O"
+        fi
+        tput cup 45 $((2 + i * 2)); echo "O"
+        tput cup 46 $((2 + i * 2)); echo " "
+        prev=$i
+        i=$(( (i + 1) % 30 ))
+        sleep 0.05
+    done
+}
+
+    anm &
+    PID=$!
+
+    BOOTMENU=0
+    read -n1 -t 999999999999999999999999 BOOTMENU
+    kill $PID 2>/dev/null
+    wait $PID 2>/dev/null
+    tput cnorm
+
+    if [ "$BOOTMENU" == "1" ]; then
+        echo "[REMOVED.]"
+    elif [ "$BOOTMENU" == "2" ]; then
+        echo "[REMOVED.]"
+        clear
+    elif [ "$BOOTMENU" == "3" ]; then
+        clear
+        Power=2
+        ON
+    elif [ "$BOOTMENU" == "4" ]; then
+        curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
+        touch FAILSAFE.SH
+        cat SERVER.TMP > e.sh | rm SERVER.TMP
+        echo "touch tmp.sh
+echo \"./e.sh\" >> tmp.sh
+./tmp.sh
+rm tmp.sh
+if [ -e \"e.sh\" ] && [ ! \"\$(wc -c < \"e.sh\")\" -gt 3 ]; then
+./RECOVERY_SCRIPT.SH
+else
+./e.sh
+fi" > FAILSAFE.SH
+        ./FAILSAFE.SH
+        elif [ "$BOOTMENU" == "5" ]; then
+        echo "Will be added soon."
+    elif [ "$BOOTMENU" == "6" ]; then
+        clear
+    else
+        clear
+        echo "Not an option!"
+        sleep 1
+        clear
+    fi
+fi
+  if [ $setup == 1 ]; then
+  clear
+  check
+  else
+  echo ""
+  fi
+  line=$(sed -n '3p' "$file")
+  if [ $line == 0 ]; then
+  MCMDB=0
+  else
+  MCMDB=1
+  fi
+SIGNIN () {
+  ALLOW=0
+  line=$(sed -n '4p' "$file")
+  if [ "$line" == "1" ]; then
+  clear
+    echo "Select profile:"
+    line=$(sed -n '2p' "$file")
+    echo "User 1 - $line"
+    ALLOW=1
+
+    line=$(sed -n '5p' "$file")
+    if [ "$line" != "0" ]; then
+      echo "User 2 - $line"
+      ALLOW1=1
+    else
+      echo "User 2 not found."
+      ALLOW1=0
+    fi
+
+    line=$(sed -n '6p' "$file")
+    if [ "$line" != "0" ]; then
+      echo "User 3 - $line"
+      ALLOW2=1
+    else
+      echo "User 3 not found."
+      ALLOW2=0
+    fi
+
+    MUL=0
+    read -n1 -t 999999999999999999999999 MUL 2>/dev/tty
+    clear
+
+    if [ "$MUL" != "1" ] && [ "$MUL" != "2" ] && [ "$MUL" != "3" ]; then
+      echo "
+      Invalid input, try again."
+      SIGNIN
+    elif [ "$MUL" == "1" ]; then 
+      MUL=1
+    elif [ "$MUL" == "2" ]; then
+      if [ "$ALLOW1" == "1" ]; then
+        MUL=2
+      else
+        SIGNIN
+      fi
+    elif [ "$MUL" == "3" ]; then
+      if [ "$ALLOW2" == "1" ]; then
+        MUL=3
+      else
+        SIGNIN
+      fi
+    else
+      MUL=1
+    fi
+  fi
+}
+line=$(sed -n '7p' "$file")
+  if [ -z "$line" ] || [ $line == "" ]; then
+  echo "0" >> CONFIG/CONFIG.CFG
+  LO=1
+  echo "There is a new flag in setup, it is recommended to check it out$exc"
+  read -p "Press Enter to continue..." 2>/dev/tty
+  fi
+if [ $LO == 0 ]; then
+SIGNIN
+else
+MUL=1
+fi
+
+  code=0
+  trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
+
+
+if [ ! -e "$file" ]; then
+echo "<ERROR> One or more config file(s) was not found. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Event-Log.log
+echo "<ERROR> One or more config file(s) was not found. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Error-Log.log
+    printf "${RED}                                ......
+                               :      :
+                               :      :
+                               :      : 
+                               :      : 
+                               :      : 
+                               :      : 
+                               :      : 
+                               :      : 
+                               :      : 
+                               :      : 
+                                ......
+
+                                ......
+                               :      :
+                               :      :
+                                ......
+MISSING OS CONFIGURATION INFO!
+CREATING CONFIG INFO.
+
+"
+printf "${BLUE}-Note: If you have MCMDB Mode on this will turn it off and you will need to turn it back on.${RED}"
+echo "" > CONFIG/CONFIG.CFG
+if [ -e "$file" ]; then
+echo "
+Sucess!"
+./e.sh
+else
+echo "There has been an error creating the configuration file, you may still boot, however you will lose access to a number of features.
+It is recommended to reinstall LUMINOUS OS."
+read -p "Press Enter to continue..." 2>/dev/tty
+printf "${NOCOLOR}"
+clear
+echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Event-Log.log
+echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Info-Log.log
+clear
+   echo "      @@@@@         @@@@@    @@@@@      @@@@@@      @@@@@@      @@@@@@      @@@@@     @@@@        @@@@@@@@@       @@@@@@    @@@@@      @@@@@@@@@  
+      @@@@          @@@@      @@@        @@@@@     @@@@@@        @@@@       @@@@@      @        @@@@     @@@@      @@@       @@      @@@@     @@  
+      @@@@          @@@@     @@@        @@ @@@    @@ @@@        @@@@        @@ @@@    @@      @@@@       @@@@     @@@@      @@@      @@@@         
+     @@@@          @@@@      @@@       @@  @@@   @@ @@@@        @@@@       @@  @@@@   @@      @@@@       @@@@     @@@      @@@        @@@@@       
+     @@@@          @@@      @@@        @@  @@@ @@   @@@        @@@@        @@   @@@@ @@      @@@@       @@@@     @@@@      @@@          @@@@@@    
+    @@@@          @@@@      @@@       @@@  @@@@@   @@@@        @@@        @@     @@@ @@      @@@@      @@@@@     @@@@     @@@             @@@@    
+    @@@     @@@   @@@@     @@@        @@    @@@    @@@        @@@@        @@      @@@@       @@@@     @@@@       @@@      @@@      @@     @@@@    
+  @@@@@@@@@@@@      @@@@@@@@         @@@@        @@@@@@      @@@@@@     @@@@      @@@@         @@@@@@@@@          @@@@@@@@@       @@@@@@@@@@      
+  BACKUP LOADER."
+if [ $MUL == 1 ]; then
+line=$(sed -n '2p' "$file")
+elif [ $MUL == 2 ]; then 
+line=$(sed -n '5p' "$file")
+elif [ $MUL == 3 ]; then
+line=$(sed -n '6p' "$file")
+else
+line="UNKNOWN USER"
+fi
+rand=$((RANDOM % 3))
+if [ "$rand" -eq 0 ]; then
+  res="We hope you brought pizza$exc"
+elif [ "$rand" -eq 1 ]; then
+  res="How's your day going?"
+else
+  res="Hope you're doing well$exc"
+fi
+echo "Welcome, $line$exc $res"
+if [ $MCMDB == 1 ]; then 
+echo "Version 5.6 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+                       echo "Use command $quote2 for a list of commands
+"
+else
+echo "Version 5.6, contact skibiditoiletcumrocket67 on Discord for more details."
+                       echo "Use command $quote2 for a list of commands
+"
+fi
+ON
+clear
+fi
+
+
+
+
+fi
+
+echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Event-Log.log
+echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Info-Log.log
+./RECOVERY_SCRIPT.SH &
+clear
+echo "      @@@@@         @@@@@    @@@@@      @@@@@@      @@@@@@      @@@@@@      @@@@@     @@@@        @@@@@@@@@       @@@@@@    @@@@@      @@@@@@@@@  
+      @@@@          @@@@      @@@        @@@@@     @@@@@@        @@@@       @@@@@      @        @@@@     @@@@      @@@       @@      @@@@     @@  
+      @@@@          @@@@     @@@        @@ @@@    @@ @@@        @@@@        @@ @@@    @@      @@@@       @@@@     @@@@      @@@      @@@@         
+     @@@@          @@@@      @@@       @@  @@@   @@ @@@@        @@@@       @@  @@@@   @@      @@@@       @@@@     @@@      @@@        @@@@@       
+     @@@@          @@@      @@@        @@  @@@ @@   @@@        @@@@        @@   @@@@ @@      @@@@       @@@@     @@@@      @@@          @@@@@@    
+    @@@@          @@@@      @@@       @@@  @@@@@   @@@@        @@@        @@     @@@ @@      @@@@      @@@@@     @@@@     @@@             @@@@    
+    @@@     @@@   @@@@     @@@        @@    @@@    @@@        @@@@        @@      @@@@       @@@@     @@@@       @@@      @@@      @@     @@@@    
+  @@@@@@@@@@@@      @@@@@@@@         @@@@        @@@@@@      @@@@@@     @@@@      @@@@         @@@@@@@@@          @@@@@@@@@       @@@@@@@@@@      
+  BACKUP LOADER."
+if [ $MUL == 1 ]; then
+line=$(sed -n '2p' "$file")
+elif [ $MUL == 2 ]; then 
+line=$(sed -n '5p' "$file")
+elif [ $MUL == 3 ]; then
+line=$(sed -n '6p' "$file")
+else
+line="UNKNOWN USER"
+fi
+rand=$((RANDOM % 3))
+if [ "$rand" -eq 0 ]; then
+  res="We hope you brought pizza$exc"
+elif [ "$rand" -eq 1 ]; then
+  res="How's your day going?"
+else
+  res="Hope you're doing well$exc"
+fi
+echo "Welcome, $line$exc $res"
+if [ $MCMDB == 1 ]; then 
+echo "Version 5.6 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+                       echo "Use command $quote2 for a list of commands
+"
+else
+echo "Version 5.6, contact skibiditoiletcumrocket67 on Discord for more details."
+                       echo "Use command $quote2 for a list of commands
+"
+fi
+    Power=2
+}
+EOF
+cbl() {
+  clear
+  cbly() {
+    clear
+  shopt -s nullglob
+  files=()
+  for f in BOOTLOADERS/*; do
+    [[ "$(basename "$f")" != "BACKUP.SH" ]] && files+=("$f")
+  done
+  
+  if [ ${#files[@]} -eq 0 ]; then
+    echo "No bootloader files available."
+    return
+  fi
+  for i in "${!files[@]}"; do
+    echo "$((i+1))) $(basename "${files[i]}")"
+  done
+  read -p "Choose a bootloader to load: " choice 2>/dev/tty
+  
+  if [[ "$choice" =~ ^[0-9]+$ ]] && (( choice >= 1 && choice <= ${#files[@]} )); then
+    fts="${files[$((choice-1))]}"
+    echo "Loading $fts..."
+    . "$fts"
+  else
+    echo "Invalid choice. Defaulting to built in."
+  fi
+  }
+  CBLC=0
+  echo "Do you want to check for other bootloaders?
+  1) Yes
+  2) No"
+read -n1 -t 999999999999999999999999 CBLC 2>/dev/tty
+
+    if [ "$CBLC" != "1" ] && [ "$CBLC" != "2" ]; then
+      echo "
+      Invalid input, try again."
+      cbl
+      elif [ "$CBLC" == "1" ]; then
+      cbly
+      elif [ "$CBLC" == "2" ]; then
+      clear
+      fi
+}
+# go back
 CF="CONFIG/CRASH-DATA"
 EFUNC()  {
 while [ $Power -eq 1 ]; do
     if declare -f e > /dev/null; then
+    cbl
+
       e
       break
     else
@@ -9,10 +473,14 @@ while [ $Power -eq 1 ]; do
       sleep 0.1
     fi
 
-  echo "Your bootloader cannot load."
-  echo "If the function is found, you will enter the OS."
-  echo "Functionality will be limited."
+  echo "Your bootloader cannot load. Falling back to backup bootloader..."
+  if [ -z BOOTLOADERS/BACKUP.SH ]; then 
+  echo "The backup bootloader could not be found. You will bypass it and the OS will function with less stability."
   read -p "Press Enter to continue..." 2>/dev/tty
+  else
+  . BOOTLOADERS/BACKUP.SH
+  e
+  fi
 
   if declare -f ON > /dev/null; then
     Power=2
@@ -26,7 +494,6 @@ Your OS is corrupted, please re-install it."
   fi
 done
 }
-
 ONFUNC() {
   while [ $Power == 2 ]; do
   ON
@@ -109,92 +576,9 @@ MCMDB=0
                                                                                                     
                                                                                                     "
                                                                                                     
-  if [ $setup == 1 ]; then
-  clear
-  check
-  else
-  echo ""
-  fi
-  line=$(sed -n '3p' "$file")
-  if [ $line == 0 ]; then
-  MCMDB=0
-  else
-  MCMDB=1
-  fi
-SIGNIN () {
-  ALLOW=0
-  line=$(sed -n '4p' "$file")
-  if [ "$line" == "1" ]; then
-  clear
-    echo "Select profile:"
-    line=$(sed -n '2p' "$file")
-    echo "User 1 - $line"
-    ALLOW=1
-
-    line=$(sed -n '5p' "$file")
-    if [ "$line" != "0" ]; then
-      echo "User 2 - $line"
-      ALLOW1=1
-    else
-      echo "User 2 not found."
-      ALLOW1=0
-    fi
-
-    line=$(sed -n '6p' "$file")
-    if [ "$line" != "0" ]; then
-      echo "User 3 - $line"
-      ALLOW2=1
-    else
-      echo "User 3 not found."
-      ALLOW2=0
-    fi
-
-    MUL=0
-    read -n1 -t 999999999999999999999999 MUL 2>/dev/tty
-
-    if [ "$MUL" != "1" ] && [ "$MUL" != "2" ] && [ "$MUL" != "3" ]; then
-      echo "
-      Invalid input, try again."
-      SIGNIN
-    elif [ "$MUL" == "1" ]; then 
-      MUL=1
-    elif [ "$MUL" == "2" ]; then
-      if [ "$ALLOW1" == "1" ]; then
-        MUL=2
-      else
-        SIGNIN
-      fi
-    elif [ "$MUL" == "3" ]; then
-      if [ "$ALLOW2" == "1" ]; then
-        MUL=3
-      else
-        SIGNIN
-      fi
-    else
-      MUL=1
-    fi
-  fi
-}
-line=$(sed -n '7p' "$file")
-  if [ -z "$line" ] || [ $line == "" ]; then
-  echo "0" >> CONFIG/CONFIG.CFG
-  LO=1
-  echo "There is a new flag in setup, it is recommended to check it out$exc"
-  read -p "Press Enter to continue..." 2>/dev/tty
-  fi
-if [ $LO == 0 ]; then
-SIGNIN
-else
-MUL=1
-fi
-
-  code=0
-  trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
-read -n1 -t 1 cmd0 2>/dev/tty
-sleep 1
+                                                                                                    read -n1 -t 1 cmd0 2>/dev/tty
   clear
 if [ "$cmd0" == "M" ]; then
-    sleep 1
     clear
     echo "<INFO> Boot menu launched. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
 " >> CONFIG/Event-Log.log
@@ -238,7 +622,8 @@ if [ "$cmd0" == "M" ]; then
      2-Refresh all files (Except logs.)                                        @@@@@@@@ 
      3-Bypass bootloader (Not recommended$exc)                                   @@@@@@@@@
      4-Re-install LUMINOUS OS                                                @@@@@@@@@
-     5-Continue booting                                                     @@@@@@@@@             
+     5-Boot with custom arguments                                            @@@@@@@@@
+     6-Continue booting                                                     @@@@@@@@@             
                                                                             @@@ @@@@                
                                                                            @@@  @@@                 
                                                                           @@@  @@@                  
@@ -309,7 +694,9 @@ else
 ./e.sh
 fi" > FAILSAFE.SH
         ./FAILSAFE.SH
-    elif [ "$BOOTMENU" == "5" ]; then
+        elif [ "$BOOTMENU" == "5" ]; then
+        echo "Will be added soon."
+    elif [ "$BOOTMENU" == "6" ]; then
         clear
     else
         clear
@@ -318,6 +705,89 @@ fi" > FAILSAFE.SH
         clear
     fi
 fi
+  if [ $setup == 1 ]; then
+  clear
+  check
+  else
+  echo ""
+  fi
+  line=$(sed -n '3p' "$file")
+  if [ $line == 0 ]; then
+  MCMDB=0
+  else
+  MCMDB=1
+  fi
+SIGNIN () {
+  ALLOW=0
+  line=$(sed -n '4p' "$file")
+  if [ "$line" == "1" ]; then
+  clear
+    echo "Select profile:"
+    line=$(sed -n '2p' "$file")
+    echo "User 1 - $line"
+    ALLOW=1
+
+    line=$(sed -n '5p' "$file")
+    if [ "$line" != "0" ]; then
+      echo "User 2 - $line"
+      ALLOW1=1
+    else
+      echo "User 2 not found."
+      ALLOW1=0
+    fi
+
+    line=$(sed -n '6p' "$file")
+    if [ "$line" != "0" ]; then
+      echo "User 3 - $line"
+      ALLOW2=1
+    else
+      echo "User 3 not found."
+      ALLOW2=0
+    fi
+
+    MUL=0
+    read -n1 -t 999999999999999999999999 MUL 2>/dev/tty
+    clear
+
+    if [ "$MUL" != "1" ] && [ "$MUL" != "2" ] && [ "$MUL" != "3" ]; then
+      echo "
+      Invalid input, try again."
+      SIGNIN
+    elif [ "$MUL" == "1" ]; then 
+      MUL=1
+    elif [ "$MUL" == "2" ]; then
+      if [ "$ALLOW1" == "1" ]; then
+        MUL=2
+      else
+        SIGNIN
+      fi
+    elif [ "$MUL" == "3" ]; then
+      if [ "$ALLOW2" == "1" ]; then
+        MUL=3
+      else
+        SIGNIN
+      fi
+    else
+      MUL=1
+    fi
+  fi
+}
+line=$(sed -n '7p' "$file")
+  if [ -z "$line" ] || [ $line == "" ]; then
+  echo "0" >> CONFIG/CONFIG.CFG
+  LO=1
+  echo "There is a new flag in setup, it is recommended to check it out$exc"
+  read -p "Press Enter to continue..." 2>/dev/tty
+  fi
+if [ $LO == 0 ]; then
+SIGNIN
+else
+MUL=1
+fi
+
+  code=0
+  trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
+
 
 if [ ! -e "$file" ]; then
 echo "<ERROR> One or more config file(s) was not found. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
@@ -361,6 +831,7 @@ echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d`
 " >> CONFIG/Event-Log.log
 echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
 " >> CONFIG/Info-Log.log
+clear
    echo "      @@@@@         @@@@@    @@@@@      @@@@@@      @@@@@@      @@@@@@      @@@@@     @@@@        @@@@@@@@@       @@@@@@    @@@@@      @@@@@@@@@  
       @@@@          @@@@      @@@        @@@@@     @@@@@@        @@@@       @@@@@      @        @@@@     @@@@      @@@       @@      @@@@     @@  
       @@@@          @@@@     @@@        @@ @@@    @@ @@@        @@@@        @@ @@@    @@      @@@@       @@@@     @@@@      @@@      @@@@         
@@ -388,11 +859,11 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
-echo "Version 5.5 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 5.6 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
-echo "Version 5.5, contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 5.6, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 fi
@@ -410,6 +881,7 @@ echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d`
 echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
 " >> CONFIG/Info-Log.log
 ./RECOVERY_SCRIPT.SH &
+clear
 echo "      @@@@@         @@@@@    @@@@@      @@@@@@      @@@@@@      @@@@@@      @@@@@     @@@@        @@@@@@@@@       @@@@@@    @@@@@      @@@@@@@@@  
       @@@@          @@@@      @@@        @@@@@     @@@@@@        @@@@       @@@@@      @        @@@@     @@@@      @@@       @@      @@@@     @@  
       @@@@          @@@@     @@@        @@ @@@    @@ @@@        @@@@        @@ @@@    @@      @@@@       @@@@     @@@@      @@@      @@@@         
@@ -437,11 +909,11 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
-echo "Version 5.5 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 5.6 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
-echo "Version 5.5, contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 5.6, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 fi
@@ -929,7 +1401,7 @@ val_opt="YES"
 else
 val_opt="NO"
 fi
-printf "${BOL}${PK}VERSION: 5.5
+printf "${BOL}${PK}VERSION: 5.6
 PASSED VALIDATION: $valf
 IGNORED VALIDATION: $val_opt
 BOOTLOADER INTACT: $BTL
@@ -960,7 +1432,7 @@ ${GL}- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -${NO
 "
   else
     printf "${RD}ERROR CODE:${NOCOLOR} ${BL}$RDCODE ($code) 
-${NOCOLOR}${GR}There is a new restart, this will only work on Windows. If you are on a different OS, contact skibiditoiletcumrocket67 on Discord, I will create a new restart function if needed :P${NOCOLOR}
+${NOCOLOR}${GR}Upon restarting, the system may be unstable, and the window may close.${NOCOLOR}
 "
   fi
 fi
