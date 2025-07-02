@@ -160,7 +160,7 @@ if [ "$cmd0" == "M" ]; then
     PID=$!
 
     BOOTMENU=0
-    read -n1 -t 999999999999999999999999 BOOTMENU
+    read -n1 BOOTMENU
     kill $PID 2>/dev/null
     wait $PID 2>/dev/null
     tput cnorm
@@ -240,7 +240,7 @@ SIGNIN () {
     fi
 
     MUL=0
-    read -n1 -t 999999999999999999999999 MUL 2>/dev/tty
+    read -n1 MUL 2>/dev/tty
     clear
 
     if [ "$MUL" != "1" ] && [ "$MUL" != "2" ] && [ "$MUL" != "3" ]; then
@@ -354,11 +354,11 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
-echo "Version 5.6 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 5.7 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
-echo "Version 5.6, contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 5.7, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 fi
@@ -405,11 +405,11 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
-echo "Version 5.6 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 5.7 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
-echo "Version 5.6, contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 5.7, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 fi
@@ -438,7 +438,14 @@ cbl() {
   if [[ "$choice" =~ ^[0-9]+$ ]] && (( choice >= 1 && choice <= ${#files[@]} )); then
     fts="${files[$((choice-1))]}"
     echo "Loading $fts..."
+    if grep -q -E '^\s*(function\s+)?e\s*\(\)' "$fts"; then
+    echo "Load successful on file $fts. Finishing up..."
     . "$fts"
+else
+    echo "$fts does not seem to be a bootloader file, falling back to default loader."
+    read -p "Press Enter to continue..." 2>/dev/tty
+fi
+
   else
     echo "Invalid choice. Defaulting to built in."
   fi
@@ -447,7 +454,7 @@ cbl() {
   echo "Do you want to check for other bootloaders?
   1) Yes
   2) No"
-read -n1 -t 999999999999999999999999 CBLC 2>/dev/tty
+read -n1 CBLC 2>/dev/tty
 
     if [ "$CBLC" != "1" ] && [ "$CBLC" != "2" ]; then
       echo "
@@ -459,7 +466,6 @@ read -n1 -t 999999999999999999999999 CBLC 2>/dev/tty
       clear
       fi
 }
-# go back
 CF="CONFIG/CRASH-DATA"
 EFUNC()  {
 while [ $Power -eq 1 ]; do
@@ -666,7 +672,7 @@ if [ "$cmd0" == "M" ]; then
     PID=$!
 
     BOOTMENU=0
-    read -n1 -t 999999999999999999999999 BOOTMENU
+    read -n1 BOOTMENU
     kill $PID 2>/dev/null
     wait $PID 2>/dev/null
     tput cnorm
@@ -746,7 +752,7 @@ SIGNIN () {
     fi
 
     MUL=0
-    read -n1 -t 999999999999999999999999 MUL 2>/dev/tty
+    read -n1 MUL 2>/dev/tty
     clear
 
     if [ "$MUL" != "1" ] && [ "$MUL" != "2" ] && [ "$MUL" != "3" ]; then
@@ -859,11 +865,11 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
-echo "Version 5.6 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 5.7 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
-echo "Version 5.6, contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 5.7, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 fi
@@ -909,11 +915,11 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
-echo "Version 5.6 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 5.7 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
-echo "Version 5.6, contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 5.7, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 fi
@@ -1073,15 +1079,23 @@ elif [ $cmd == "crashtest" ]; then
   clear
 crash
 
-
+elif [ -z "$cmd" ]; then
+printf ""
 
 else
 fn="${cmd}.sh"
-    if [ -e "COMMANDS/$fn" ]; then
-    ./COMMANDS/$fn
+
+if [ -e "COMMANDS/$fn" ]; then
+    if grep -q -E '^\s*(function\s+)?cmdf\s*\(\)' "COMMANDS/$fn"; then
+        . "COMMANDS/$fn"
+        cmdf
+    else
+        printf "%s exists as a custom command, but has no command function.\n" "$cmd"
+    fi
 else
-    printf "$cmd is not a valid command.\n"
+    printf "%s is not a valid command.\n" "$cmd"
 fi
+
   fi
   }
 
@@ -1115,7 +1129,7 @@ echo "Do you want to enable extra information in the case of a crash?
 -1 Yes
 -2 No"
 CRDEV=0
-read -n1 -t 999999999999999999999999 CRDEV 2>/dev/tty
+read -n1 CRDEV 2>/dev/tty
 if [ "$CRDEV" != "1" ] && [ "$CRDEV" != "2" ]; then
     echo "
     Invalid input, try again."
@@ -1133,7 +1147,7 @@ MUF() {
 -1 Yes
 -2 No"
     FLAG=0
-  read -n1 -t 999999999999999999999999 FLAG 2>/dev/tty
+  read -n1 FLAG 2>/dev/tty
   if [ "$FLAG" != "1" ] && [ "$FLAG" != "2" ]; then
     echo "
     Invalid input, try again."
@@ -1161,7 +1175,7 @@ beta() {
 -1 Yeah!
 -2 Nope."
   BETA=0
-  read -n1 -t 999999999999999999999999 BETA 2>/dev/tty
+  read -n1 BETA 2>/dev/tty
   if [ "$BETA" != "1" ] && [ "$BETA" != "2" ]; then
     echo "Invalid input, try again."
     beta
@@ -1401,10 +1415,10 @@ val_opt="YES"
 else
 val_opt="NO"
 fi
-printf "${BOL}${PK}VERSION: 5.6
+printf "${BOL}${PK}VERSION: 5.7
 PASSED VALIDATION: $valf
 IGNORED VALIDATION: $val_opt
-BOOTLOADER INTACT: $BTL
+NATIVE BOOTLOADER INTACT: $BTL
 CRITICAL FUNCTION: $SYS${NOCOLOR}
 ${GL}- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -${NOCOLOR}
 " 
