@@ -1,20 +1,41 @@
+CF="CONFIG/CRASH-DATA"
 cmd0m=0
 nb=0
+printf '\e[8;60;245t'
 devm=0
 exec 2>/dev/null
+
+if [ -e $CF ]; then
+read -p "Luminous OS has crashed last time you have used it, if this is the first time, don't worry. If this keeps happening it's recommended to reinstall!
+Press Enter to continue..." 2>/dev/tty
+fi
+
     if declare -f ON > /dev/null; then
         SYS="YES"
     else
         SYS="NO"
     fi
 
+echo "                                                                                                       LUMINOUS OS is updating command files...
 
+
+
+
+
+
+
+
+
+"
+echo "          [                                                                                                                                                                                                                            ]
+          [                                                                                                                                                                                                                            ]
+          [                                                                                                                                                                                                                            ]
+          [                                                                                                                                                                                                                            ]"
 if [ ! -d "COMMANDS" ]; then
 echo "Making commands folder..."
     mkdir "COMMANDS"
 fi
-echo "Re-installing commands, this happens every session."
-echo "Please wait..."
+
 cat << 'EOF' > COMMANDS/repair.sh
 cmdf() {
     if declare -f e > /dev/null; then
@@ -46,6 +67,72 @@ cmdf() {
 }
 
 EOF
+clear
+echo "                                                                                                       LUMINOUS OS is updating command files...
+
+
+
+
+
+
+
+
+
+"
+echo "          [====================                                                                                                                                                                                                        ]
+          [====================                                                                                                                                                                                                        ]
+          [====================                                                                                                                                                                                                        ]
+          [====================                                                                                                                                                                                                        ]"
+
+cat << 'EOF' > COMMANDS/shutdown.sh
+cmdf(){
+if [ $arg == "/e" ]; then
+exit 0
+elif [ $arg == "/m" ]; then
+cmd0m=1
+cmd0=M
+e
+elif [ $arg == "/r" ]; then
+e
+ON
+elif [ $arg == "/s" ]; then
+setup=1
+echo "0" > CONFIG/CONFIG.CFG
+e
+ON
+elif [ $arg == "/DEVMODE" ]; then
+exec 2>/dev/tty
+devm=1
+e
+ON
+elif [ $arg == "/?" ]; then
+echo "Shutdown command arguments:
+/e - Exits the window
+/r - Restarts the system
+/m - Restarts and boots into boot menu
+/s - Restarts into setup"
+else
+echo "Invalid or empty argument, use 'shutdown /?' for a list of arguments."
+fi
+}
+EOF
+
+clear
+echo "                                                                                                       LUMINOUS OS is updating command files...
+
+
+
+
+
+
+
+
+
+"
+echo "          [==============================                                                                                                                                                                                    ]
+          [==============================                                                                                                                                                                                    ]
+          [==============================                                                                                                                                                                                    ]
+          [==============================                                                                                                                                                                                    ]"
 
 echo 'echo "Command list:
     shutdown (NEW!)
@@ -60,11 +147,41 @@ echo 'echo "Command list:
     restart
     echo
     update"' > COMMANDS/list.sh
-    echo 'echo "Logs have been deprecated and will be removed soon."' > COMMANDS/log.sh
-echo 'echo "Logs have been deprecated and will be removed soon."' > COMMANDS/errorlog.sh
-echo 'echo "Logs have been deprecated and will be removed soon."' > COMMANDS/infolog.sh
-echo 'echo "Logs have been deprecated and will be removed soon."' > COMMANDS/warninglog.sh
-echo 'echo "Logs have been deprecated and will be removed soon."' > COMMANDS/clearlog.sh
+
+clear
+echo "                                                                                                       LUMINOUS OS is updating command files...
+
+
+
+
+
+
+
+
+
+"
+echo "          [==================================================                                                                                                                                                                ]
+          [==================================================                                                                                                                                                                ]
+          [==================================================                                                                                                                                                                ]
+          [==================================================                                                                                                                                                                ]"
+
+clear
+echo "                                                                                                       LUMINOUS OS is updating command files...
+
+
+
+
+
+
+
+
+
+"
+echo "          [======================================================================================================================================================                                                  ]
+          [======================================================================================================================================================                                                  ]
+          [======================================================================================================================================================                                                  ]
+          [======================================================================================================================================================                                                  ]
+          [======================================================================================================================================================                                                  ]"
 echo 'echo "OMG LIGHTNING MCQUEEN SLAYYYY GIRLIE OMGGGGGGGGGGGG
                                                               ............--                         
                                                      .....-++###++++++++##-..             ------     
@@ -96,14 +213,72 @@ echo 'echo "OMG LIGHTNING MCQUEEN SLAYYYY GIRLIE OMGGGGGGGGGGGG
     #########################################################################++#####                 
      #############################################################################                   
                      ###############################################"' > COMMANDS/IAMSPEED.sh
+clear
+echo "                                                                                                       LUMINOUS OS is updating command files...
+
+
+
+
+
+
+
+
+
+"
+echo "          [==========================================================================================================================================================================                              ]
+          [==========================================================================================================================================================================                              ]
+          [==========================================================================================================================================================================                              ]
+          [==========================================================================================================================================================================                              ]"
+
 echo 'echo "NOTE: This only works on a Windows system!"
 psc=0
 read -p "Powershell command:" psc 2>/dev/tty
 powershell -command "$psc"' > COMMANDS/powershell.sh
+clear
+echo "                                                                                                       LUMINOUS OS is updating command files...
+
+
+
+
+
+
+
+
+
+"
+echo "          [==================================================================================================================================================================================================================          ]
+          [==================================================================================================================================================================================================================          ]
+          [==================================================================================================================================================================================================================          ]
+          [==================================================================================================================================================================================================================          ]"
+
 echo 'read -p "What file would you like to see the contents of? " sedfile 2>/dev/tty
 sed '' "$sedfile"
 echo ""' > COMMANDS/sed.sh
 
+
+clear
+echo "                                                                                                       LUMINOUS OS is updating command files...
+
+
+
+
+
+
+
+
+
+"
+echo "          [============================================================================================================================================================================================================================]
+          [============================================================================================================================================================================================================================]
+          [============================================================================================================================================================================================================================]
+          [============================================================================================================================================================================================================================]"
+read -p "
+
+
+
+
+                                                                                                              Command update finished!
+                                                                                                       Press Enter to continue to LUMINOUS OS" 2>/dev/tty
 
 
 
@@ -267,7 +442,7 @@ val_opt="YES"
 else
 val_opt="NO"
 fi
-printf "${BOL}${PK}VERSION: 5.9
+printf "${BOL}${PK}VERSION: 6.0
 PASSED VALIDATION: $valf
 IGNORED VALIDATION: $val_opt
 NATIVE BOOTLOADER INTACT: $BTL
@@ -434,12 +609,12 @@ if [ "$cmd0" == "M" ]; then
     ┣┫┃┃┃┃ ┃   ┃┃┃┣ ┃┃┃┃                                                       @@@@@@@@@@           
     ┻┛┗┛┗┛ ┻   ┛ ┗┗┛┛┗┗┛                                                        @@@@@@@@@           
                                                                                 @@@@@@@@     
-     1-Safe Mode                                                                @@@@@@@@   
-     2-Refresh all files (Except logs.)                                        @@@@@@@@ 
-     3-Bypass bootloader (Not recommended$exc)                                   @@@@@@@@@
-     4-Re-install LUMINOUS OS                                                @@@@@@@@@
-     5-Boot with custom loader (buggy)                                      @@@@@@@@@
-     6-Continue booting                                                     @@@@@@@@@             
+                                                                                @@@@@@@@   
+                                                                               @@@@@@@@ 
+     1-Bypass bootloader (Not recommended$exc)                                   @@@@@@@@@
+     2-Re-install LUMINOUS OS                                                @@@@@@@@@
+     3-Boot with custom loader (buggy)                                      @@@@@@@@@
+     4-Continue booting                                                     @@@@@@@@@             
                                                                             @@@ @@@@                
                                                                            @@@  @@@                 
                                                                           @@@  @@@                  
@@ -460,43 +635,12 @@ if [ "$cmd0" == "M" ]; then
                                           @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@              
                                           @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@              
                                             @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-
-    tput civis
-    i=0
-    anm() {
-    prev=-1
-    while :; do
-        if [ "$prev" -ge 0 ]; then
-            tput cup 45 $((2 + prev * 2)); echo " "
-            tput cup 46 $((2 + prev * 2)); echo "O"
-        fi
-        tput cup 45 $((2 + i * 2)); echo "O"
-        tput cup 46 $((2 + i * 2)); echo " "
-        prev=$i
-        i=$(( (i + 1) % 30 ))
-        sleep 0.05
-    done
-}
-
-    anm &
-    PID=$!
-
-    BOOTMENU=0
-    read -n1 BOOTMENU
-    kill $PID 2>/dev/null
-    wait $PID 2>/dev/null
-    tput cnorm
-
+read -n1 BOOTMENU
     if [ "$BOOTMENU" == "1" ]; then
-        echo "[REMOVED.]"
-    elif [ "$BOOTMENU" == "2" ]; then
-        echo "[REMOVED.]"
-        clear
-    elif [ "$BOOTMENU" == "3" ]; then
         clear
         Power=2
         ON
-    elif [ "$BOOTMENU" == "4" ]; then
+    elif [ "$BOOTMENU" == "2" ]; then
         curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
         touch FAILSAFE.SH
         cat SERVER.TMP > e.sh | rm SERVER.TMP
@@ -510,10 +654,17 @@ else
 ./e.sh
 fi" > FAILSAFE.SH
         ./FAILSAFE.SH
-        elif [ "$BOOTMENU" == "5" ]; then
+        elif [ "$BOOTMENU" == "3" ]; then
         cbl
-    elif [ "$BOOTMENU" == "6" ]; then
+    elif [ "$BOOTMENU" == "4" ]; then
         clear
+
+elif [ "$BOOTMENU" == "d" ]; then
+exec 2>/dev/tty
+devm=1
+echo "[SECRET] Developer mode enabled."
+read
+
     else
         clear
         echo "Not an option!"
@@ -521,6 +672,7 @@ fi" > FAILSAFE.SH
         clear
     fi
 fi
+
   if [ $setup == 1 ]; then
   clear
   check
@@ -678,11 +830,11 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
-echo "Version 5.9 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 6.0$exc$exc$exc (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
-echo "Version 5.9, contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 6.0$exc$exc$exc, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 fi
@@ -732,11 +884,11 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
-echo "Version 5.9 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 6.0$exc$exc$exc (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
-echo "Version 5.9, contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 6.0$exc$exc$exc, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 fi
@@ -794,7 +946,7 @@ read -n1 CBLC 2>/dev/tty
       clear
       fi
 }
-CF="CONFIG/CRASH-DATA"
+
 EFUNC()  {
 while [ $Power -eq 1 ]; do
     if declare -f e > /dev/null; then
@@ -957,12 +1109,12 @@ if [ "$cmd0" == "M" ]; then
     ┣┫┃┃┃┃ ┃   ┃┃┃┣ ┃┃┃┃                                                       @@@@@@@@@@           
     ┻┛┗┛┗┛ ┻   ┛ ┗┗┛┛┗┗┛                                                        @@@@@@@@@           
                                                                                 @@@@@@@@     
-     1-Safe Mode                                                                @@@@@@@@   
-     2-Refresh all files (Except logs.)                                        @@@@@@@@ 
-     3-Bypass bootloader (Not recommended$exc)                                   @@@@@@@@@
-     4-Re-install LUMINOUS OS                                                @@@@@@@@@
-     5-Boot with custom loader (buggy)                                      @@@@@@@@@
-     6-Continue booting                                                     @@@@@@@@@             
+                                                                                @@@@@@@@   
+                                                                               @@@@@@@@ 
+     1-Bypass bootloader (Not recommended$exc)                                   @@@@@@@@@
+     2-Re-install LUMINOUS OS                                                @@@@@@@@@
+     3-Boot with custom loader (buggy)                                      @@@@@@@@@
+     4-Continue booting                                                     @@@@@@@@@             
                                                                             @@@ @@@@                
                                                                            @@@  @@@                 
                                                                           @@@  @@@                  
@@ -983,43 +1135,12 @@ if [ "$cmd0" == "M" ]; then
                                           @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@              
                                           @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@              
                                             @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-
-    tput civis
-    i=0
-    anm() {
-    prev=-1
-    while :; do
-        if [ "$prev" -ge 0 ]; then
-            tput cup 45 $((2 + prev * 2)); echo " "
-            tput cup 46 $((2 + prev * 2)); echo "O"
-        fi
-        tput cup 45 $((2 + i * 2)); echo "O"
-        tput cup 46 $((2 + i * 2)); echo " "
-        prev=$i
-        i=$(( (i + 1) % 30 ))
-        sleep 0.05
-    done
-}
-
-    anm &
-    PID=$!
-
-    BOOTMENU=0
-    read -n1 BOOTMENU
-    kill $PID 2>/dev/null
-    wait $PID 2>/dev/null
-    tput cnorm
-
+read -n1 BOOTMENU
     if [ "$BOOTMENU" == "1" ]; then
-        echo "[REMOVED.]"
-    elif [ "$BOOTMENU" == "2" ]; then
-        echo "[REMOVED.]"
-        clear
-    elif [ "$BOOTMENU" == "3" ]; then
         clear
         Power=2
         ON
-    elif [ "$BOOTMENU" == "4" ]; then
+    elif [ "$BOOTMENU" == "2" ]; then
         curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
         touch FAILSAFE.SH
         cat SERVER.TMP > e.sh | rm SERVER.TMP
@@ -1033,10 +1154,17 @@ else
 ./e.sh
 fi" > FAILSAFE.SH
         ./FAILSAFE.SH
-        elif [ "$BOOTMENU" == "5" ]; then
+        elif [ "$BOOTMENU" == "3" ]; then
         cbl
-    elif [ "$BOOTMENU" == "6" ]; then
+    elif [ "$BOOTMENU" == "4" ]; then
         clear
+
+elif [ "$BOOTMENU" == "d" ]; then
+exec 2>/dev/tty
+devm=1
+echo "[SECRET] Developer mode enabled."
+read
+
     else
         clear
         echo "Not an option!"
@@ -1200,11 +1328,11 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
-echo "Version 5.9 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 6.0$exc$exc$exc (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
-echo "Version 5.9, contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 6.0$exc$exc$exc, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 fi
@@ -1253,11 +1381,11 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
-echo "Version 5.9 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 6.0$exc$exc$exc (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
-echo "Version 5.9, contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 6.0$exc$exc$exc, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 fi
@@ -1373,48 +1501,6 @@ elif [ $cmd == "app" ]; then
 elif [[ $cmd == "IAMSPEED" ]]; then
 ./"COMMANDS/IAMSPEED.sh"
 
-elif [ $cmd == "shutdown" ] && [ $arg == "/r" ] && [ $MCMDBON == 0 ];then
- clear
-   printf  "${RED}Restarting...${NOCOLOR}"
-   clear
-   echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Event-Log.log
-echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Info-Log.log
-e
-ON
-
-elif [ $cmd == "shutdown" ] && [ $arg == "/r" ] && [ $MCMDBON == 1 ]; then
-e
-ON
-   echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Event-Log.log
-echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
-" >> CONFIG/Info-Log.log
-
-
-
-elif [ $cmd == "shutdown" ]; then
-if [ $arg == "/e" ]; then
-exit 0
-elif [ $arg == "/m" ]; then
-cmd0m=1
-cmd0=M
-e
-elif [ $arg == "/s" ]; then
-setup=1
-echo "0" > CONFIG/CONFIG.CFG
-e
-ON
-elif [ $arg == "/?" ]; then
-echo "Shutdown command arguments:
-/e - Exits the window
-/r - Restarts the system
-/m - Restarts and boots into boot menu
-/s - Restarts into setup"
-else
-echo "Invalid or empty argument, use 'shutdown /?' for a list of arguments."
-fi
 
 elif [ $cmd == "powershell" ]; then
 ./COMMANDS/powershell.sh
@@ -1429,11 +1515,7 @@ elif [ $cmd == "clear" ]; then
  echo "$arg"
     Power=2
   
-elif [ $cmd == "DEVMODE" ]; then
-exec 2>/dev/tty
-devm=1
-e
-ON
+
 
 elif [ -z "$cmd" ]; then
 printf ""
@@ -1783,7 +1865,7 @@ val_opt="YES"
 else
 val_opt="NO"
 fi
-printf "${BOL}${PK}VERSION: 5.9
+printf "${BOL}${PK}VERSION: 6.0
 PASSED VALIDATION: $valf
 IGNORED VALIDATION: $val_opt
 NATIVE BOOTLOADER INTACT: $BTL
@@ -1913,6 +1995,14 @@ Please choose a boot option:
     3)
       exit 0
       ;;
+    4)
+    devm=1
+    exec 2>/dev/tty
+    clear
+    read -p "[SECRET] Developer mode enabled.
+Press Enter to continue..." 2>/dev/tty
+clear
+      ;;
     *)
       VALIDATION_FAILED
       ;;
@@ -1920,7 +2010,7 @@ Please choose a boot option:
 }
 
 VALIDATION_FUNCTION() {
-  echo "Validating system..."
+  echo "Validating system..."                              
   curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP > downloaded.tmp
 
   if cmp -s downloaded.tmp e.sh; then
@@ -1935,7 +2025,7 @@ VALIDATION_FUNCTION() {
 
 if [ -e $CF ]; then
   rm "$CF"
-  Power=1
+  Power=2
   bypassval=1
 fi
 if [ "$bypassval" != 1 ]; then
@@ -1993,39 +2083,7 @@ fi
 
 BLUE='\033[0;34m'
 
-echo "Making sure all logs are up to date..."
-mkdir CONFIG
-clear
-echo "Making sure all logs are up to date..."
-printf "${BLUE}#
-"
-echo "1/5 done."
-clear
-sleep 0.1
-touch CONFIG/Event-Log.log
-printf "${BLUE}##
-"
-echo "2/5 done."
-clear
-sleep 0.1
-touch CONFIG/Error-Log.log
-printf "${BLUE}###
-"
-echo "3/5 done."
-clear
-sleep 0.1
-touch CONFIG/Info-Log.log
-printf "${BLUE}####
-"
-echo "4/5 done."
-clear
-sleep 0.1
-touch CONFIG/Warning-Log.log
-printf "${BLUE}#####
-"
-echo "5/5 done, getting ready."
-printf "${NOCOLOR}"
-sleep 1
+
 esh1="e.sh"
 rm LOG.TXT
 if [ -e "$esh1" ]; then
