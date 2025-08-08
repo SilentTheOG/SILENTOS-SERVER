@@ -1,3 +1,25 @@
+RAW="stty raw opost"
+SANE="stty sane -isig susp undef"
+
+readline(){
+    OLD_STTY=`stty -g`
+    $RAW
+    stty $OLD_STTY
+}
+
+$RAW
+if [ -e ".session.lock" ]; then
+    pid=`cat .session.lock`
+    echo "LUMINOUS OS IS ALREADY OPEN (PID $pid)"
+    echo -n "Press any key to continue . . . " 
+    read -n 1
+    echo
+    $SANE
+    exit 1
+fi
+echo -n $$ >> .session.lock
+clear
+trap 'rm .session.lock' EXIT
 CF="CONFIG/CRASH-DATA"
 cmd0m=0
 nb=0
@@ -6,8 +28,8 @@ devm=0
 exec 2>/dev/null
 
 if [ -e $CF ]; then
-read -p "Luminous OS has crashed last time you have used it, if this is the first time, don't worry. If this keeps happening it's recommended to reinstall!
-Press Enter to continue..." 2>/dev/tty
+read -n 1 -p "Luminous OS has crashed last time you have used it, if this is the first time, don't worry. If this keeps happening it's recommended to reinstall!
+Press any key to continue..." 2>/dev/tty
 fi
 
     if declare -f ON > /dev/null; then
@@ -272,7 +294,7 @@ echo "          [===============================================================
           [============================================================================================================================================================================================================================]
           [============================================================================================================================================================================================================================]
           [============================================================================================================================================================================================================================]"
-read -p "
+read -n 1 -p "
 
 
 
@@ -280,8 +302,8 @@ read -p "
                                                                                                               Command update finished!
                                                                                                        Press Enter to continue to LUMINOUS OS" 2>/dev/tty
 
-
-
+echo
+$SANE
 
 NF="\033[0m"
 FB="\033[1m"
@@ -1540,109 +1562,133 @@ fi
 
 
 
+# only works for options that are single digits
+setup_prompt(){
+  $RAW
+  echo $2
+  for (( i=3; i<=$#; i++)); do
+    printf -- "-%d %s\n" $((i - 2)) "${!i}"
+  done
+  read -n 1 $1
+  local ascii=`printf "%d" "'${!1}"`
+  while (( $ascii < 48 || $ascii > 48 + $# - 2 )); do
+    read -n 1 $1
+    ascii=`printf "%d" "'${!1}"`
+  done
+  local opt=${!1}
+  local argn=$((opt + 2))
+  local offset=$(($# - 2 - $opt + 1))
+  printf "\e[%dA\e[7;1m-%d %s\e[0m\e[%dB\r" $offset $opt "${!argn}" $offset
+  $SANE
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ynbool() {
+  echo $2 $(( -($1 - 2) ))
+}
 
 
 CRINF() {
-  echo "
-Would you like to use a simpler crash screen, rather than extra info?
-  -1 Yes
-  -2 No
-  -3 Preview screens"
-  CRINF=0
-  read -n1 CRINF
-if [ "$CRINF" != "1" ] && [ "$CRINF" != "2" ] && [ "$CRINF" != "3" ]; then
-    echo "
-    Invalid input, try again."
-    CRINF
-    elif [ $CRINF == "1" ]; then
-    echo "1" >> $file
-    elif [ $CRINF == "2" ]; then
-    echo "0" >> $file
-    elif [ $CRINF == "3" ]; then
+  setup_prompt CRINF "Would you like to use a simpler crash screen, rather than extra info?" "Yes" "No" "Preview screens"
+  if [ $CRINF == "1" ] || [ $CRINF == "2" ]; then
+    ynbool $CRINF >> $file
+  elif [ $CRINF == "3" ]; then
     crsprv1
-    fi
+  fi
 }
 
+# CRDEV() {
+# echo "Do you want to enable extra information in the case of a crash?
+# -1 Yes
+# -2 No"
+# CRDEV=0
+# read -n1 CRDEV
+# if [ "$CRDEV" != "1" ] && [ "$CRDEV" != "2" ]; then
+#     echo "
+#     Invalid input, try again."
+#     CRDEV 
+#     elif [ $CRDEV == "1" ]; then
+#     echo "1" >> $file
+#     CRINF
+#     elif [ $CRDEV == "2" ]; then
+#     echo "0" >> $file
+#     CRINF
+#     fi
+# }
 CRDEV() {
-echo "Do you want to enable extra information in the case of a crash?
--1 Yes
--2 No"
-CRDEV=0
-read -n1 CRDEV
-if [ "$CRDEV" != "1" ] && [ "$CRDEV" != "2" ]; then
-    echo "
-    Invalid input, try again."
-    CRDEV 
-    elif [ $CRDEV == "1" ]; then
-    echo "1" >> $file
-    CRINF
-    elif [ $CRDEV == "2" ]; then
-    echo "0" >> $file
-    CRINF
-    fi
+  setup_prompt CRDEV "Do you want to enable extra information in the case of a crash?" Yes No
+  ynbool $CRDEV >> $file
+  CRINF
 }
 
+# MUF() {
+#   echo "
+#   Alright! Would you like to have up to three total users?
+# -1 Yes
+# -2 No"
+#     FLAG=0
+#   read -n1 FLAG 2>/dev/tty
+#   if [ "$FLAG" != "1" ] && [ "$FLAG" != "2" ]; then
+#     echo "
+#     Invalid input, try again."
+#     MUF
+#   elif [ "$FLAG" = "1" ]; then
+#   echo "1" >> CONFIG/CONFIG.CFG
+#   echo "
+#   What will be the users' name(s)? (Name a user '0' to not create that user.)"
+#   USR2=0
+# read -p "User 2 Name: " USR2 2>/dev/tty
+# echo "$USR2" >> CONFIG/CONFIG.CFG
+#   USR3=0
+# read -p "User 3 Name: " USR3 2>/dev/tty
+# echo "$USR3" >> CONFIG/CONFIG.CFG
+#   else
+#   echo "0" >> CONFIG.CFG
+#   echo "0" >> CONFIG.CFG  
+#   echo "0" >> CONFIG.CFG
+#   fi
+#   CRDEV
+# }
 MUF() {
-  echo "
-  Alright! Would you like to have up to three total users?
--1 Yes
--2 No"
-    FLAG=0
-  read -n1 FLAG 2>/dev/tty
-  if [ "$FLAG" != "1" ] && [ "$FLAG" != "2" ]; then
-    echo "
-    Invalid input, try again."
-    MUF
-  elif [ "$FLAG" = "1" ]; then
-  echo "1" >> CONFIG/CONFIG.CFG
-  echo "
-  What will be the users' name(s)? (Name a user '0' to not create that user.)"
-  USR2=0
-read -p "User 2 Name: " USR2 2>/dev/tty
-echo "$USR2" >> CONFIG/CONFIG.CFG
-  USR3=0
-read -p "User 3 Name: " USR3 2>/dev/tty
-echo "$USR3" >> CONFIG/CONFIG.CFG
+  setup_prompt FLAG "Alright! Would you like to have up to three total users?" Yes No
+  if [ "$FLAG" = "1" ]; then
+    echo "1" >> $file
+    echo "What will be the users' name(s)? (Name a user '0' to not create that user.)"
+    USR2=0
+    read -p "User 2 Name: " USR2 2>/dev/tty
+    echo "$USR2" >> $file
+      USR3=0
+    read -p "User 3 Name: " USR3 2>/dev/tty
+    echo "$USR3" >> $file
   else
-  echo "0" >> CONFIG.CFG
-  echo "0" >> CONFIG.CFG  
-  echo "0" >> CONFIG.CFG
+    echo "0" >> $file
+    echo "0" >> $file
+    echo "0" >> $file
   fi
   CRDEV
 }
 
+# beta() {
+#   echo "Awesome! Would you like to enable beta features? These may be buggy, but are not required.
+# -1 Yeah!
+# -2 Nope."
+#   BETA=0
+#   $RAW
+#   read -n1 BETA
+#   $SANE
+#   if [ "$BETA" != "1" ] && [ "$BETA" != "2" ]; then
+#     beta
+#   elif [ "$BETA" = "1" ]; then
+#     echo -e "\x1b[2A\x1b[7m-1 Yeah!\x1b[0m"
+#     echo "1" >> "$file"
+#   else
+#     echo -e "\x1b[A\x1b[7m-2 Nope.\x1b[0m"
+#     echo "0" >> "$file"
+#   fi
+#   MUF
+# }
 beta() {
-  echo "Awesome! Would you like to enable beta features? These may be buggy, but are not required.
--1 Yeah!
--2 Nope."
-  BETA=0
-  read -n1 BETA
-  if [ "$BETA" != "1" ] && [ "$BETA" != "2" ]; then
-    echo "Invalid input, try again."
-    beta
-  elif [ "$BETA" = "1" ]; then
-    echo "1" >> "$file"
-  else
-    echo "0" >> "$file"
-  fi
+  setup_prompt BETA "Awesome! Would you like to enable beta features? These may be buggy, but are not required." "Yeah!" "Nope."
+  ynbool $BETA >> $file
   MUF
 }
 check() {
