@@ -1,27 +1,28 @@
+#!/bin/bash
 RAW="stty raw opost"
 SANE="stty sane -isig susp undef"
 
-readline(){
-    OLD_STTY=`stty -g`
-    $RAW
-    stty $OLD_STTY
-}
-
 $RAW
 if [ -e ".session.lock" ]; then
-    pid=`cat .session.lock`
-    echo "LUMINOUS OS IS ALREADY OPEN (PID $pid)"
-    echo -n "Press any key to continue . . . " 
-    read -n 1
-    echo
-    $SANE
-    exit 1
+  pid=`cat .session.lock`
+  printf "\e[1;31mLUMINOUS OS IS ALREADY OPEN (PID $pid)\n"
+  printf "Kill and startup? (y/n) \e[0m"
+  read -n 1 OPTION
+  echo
+  if [ $OPTION == "y" ];
+  then
+    kill $pid
+  else
+    stty sane
+    exit
+  fi
 fi
 echo -n $$ >> .session.lock
 clear
 trap 'rm .session.lock' EXIT
 CF="CONFIG/CRASH-DATA"
 cmd0m=0
+<<<<<<< HEAD
 nb=0
 printf '\e[8;60;245t'
 devm=0
@@ -29,7 +30,7 @@ exec 2>/dev/null
 
 if [ -e $CF ]; then
 read -n 1 -p "Luminous OS has crashed last time you have used it, if this is the first time, don't worry. If this keeps happening it's recommended to reinstall!
-Press any key to continue..." 2>/dev/tty
+Press any key to continue . . . " 2>/dev/tty
 fi
 
     if declare -f ON > /dev/null; then
@@ -37,6 +38,10 @@ fi
     else
         SYS="NO"
     fi
+=======
+exec 2>/dev/null
+
+>>>>>>> parent of a99e7bf (new update :D)
 
 echo "                                                                                                       LUMINOUS OS is updating command files...
 
@@ -57,6 +62,7 @@ if [ ! -d "COMMANDS" ]; then
 echo "Making commands folder..."
     mkdir "COMMANDS"
 fi
+<<<<<<< HEAD
 
 cat << 'EOF' > COMMANDS/repair.sh
 cmdf() {
@@ -156,6 +162,10 @@ echo "          [==============================                                 
           [==============================                                                                                                                                                                                    ]
           [==============================                                                                                                                                                                                    ]"
 
+=======
+echo "Re-installing commands, this happens every session."
+echo "Please wait..."
+>>>>>>> parent of a99e7bf (new update :D)
 echo 'echo "Command list:
     shutdown (NEW!)
     clear
@@ -332,7 +342,6 @@ fi
  printf "${FB}${CW}${CB3}Your system has crashed, it is recommended that you reinstall LUMINOUS OS or if you are using a custom bootloader to use the default!
 We'll restart for you                                                                               
 STOP CODE: $RDCODE
-LAST COMMAND USED: $cmd $arg
 "
  printf "Press Enter to continue to setup...${NF}"
  read
@@ -464,7 +473,11 @@ val_opt="YES"
 else
 val_opt="NO"
 fi
+<<<<<<< HEAD
 printf "${BOL}${PK}VERSION: 6.0
+=======
+printf "${BOL}${PK}VERSION: 5.8
+>>>>>>> parent of a99e7bf (new update :D)
 PASSED VALIDATION: $valf
 IGNORED VALIDATION: $val_opt
 NATIVE BOOTLOADER INTACT: $BTL
@@ -480,11 +493,6 @@ else
   printf "${RD}EXTRA INFORMATION:${NOCOLOR}
 ${GL}- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -${NOCOLOR}
 "
-if [ $nb == 1 ]; then
-nb="YES"
-else
-nb="NO"
-fi
   sc="$(basename "${BASH_SOURCE[0]}")"
   sd="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
   sp="$sd/$sc"
@@ -492,8 +500,6 @@ fi
   printf "${BOL}${PK}OS FILE NAME (IF NOT e.sh MAY CAUSE PROBLEMS.): $sc
 ${BOL}${PK}OS DIRECTORY: $sd
 ${BOL}${PK}OS FULL PATH: $sp${NOCOLOR}
-${BOL}${PK}LAST COMMAND USED: $cmd $arg
-${BOL}${PK}NATIVE BOOTLOADER USED: $nb
 ${GL}- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -${NOCOLOR}
 "
   if [ "$ln7" = "0" ]; then
@@ -821,18 +827,15 @@ echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d`
 echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
 " >> CONFIG/Info-Log.log
 clear
-   echo "    @@@@@         @@@@@    @@@@@      @@@@@@      @@@@@@      @@@@@@      @@@@@     @@@@        @@@@@@@@@       @@@@@@    @@@@@      @@@@@@@@@  
-    @@@@          @@@@      @@@        @@@@@     @@@@@@        @@@@       @@@@@      @        @@@@     @@@@      @@@       @@      @@@@     @@  
-    @@@@          @@@@     @@@        @@ @@@    @@ @@@        @@@@        @@ @@@    @@      @@@@       @@@@     @@@@      @@@      @@@@         
-   @@@@          @@@@      @@@       @@  @@@   @@ @@@@        @@@@       @@  @@@@   @@      @@@@       @@@@     @@@      @@@        @@@@@       
-   @@@@          @@@      @@@        @@  @@@ @@   @@@        @@@@        @@   @@@@ @@      @@@@       @@@@     @@@@      @@@          @@@@@@    
-  @@@@          @@@@      @@@       @@@  @@@@@   @@@@        @@@        @@     @@@ @@      @@@@      @@@@@     @@@@     @@@             @@@@    
-  @@@     @@@   @@@@     @@@        @@    @@@    @@@        @@@@        @@      @@@@       @@@@     @@@@       @@@      @@@      @@     @@@@    
-@@@@@@@@@@@@      @@@@@@@@         @@@@        @@@@@@      @@@@@@     @@@@      @@@@         @@@@@@@@@          @@@@@@@@@       @@@@@@@@@@      
-BACKUP LOADER."
-    if [ $devm == "1" ]; then
-echo "DEVELOPER MODE."
-fi
+   echo "      @@@@@         @@@@@    @@@@@      @@@@@@      @@@@@@      @@@@@@      @@@@@     @@@@        @@@@@@@@@       @@@@@@    @@@@@      @@@@@@@@@  
+      @@@@          @@@@      @@@        @@@@@     @@@@@@        @@@@       @@@@@      @        @@@@     @@@@      @@@       @@      @@@@     @@  
+      @@@@          @@@@     @@@        @@ @@@    @@ @@@        @@@@        @@ @@@    @@      @@@@       @@@@     @@@@      @@@      @@@@         
+     @@@@          @@@@      @@@       @@  @@@   @@ @@@@        @@@@       @@  @@@@   @@      @@@@       @@@@     @@@      @@@        @@@@@       
+     @@@@          @@@      @@@        @@  @@@ @@   @@@        @@@@        @@   @@@@ @@      @@@@       @@@@     @@@@      @@@          @@@@@@    
+    @@@@          @@@@      @@@       @@@  @@@@@   @@@@        @@@        @@     @@@ @@      @@@@      @@@@@     @@@@     @@@             @@@@    
+    @@@     @@@   @@@@     @@@        @@    @@@    @@@        @@@@        @@      @@@@       @@@@     @@@@       @@@      @@@      @@     @@@@    
+  @@@@@@@@@@@@      @@@@@@@@         @@@@        @@@@@@      @@@@@@     @@@@      @@@@         @@@@@@@@@          @@@@@@@@@       @@@@@@@@@@      
+  BACKUP LOADER."
 if [ $MUL == 1 ]; then
 line=$(sed -n '2p' "$file")
 elif [ $MUL == 2 ]; then 
@@ -852,11 +855,19 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
+<<<<<<< HEAD
 echo "Version 6.0$exc$exc$exc (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
 echo "Version 6.0$exc$exc$exc, contact skibiditoiletcumrocket67 on Discord for more details."
+=======
+echo "Version 5.8 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+                       echo "Use command $quote2 for a list of commands
+"
+else
+echo "Version 5.8, contact skibiditoiletcumrocket67 on Discord for more details."
+>>>>>>> parent of a99e7bf (new update :D)
                        echo "Use command $quote2 for a list of commands
 "
 fi
@@ -875,18 +886,15 @@ echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d`
 " >> CONFIG/Info-Log.log
 ./RECOVERY_SCRIPT.SH &
 clear
-echo "    @@@@@         @@@@@    @@@@@      @@@@@@      @@@@@@      @@@@@@      @@@@@     @@@@        @@@@@@@@@       @@@@@@    @@@@@      @@@@@@@@@  
-    @@@@          @@@@      @@@        @@@@@     @@@@@@        @@@@       @@@@@      @        @@@@     @@@@      @@@       @@      @@@@     @@  
-    @@@@          @@@@     @@@        @@ @@@    @@ @@@        @@@@        @@ @@@    @@      @@@@       @@@@     @@@@      @@@      @@@@         
-   @@@@          @@@@      @@@       @@  @@@   @@ @@@@        @@@@       @@  @@@@   @@      @@@@       @@@@     @@@      @@@        @@@@@       
-   @@@@          @@@      @@@        @@  @@@ @@   @@@        @@@@        @@   @@@@ @@      @@@@       @@@@     @@@@      @@@          @@@@@@    
-  @@@@          @@@@      @@@       @@@  @@@@@   @@@@        @@@        @@     @@@ @@      @@@@      @@@@@     @@@@     @@@             @@@@    
-  @@@     @@@   @@@@     @@@        @@    @@@    @@@        @@@@        @@      @@@@       @@@@     @@@@       @@@      @@@      @@     @@@@    
-@@@@@@@@@@@@      @@@@@@@@         @@@@        @@@@@@      @@@@@@     @@@@      @@@@         @@@@@@@@@          @@@@@@@@@       @@@@@@@@@@      
-BACKUP LOADER."
-    if [ $devm == "1" ]; then
-echo "DEVELOPER MODE."
-fi
+echo "      @@@@@         @@@@@    @@@@@      @@@@@@      @@@@@@      @@@@@@      @@@@@     @@@@        @@@@@@@@@       @@@@@@    @@@@@      @@@@@@@@@  
+      @@@@          @@@@      @@@        @@@@@     @@@@@@        @@@@       @@@@@      @        @@@@     @@@@      @@@       @@      @@@@     @@  
+      @@@@          @@@@     @@@        @@ @@@    @@ @@@        @@@@        @@ @@@    @@      @@@@       @@@@     @@@@      @@@      @@@@         
+     @@@@          @@@@      @@@       @@  @@@   @@ @@@@        @@@@       @@  @@@@   @@      @@@@       @@@@     @@@      @@@        @@@@@       
+     @@@@          @@@      @@@        @@  @@@ @@   @@@        @@@@        @@   @@@@ @@      @@@@       @@@@     @@@@      @@@          @@@@@@    
+    @@@@          @@@@      @@@       @@@  @@@@@   @@@@        @@@        @@     @@@ @@      @@@@      @@@@@     @@@@     @@@             @@@@    
+    @@@     @@@   @@@@     @@@        @@    @@@    @@@        @@@@        @@      @@@@       @@@@     @@@@       @@@      @@@      @@     @@@@    
+  @@@@@@@@@@@@      @@@@@@@@         @@@@        @@@@@@      @@@@@@     @@@@      @@@@         @@@@@@@@@          @@@@@@@@@       @@@@@@@@@@      
+  BACKUP LOADER."
 if [ $MUL == 1 ]; then
 line=$(sed -n '2p' "$file")
 elif [ $MUL == 2 ]; then 
@@ -906,11 +914,19 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
+<<<<<<< HEAD
 echo "Version 6.0$exc$exc$exc (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
 echo "Version 6.0$exc$exc$exc, contact skibiditoiletcumrocket67 on Discord for more details."
+=======
+echo "Version 5.8 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+                       echo "Use command $quote2 for a list of commands
+"
+else
+echo "Version 5.8, contact skibiditoiletcumrocket67 on Discord for more details."
+>>>>>>> parent of a99e7bf (new update :D)
                        echo "Use command $quote2 for a list of commands
 "
 fi
@@ -954,8 +970,8 @@ fi
   }
   CBLC=0
   echo "Do you want to check for other bootloaders?
-1) Yes
-2) No"
+  1) Yes
+  2) No"
 read -n1 CBLC 2>/dev/tty
 
     if [ "$CBLC" != "1" ] && [ "$CBLC" != "2" ]; then
@@ -1017,7 +1033,6 @@ printf '\e[8;60;245t'
 file=CONFIG/CONFIG.CFG
 
 function e() {
-  nb=1
   trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
   if declare -f ON > /dev/null; then
       echo "Continue"
@@ -1320,17 +1335,14 @@ echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d`
 echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
 " >> CONFIG/Info-Log.log
 clear
-   echo "    @@@@@         @@@@@    @@@@@      @@@@@@      @@@@@@      @@@@@@      @@@@@     @@@@        @@@@@@@@@       @@@@@@    @@@@@      @@@@@@@@@  
-    @@@@          @@@@      @@@        @@@@@     @@@@@@        @@@@       @@@@@      @        @@@@     @@@@      @@@       @@      @@@@     @@  
-    @@@@          @@@@     @@@        @@ @@@    @@ @@@        @@@@        @@ @@@    @@      @@@@       @@@@     @@@@      @@@      @@@@         
-   @@@@          @@@@      @@@       @@  @@@   @@ @@@@        @@@@       @@  @@@@   @@      @@@@       @@@@     @@@      @@@        @@@@@       
-   @@@@          @@@      @@@        @@  @@@ @@   @@@        @@@@        @@   @@@@ @@      @@@@       @@@@     @@@@      @@@          @@@@@@    
-  @@@@          @@@@      @@@       @@@  @@@@@   @@@@        @@@        @@     @@@ @@      @@@@      @@@@@     @@@@     @@@             @@@@    
-  @@@     @@@   @@@@     @@@        @@    @@@    @@@        @@@@        @@      @@@@       @@@@     @@@@       @@@      @@@      @@     @@@@    
-@@@@@@@@@@@@      @@@@@@@@         @@@@        @@@@@@      @@@@@@     @@@@      @@@@         @@@@@@@@@          @@@@@@@@@       @@@@@@@@@@      "
-    if [ $devm == "1" ]; then
-echo "DEVELOPER MODE."
-fi
+   echo "      @@@@@         @@@@@    @@@@@      @@@@@@      @@@@@@      @@@@@@      @@@@@     @@@@        @@@@@@@@@       @@@@@@    @@@@@      @@@@@@@@@  
+      @@@@          @@@@      @@@        @@@@@     @@@@@@        @@@@       @@@@@      @        @@@@     @@@@      @@@       @@      @@@@     @@  
+      @@@@          @@@@     @@@        @@ @@@    @@ @@@        @@@@        @@ @@@    @@      @@@@       @@@@     @@@@      @@@      @@@@         
+     @@@@          @@@@      @@@       @@  @@@   @@ @@@@        @@@@       @@  @@@@   @@      @@@@       @@@@     @@@      @@@        @@@@@       
+     @@@@          @@@      @@@        @@  @@@ @@   @@@        @@@@        @@   @@@@ @@      @@@@       @@@@     @@@@      @@@          @@@@@@    
+    @@@@          @@@@      @@@       @@@  @@@@@   @@@@        @@@        @@     @@@ @@      @@@@      @@@@@     @@@@     @@@             @@@@    
+    @@@     @@@   @@@@     @@@        @@    @@@    @@@        @@@@        @@      @@@@       @@@@     @@@@       @@@      @@@      @@     @@@@    
+  @@@@@@@@@@@@      @@@@@@@@         @@@@        @@@@@@      @@@@@@     @@@@      @@@@         @@@@@@@@@          @@@@@@@@@       @@@@@@@@@@      "
 if [ $MUL == 1 ]; then
 line=$(sed -n '2p' "$file")
 elif [ $MUL == 2 ]; then 
@@ -1350,11 +1362,19 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
+<<<<<<< HEAD
 echo "Version 6.0$exc$exc$exc (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
 echo "Version 6.0$exc$exc$exc, contact skibiditoiletcumrocket67 on Discord for more details."
+=======
+echo "Version 5.8 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+                       echo "Use command $quote2 for a list of commands
+"
+else
+echo "Version 5.8, contact skibiditoiletcumrocket67 on Discord for more details."
+>>>>>>> parent of a99e7bf (new update :D)
                        echo "Use command $quote2 for a list of commands
 "
 fi
@@ -1373,17 +1393,14 @@ echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d`
 " >> CONFIG/Info-Log.log
 ./RECOVERY_SCRIPT.SH &
 clear
-echo "    @@@@@         @@@@@    @@@@@      @@@@@@      @@@@@@      @@@@@@      @@@@@     @@@@        @@@@@@@@@       @@@@@@    @@@@@      @@@@@@@@@  
-    @@@@          @@@@      @@@        @@@@@     @@@@@@        @@@@       @@@@@      @        @@@@     @@@@      @@@       @@      @@@@     @@  
-    @@@@          @@@@     @@@        @@ @@@    @@ @@@        @@@@        @@ @@@    @@      @@@@       @@@@     @@@@      @@@      @@@@         
-   @@@@          @@@@      @@@       @@  @@@   @@ @@@@        @@@@       @@  @@@@   @@      @@@@       @@@@     @@@      @@@        @@@@@       
-   @@@@          @@@      @@@        @@  @@@ @@   @@@        @@@@        @@   @@@@ @@      @@@@       @@@@     @@@@      @@@          @@@@@@    
-  @@@@          @@@@      @@@       @@@  @@@@@   @@@@        @@@        @@     @@@ @@      @@@@      @@@@@     @@@@     @@@             @@@@    
-  @@@     @@@   @@@@     @@@        @@    @@@    @@@        @@@@        @@      @@@@       @@@@     @@@@       @@@      @@@      @@     @@@@    
-@@@@@@@@@@@@      @@@@@@@@         @@@@        @@@@@@      @@@@@@     @@@@      @@@@         @@@@@@@@@          @@@@@@@@@       @@@@@@@@@@      "
-  if [ $devm == "1" ]; then
-echo "DEVELOPER MODE."
-fi
+echo "      @@@@@         @@@@@    @@@@@      @@@@@@      @@@@@@      @@@@@@      @@@@@     @@@@        @@@@@@@@@       @@@@@@    @@@@@      @@@@@@@@@  
+      @@@@          @@@@      @@@        @@@@@     @@@@@@        @@@@       @@@@@      @        @@@@     @@@@      @@@       @@      @@@@     @@  
+      @@@@          @@@@     @@@        @@ @@@    @@ @@@        @@@@        @@ @@@    @@      @@@@       @@@@     @@@@      @@@      @@@@         
+     @@@@          @@@@      @@@       @@  @@@   @@ @@@@        @@@@       @@  @@@@   @@      @@@@       @@@@     @@@      @@@        @@@@@       
+     @@@@          @@@      @@@        @@  @@@ @@   @@@        @@@@        @@   @@@@ @@      @@@@       @@@@     @@@@      @@@          @@@@@@    
+    @@@@          @@@@      @@@       @@@  @@@@@   @@@@        @@@        @@     @@@ @@      @@@@      @@@@@     @@@@     @@@             @@@@    
+    @@@     @@@   @@@@     @@@        @@    @@@    @@@        @@@@        @@      @@@@       @@@@     @@@@       @@@      @@@      @@     @@@@    
+  @@@@@@@@@@@@      @@@@@@@@         @@@@        @@@@@@      @@@@@@     @@@@      @@@@         @@@@@@@@@          @@@@@@@@@       @@@@@@@@@@      "
 if [ $MUL == 1 ]; then
 line=$(sed -n '2p' "$file")
 elif [ $MUL == 2 ]; then 
@@ -1403,11 +1420,19 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
+<<<<<<< HEAD
 echo "Version 6.0$exc$exc$exc (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
 echo "Version 6.0$exc$exc$exc, contact skibiditoiletcumrocket67 on Discord for more details."
+=======
+echo "Version 5.8 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+                       echo "Use command $quote2 for a list of commands
+"
+else
+echo "Version 5.8, contact skibiditoiletcumrocket67 on Discord for more details."
+>>>>>>> parent of a99e7bf (new update :D)
                        echo "Use command $quote2 for a list of commands
 "
 fi
@@ -1423,7 +1448,7 @@ filewrite=0
 writefile=0
 einfo=0
 signin=pass.txt
-
+cmd=0
 local code=$?
 
   if [[ $code == 1 || $code == 2 || $code == 130 ]]; then
@@ -1495,6 +1520,7 @@ elif [ $cmd == "changelog" ]; then
 ./COMMANDS/changelog.sh
 
 elif [ $cmd == "mcmdb" ]; then
+line6=$(sed -n '3p' "$file")
 line1=$(sed -n '4p' "$file")
 line2=$(sed -n '5p' "$file")
 line3=$(sed -n '6p' "$file")
@@ -1505,6 +1531,7 @@ name="$line"
 echo "1
 $name
 1
+$line6
 $line1
 $line2
 $line3
@@ -1523,6 +1550,49 @@ elif [ $cmd == "app" ]; then
 elif [[ $cmd == "IAMSPEED" ]]; then
 ./"COMMANDS/IAMSPEED.sh"
 
+<<<<<<< HEAD
+=======
+elif [ $cmd == "shutdown" ] && [ $arg == "/r" ] && [ $MCMDBON == 0 ];then
+ clear
+   printf  "${RED}Restarting...${NOCOLOR}"
+   clear
+   echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Event-Log.log
+echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Info-Log.log
+e
+ON
+
+elif [ $cmd == "shutdown" ] && [ $arg == "/r" ] && [ $MCMDBON == 1 ]; then
+e
+ON
+   echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Event-Log.log
+echo "<INFO> System booted. [Time log was made: `date +%Y`-`date +%m`-`date +%d` `date +%H`:`date +%M`:`date +%S` ]
+" >> CONFIG/Info-Log.log
+
+elif [ $cmd == "shutdown" ]; then
+if [ $arg == "/e" ]; then
+exit 0
+elif [ $arg == "/m" ]; then
+cmd0m=1
+cmd0=M
+e
+elif [ $arg == "/s" ]; then
+setup=1
+echo "0" > CONFIG/CONFIG.CFG
+e
+ON
+elif [ $arg == "/?" ]; then
+echo "Shutdown command arguments:
+/e - Exits the window
+/r - Restarts the system
+/m - Restarts and boots into boot menu
+/s - Restarts into setup"
+else
+echo "Invalid or empty argument, use 'shutdown /?' for a list of arguments."
+fi
+>>>>>>> parent of a99e7bf (new update :D)
 
 elif [ $cmd == "powershell" ]; then
 ./COMMANDS/powershell.sh
@@ -1538,6 +1608,10 @@ elif [ $cmd == "clear" ]; then
     Power=2
   
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of a99e7bf (new update :D)
 
 elif [ -z "$cmd" ]; then
 printf ""
@@ -1767,7 +1841,6 @@ fi
 Your system has crashed, it is recommended that you reinstall LUMINOUS OS or if you are using a custom bootloader to use the default!
 We'll restart for you in 3                                                                             
 STOP CODE: $RDCODE
-LAST COMMAND USED: $cmd $arg
 "
 sleep 1
 clear
@@ -1776,7 +1849,6 @@ clear
 Your system has crashed, it is recommended that you reinstall LUMINOUS OS or if you are using a custom bootloader to use the default!
 We'll restart for you in 2                                                                             
 STOP CODE: $RDCODE
-LAST COMMAND USED: $cmd $arg
 "
 sleep 1
 clear
@@ -1785,7 +1857,6 @@ clear
 Your system has crashed, it is recommended that you reinstall LUMINOUS OS or if you are using a custom bootloader to use the default!
 We'll restart for you in 1                                                                             
 STOP CODE: $RDCODE
-LAST COMMAND USED: $cmd $arg
 "
 sleep 1
  clear
@@ -1804,7 +1875,7 @@ CRASHEDRESTARTABLE=1
   Power=2
   ONFUNC
 
-else
+ elif [ $line8 == "0" ]; then 
   printf "${BOL}${RD}CRITICAL ERROR
 ${GR}The shell has encountered an error that could not be properly resolved.${NOCOLOR}
 ${BL}CRASH INFO:${NOCOLOR}
@@ -1911,7 +1982,11 @@ val_opt="YES"
 else
 val_opt="NO"
 fi
+<<<<<<< HEAD
 printf "${BOL}${PK}VERSION: 6.0
+=======
+printf "${BOL}${PK}VERSION: 5.8
+>>>>>>> parent of a99e7bf (new update :D)
 PASSED VALIDATION: $valf
 IGNORED VALIDATION: $val_opt
 NATIVE BOOTLOADER INTACT: $BTL
@@ -1928,11 +2003,6 @@ else
   printf "${RD}EXTRA INFORMATION:${NOCOLOR}
 ${GL}- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -${NOCOLOR}
 "
-if [ $nb == 1 ]; then
-nb="YES"
-else
-nb="NO"
-fi
   sc="$(basename "${BASH_SOURCE[0]}")"
   sd="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
   sp="$sd/$sc"
@@ -1940,8 +2010,6 @@ fi
   printf "${BOL}${PK}OS FILE NAME (IF NOT e.sh MAY CAUSE PROBLEMS.): $sc
 ${BOL}${PK}OS DIRECTORY: $sd
 ${BOL}${PK}OS FULL PATH: $sp${NOCOLOR}
-${BOL}${PK}LAST COMMAND USED: $cmd $arg
-${BOL}${PK}NATIVE BOOTLOADER USED: $nb
 ${GL}- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -${NOCOLOR}
 "
   if [ "$ln7" = "0" ]; then
@@ -2073,6 +2141,7 @@ if [ -e $CF ]; then
   rm "$CF"
   Power=2
   bypassval=1
+  e
 fi
 if [ "$bypassval" != 1 ]; then
 VALIDATION_FUNCTION

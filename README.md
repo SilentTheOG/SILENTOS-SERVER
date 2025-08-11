@@ -3,5 +3,5 @@ Some random bash script my friend made, I tweaked it "a bit."
 
 Installation script (Unix-like systems):
 ```bash
-/bin/bash -c "$(wait)"
+/bin/bash -c "$(curl https://raw.githubusercontent.com/Ding1367/silent-os/refs/heads/dev/bin/silent-os)"
 ```
