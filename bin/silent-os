@@ -1,4 +1,5 @@
 #!/bin/bash
+cd $SILENT_OS_PATH
 RAW="stty raw opost"
 SANE="stty sane -isig susp undef"
 DISINT="trap '' SIGINT"
@@ -87,12 +88,12 @@ cmdf() {
         echo "Repair needed, working on it..."
         curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
 
-        cat SERVER.TMP > e.sh
+        cat SERVER.TMP > $0
         rm SERVER.TMP
 
         echo "touch tmp.sh"
-        echo "./e.sh" > tmp.sh
-        chmod +x e.sh tmp.sh
+        echo "./$0" > tmp.sh
+        chmod +x $0 tmp.sh
         ./tmp.sh
         rm tmp.sh
     else
@@ -505,7 +506,7 @@ fi
   sd="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
   sp="$sd/$sc"
 
-  printf "${BOL}${PK}OS FILE NAME (IF NOT e.sh MAY CAUSE PROBLEMS.): $sc
+  printf "${BOL}${PK}OS FILE NAME (IF NOT $0 MAY CAUSE PROBLEMS.): $sc
 ${BOL}${PK}OS DIRECTORY: $sd
 ${BOL}${PK}OS FULL PATH: $sp${NOCOLOR}
 ${BOL}${PK}LAST COMMAND USED: $cmd $arg
@@ -680,18 +681,18 @@ read -n1 BOOTMENU
         ON
     elif [ "$BOOTMENU" == "2" ]; then
         curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
-        touch FAILSAFE.SH
-        cat SERVER.TMP > e.sh | rm SERVER.TMP
+        touch FAILSAF$0
+        cat SERVER.TMP > $0 | rm SERVER.TMP
         echo "touch tmp.sh
-echo \"./e.sh\" >> tmp.sh
+echo \"./$0\" >> tmp.sh
 ./tmp.sh
 rm tmp.sh
-if [ -e \"e.sh\" ] && [ ! \"\$(wc -c < \"e.sh\")\" -gt 3 ]; then
+if [ -e \"$0\" ] && [ ! \"\$(wc -c < \"$0\")\" -gt 3 ]; then
 ./RECOVERY_SCRIPT.SH
 else
-./e.sh
-fi" > FAILSAFE.SH
-        ./FAILSAFE.SH
+./$0
+fi" > FAILSAF$0
+        ./FAILSAF$0
         elif [ "$BOOTMENU" == "3" ]; then
         cbl
     elif [ "$BOOTMENU" == "4" ]; then
@@ -825,7 +826,7 @@ echo "" > CONFIG/CONFIG.CFG
 if [ -e "$file" ]; then
 echo "
 Sucess!"
-./e.sh
+./$0
 else
 echo "There has been an error creating the configuration file, you may still boot, however you will lose access to a number of features.
 It is recommended to reinstall LUMINOUS OS."
@@ -1180,18 +1181,18 @@ read -n1 BOOTMENU
         ON
     elif [ "$BOOTMENU" == "2" ]; then
         curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
-        touch FAILSAFE.SH
-        cat SERVER.TMP > e.sh | rm SERVER.TMP
+        touch FAILSAF$0
+        cat SERVER.TMP > $0 | rm SERVER.TMP
         echo "touch tmp.sh
-echo \"./e.sh\" >> tmp.sh
+echo \"./$0\" >> tmp.sh
 ./tmp.sh
 rm tmp.sh
-if [ -e \"e.sh\" ] && [ ! \"\$(wc -c < \"e.sh\")\" -gt 3 ]; then
+if [ -e \"$0\" ] && [ ! \"\$(wc -c < \"$0\")\" -gt 3 ]; then
 ./RECOVERY_SCRIPT.SH
 else
-./e.sh
-fi" > FAILSAFE.SH
-        ./FAILSAFE.SH
+./$0
+fi" > FAILSAF$0
+        ./FAILSAF$0
         elif [ "$BOOTMENU" == "3" ]; then
         cbl
     elif [ "$BOOTMENU" == "4" ]; then
@@ -1324,7 +1325,7 @@ echo "" > CONFIG/CONFIG.CFG
 if [ -e "$file" ]; then
 echo "
 Sucess!"
-./e.sh
+./$0
 else
 echo "There has been an error creating the configuration file, you may still boot, however you will lose access to a number of features.
 It is recommended to reinstall LUMINOUS OS."
@@ -1471,18 +1472,18 @@ elif [ $cmd == "clearlog" ]; then
 
 elif [ $cmd == "update" ]; then
 curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
-touch FAILSAFE.SH
-cat SERVER.TMP > e.sh | rm SERVER.TMP
+touch FAILSAF$0
+cat SERVER.TMP > $0 | rm SERVER.TMP
 echo "touch tmp.sh
-echo "./e.sh" >> tmp.sh
+echo "./$0" >> tmp.sh
 ./tmp.sh
 rm tmp.sh
-if [ -e "e.sh" ] && [ ! "$(wc -c < "e.sh")" -gt 3 ]; then
+if [ -e "$0" ] && [ ! "$(wc -c < "$0")" -gt 3 ]; then
 ./RECOVERY_SCRIPT.SH
 else
-./e.sh
-fi" > FAILSAFE.SH
-./FAILSAFE.SH
+./$0
+fi" > FAILSAF$0
+./FAILSAF$0
 
 elif [ $cmd == "testcrashfunc" ]; then
 clear
@@ -1738,7 +1739,7 @@ check
 $SET_EXIT_HANDLER
 
 
-rm "save.sh"
+rm "sav$0"
 crashed=0
 rec=0
 touch RECOVERY_SCRIPT.SH
@@ -1954,7 +1955,7 @@ fi
   sd="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
   sp="$sd/$sc"
 
-  printf "${BOL}${PK}OS FILE NAME (IF NOT e.sh MAY CAUSE PROBLEMS.): $sc
+  printf "${BOL}${PK}OS FILE NAME (IF NOT $0 MAY CAUSE PROBLEMS.): $sc
 ${BOL}${PK}OS DIRECTORY: $sd
 ${BOL}${PK}OS FULL PATH: $sp${NOCOLOR}
 ${BOL}${PK}LAST COMMAND USED: $cmd $arg
@@ -2049,9 +2050,9 @@ Please choose a boot option:
   case "$val_opt" in
     1)
       curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
-      mv SERVER.TMP e.sh
-      chmod +x e.sh
-      ./e.sh
+      mv SERVER.TMP $0
+      chmod +x $0
+      ./$0
       exit 0
       ;;
     2)
@@ -2080,7 +2081,7 @@ VALIDATION_FUNCTION() {
   echo "Validating system..."                              
   curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP > downloaded.tmp
 
-  if cmp -s downloaded.tmp e.sh; then
+  if cmp -s downloaded.tmp $0; then
     echo "System check complete, continuing..."
   else
     VALIDATION_FAILED
@@ -2133,25 +2134,25 @@ echo "[REMOVED.]"
 
 elif [ $rec == "3" ]; then
 curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
-touch FAILSAFE.SH
-cat SERVER.TMP > e.sh | rm SERVER.TMP
+touch FAILSAF$0
+cat SERVER.TMP > $0 | rm SERVER.TMP
 echo "touch tmp.sh
-echo "./e.sh" >> tmp.sh
+echo "./$0" >> tmp.sh
 ./tmp.sh
 rm tmp.sh
-if [ -e "e.sh" ] && [ ! "$(wc -c < "e.sh")" -gt 3 ]; then
+if [ -e "$0" ] && [ ! "$(wc -c < "$0")" -gt 3 ]; then
 ./RECOVERY_SCRIPT.SH
 else
-./e.sh
-fi" > FAILSAFE.SH
-./FAILSAFE.SH
+./$0
+fi" > FAILSAF$0
+./FAILSAF$0
 fi
 }
 
 BLUE='\033[0;34m'
 
 
-esh1="e.sh"
+esh1="$0"
 rm LOG.TXT
 if [ -e "$esh1" ]; then
     esh=$(<"$esh1")

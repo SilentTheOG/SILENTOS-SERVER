@@ -13,7 +13,7 @@ if argc < 2:
     exit(1)
 
 sub = argv[1]
-req = requests.get('https://api.github.com/repos/SilentTheOG/SILENTOS-SERVER/commits/main')
+req = requests.get('https://api.github.com/repos/Ding1367/silent-os/commits/main')
 if not req.ok:
     print(req.status_code, req.reason)
     exit(1)
@@ -36,7 +36,6 @@ elif sub == "update":
         print("Already up to date.")
         exit(0)
     run(['git', 'pull', 'origin', 'main'])
-    os.rename('SERVER.TMP', 'silent-os')
     origMsg = req['commit']['message']
     toks = origMsg.split('\n\n')
     print('\x1b[2J\x1b[H',end='')
