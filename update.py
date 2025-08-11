@@ -27,8 +27,10 @@ head_f.close()
 if sub == "compare":
     if req['sha'] != head:
         print("An update is out!")
+        exit(1)
     else:
         print("Up to date.")
+        exit(0)
 elif sub == "update":
     if req['sha'] == head:
         print("Already up to date.")
