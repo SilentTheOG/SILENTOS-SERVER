@@ -106,20 +106,6 @@ echo "          [==============================                                 
           [==============================                                                                                                                                                                                    ]
           [==============================                                                                                                                                                                                    ]"
 
-echo 'echo "Command list:
-    shutdown (NEW!)
-    clear
-    echo
-    update
-    Beta command list:
-    None yet!"' > COMMANDS/listMCMDB.sh
-    echo 'echo "Command list:
-    shutdown (NEW!)
-    clear
-    restart
-    echo
-    update"' > COMMANDS/list.sh
-
 clear
 echo "                                                                                                       LUMINOUS OS is updating command files...
 
@@ -154,37 +140,6 @@ echo "          [===============================================================
           [======================================================================================================================================================                                                  ]
           [======================================================================================================================================================                                                  ]
           [======================================================================================================================================================                                                  ]"
-echo 'echo "OMG LIGHTNING MCQUEEN SLAYYYY GIRLIE OMGGGGGGGGGGGG
-                                                              ............--                         
-                                                     .....-++###++++++++##-..             ------     
-                                              ...---++#++-------..   ..----+-......--------------    
-                                           .--++++----------              .++.......--------------   
-                                          -+----++-.                        +-.......+-------------  
-                                         ---+-                    .-.       .+.. .........-..... .-  
-                                        +++.        .+###-      +####-       +-...........-..... ... 
-                                       +-..         -####.      --++.        -+..........-...... ... 
-                                      +-..           .-. ....................  .--. ....        ..#+ 
-                                    .++.....-..............----.....-------....---.  ...       ..-## 
-                     . ............... ....--.------------....----------------+###-.... - .   .+.-## 
-                  ...-.........--..-------------------------------. .--------+#####. .-  ..  ....+## 
-                ...--..-----------------------------------------. ..---------++####-. -   .......+#+ 
-               ----------------------------------------.-. -+--...---------.-.-.-+++.-.   -+--+-.#+- 
-              +--.--..-------------------------..---------------------------+++--..++-.-- .---.--##- 
-             #+-----+. -----------------------------+++++++--------------+++######+-.+++- .-+-+--### 
-            ##+-------++++++++------------------+++++++++###++---+++---+++++##########++.+----++###+ 
-           ###++++++++++####+++++++++++++++###+++------+##+-++++++++++++++++###########++++#.-++#+++ 
-           ###+++++++++++###-----------------....--+####-----++++++++++++++########+####+++-+++#+++- 
-          +###+++++++++++#####+++++++++++############+-------++++++++++++++#+###########++++++##+++- 
-           ####++++++++++++####################++++++-------+++++++++++++++#+++#####+###++######+-#+ 
-           ####+++++++---+++-+--.......--..----+++++--+++++++++++++++++++++#++##++++############-+#+ 
-           #####+++++++++++++++++-------++++++++++++++++++++++++++++++++++----##++++#+.+#########-+- 
-            #####+++++++++++++++++++++++++++++++++++++++++++++++++++++++++-##+-++++##-+###########+  
-             #####+++++++++++++++++++++++++++++++++++++++++++++++######+++----++-+#+..############   
-               #########+++++++++++++++++++++++++++####################+ .+#+++#++- +##              
-       ##################################################################+. -.- -.-##                
-    #########################################################################++#####                 
-     #############################################################################                   
-                     ###############################################"' > COMMANDS/IAMSPEED.sh
 clear
 echo "                                                                                                       LUMINOUS OS is updating command files...
 
@@ -202,10 +157,6 @@ echo "          [===============================================================
           [==========================================================================================================================================================================                              ]
           [==========================================================================================================================================================================                              ]"
 
-echo 'echo "NOTE: This only works on a Windows system!"
-psc=0
-read -p "Powershell command:" psc 2>/dev/tty
-powershell -command "$psc"' > COMMANDS/powershell.sh
 clear
 echo "                                                                                                       LUMINOUS OS is updating command files...
 
@@ -222,11 +173,6 @@ echo "          [===============================================================
           [==================================================================================================================================================================================================================          ]
           [==================================================================================================================================================================================================================          ]
           [==================================================================================================================================================================================================================          ]"
-
-echo 'read -p "What file would you like to see the contents of? " sedfile 2>/dev/tty
-sed '' "$sedfile"
-echo ""' > COMMANDS/sed.sh
-
 
 clear
 echo "                                                                                                       LUMINOUS OS is updating command files...
@@ -618,7 +564,7 @@ read -n1 BOOTMENU
         ON
     elif [ "$BOOTMENU" == "2" ]; then
         curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
-        touch FAILSAF$0
+        touch FAILSAFE.SH
         cat SERVER.TMP > $0 | rm SERVER.TMP
         echo "touch tmp.sh
 echo \"./$0\" >> tmp.sh
@@ -628,8 +574,8 @@ if [ -e \"$0\" ] && [ ! \"\$(wc -c < \"$0\")\" -gt 3 ]; then
 ./RECOVERY_SCRIPT.SH
 else
 ./$0
-fi" > FAILSAF$0
-        ./FAILSAF$0
+fi" > FAILSAFE.SH
+        ./FAILSAFE.SH
         elif [ "$BOOTMENU" == "3" ]; then
         cbl
     elif [ "$BOOTMENU" == "4" ]; then
@@ -1118,7 +1064,7 @@ read -n1 BOOTMENU
         ON
     elif [ "$BOOTMENU" == "2" ]; then
         curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
-        touch FAILSAF$0
+        touch FAILSAFE.SH
         cat SERVER.TMP > $0 | rm SERVER.TMP
         echo "touch tmp.sh
 echo \"./$0\" >> tmp.sh
@@ -1128,8 +1074,8 @@ if [ -e \"$0\" ] && [ ! \"\$(wc -c < \"$0\")\" -gt 3 ]; then
 ./RECOVERY_SCRIPT.SH
 else
 ./$0
-fi" > FAILSAF$0
-        ./FAILSAF$0
+fi" > FAILSAFE.SH
+        ./FAILSAFE.SH
         elif [ "$BOOTMENU" == "3" ]; then
         cbl
     elif [ "$BOOTMENU" == "4" ]; then
@@ -1371,147 +1317,90 @@ fi
 # ON FUNCTION IS HERE SILLY
 
 function ON () {
-Power=2
-sedfile=0
-filewrite=0
-writefile=0
-einfo=0
-signin=pass.txt
+  Power=2
+  sedfile=0
+  filewrite=0
+  writefile=0
+  einfo=0
+  signin=pass.txt
 
-local code=$?
+  local code=$?
 
   if [[ $code == 1 || $code == 2 || $code == 130 ]]; then
     crashSYS
   fi
-arg=""
-read -p "Command: " cmd arg 2>/dev/tty
+  arg=""
+  read -p "Command: " cmd arg 2>/dev/tty
   if [ $cmd == "list" ]; then
-  if [ $MCMDB == 1 ]; then
-  ./COMMANDS/listMCMDB.sh
-else
-./COMMANDS/list.sh
-fi
-elif [ $cmd == "log" ]; then
-./COMMANDS/log.sh
-
-elif [ $cmd == "errorlog" ]; then
-./COMMANDS/errorlog.sh
-
-elif [ $cmd == "infolog" ]; then
-./COMMANDS/infolog.sh
-
-elif [ $cmd == "warninglog" ]; then
-./COMMANDS/warninglog.sh
-
-elif [ $cmd == "clearlog" ]; then
-./COMMANDS/clearlog.sh
-
-
-elif [ $cmd == "update" ]; then
-curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
-touch FAILSAF$0
-cat SERVER.TMP > $0 | rm SERVER.TMP
-echo "touch tmp.sh
-echo "./$0" >> tmp.sh
-./tmp.sh
-rm tmp.sh
-if [ -e "$0" ] && [ ! "$(wc -c < "$0")" -gt 3 ]; then
-./RECOVERY_SCRIPT.SH
-else
-./$0
-fi" > FAILSAF$0
-./FAILSAF$0
-
-elif [ $cmd == "testcrashfunc" ]; then
-clear
-crash
-
-
-
+    if [ $MCMDB == 1 ]; then
+      ./COMMANDS/listMCMDB.sh
+    else
+      ./COMMANDS/list.sh
+    fi
+  elif [ -e "COMMANDS/$cmd.sh" ]; then
+    . COMMANDS/$cmd.sh
+  elif [ $cmd == "update" ]; then
+    curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
+    touch FAILSAFE.SH
+    cat SERVER.TMP > $0 | rm SERVER.TMP
+    echo "touch tmp.sh
+    echo "./$0" >> tmp.sh
+    ./tmp.sh
+    rm tmp.sh
+    if [ -e "$0" ] && [ ! "$(wc -c < "$0")" -gt 3 ]; then
+    ./RECOVERY_SCRIPT.SH
+    else
+    ./$0
+    fi" > FAILSAFE.SH
+    ./FAILSAFE.SH
+  elif [ $cmd == "testcrashfunc" ]; then
+    clear
+    crash
     if [ $? -ne 0 ]; then
         crash
         sleep 1
     fi
-    
-elif [[ $cmd == "KERNEL CRASH TEST 1" ]]; then
-exit 1
-elif [[ $cmd == "KERNEL CRASH TEST 2" ]]; then
-exit 2
-elif [[ $cmd == "KERNEL CRASH TEST CUSTOM" ]]; then
-  KERNELCRASH=0
-  read -p "What code? (NUMBER REQUIRED. DEFAULT IS 2.) " KERNELCRASH 2>/dev/tty
-  if [[ $KERNELCRASH != 0 && ! -z $KERNELCRASH ]]; then
-    exit $KERNELCRASH
-  else
-    exit 2
-  fi
-elif [ $cmd == "changelog" ]; then
-./COMMANDS/changelog.sh
-
-elif [ $cmd == "mcmdb" ]; then
-line1=$(sed -n '4p' "$file")
-line2=$(sed -n '5p' "$file")
-line3=$(sed -n '6p' "$file")
-line4=$(sed -n '7p' "$file")
-line5=$(sed -n '8p' "$file")
-line=$(sed -n '2p' "$file")
-name="$line"
-echo "1
-$name
-1
-$line1
-$line2
-$line3
-$line4
-$line5" > $file
-MCMDB=1
-
-elif [[ $cmd == *":"* ]]; then
-    printf ""
-
-
-elif [ $cmd == "app" ]; then
-./COMMANDS/app.sh
-
-
-elif [[ $cmd == "IAMSPEED" ]]; then
-./"COMMANDS/IAMSPEED.sh"
-
-
-elif [ $cmd == "powershell" ]; then
-./COMMANDS/powershell.sh
-elif [ $cmd == "clear" ]; then
-    clear
-
-
-    elif [ $cmd == "sed" ]; then
-./COMMANDS/sed.sh
-
-  elif [ $cmd == "echo" ]; then
- echo "$arg"
-    Power=2
-  
-
-
-elif [ -z "$cmd" ]; then
-printf ""
-
-else
-fn="${cmd}.sh"
-
-if [ -e "COMMANDS/$fn" ]; then
-    if grep -q -E '^\s*(function\s+)?cmdf\s*\(\)' "COMMANDS/$fn"; then
-        . "COMMANDS/$fn"
-        cmdf
+  elif [[ $cmd == "KERNEL CRASH TEST 1" ]]; then
+  exit 1
+  elif [[ $cmd == "KERNEL CRASH TEST 2" ]]; then
+  exit 2
+  elif [[ $cmd == "KERNEL CRASH TEST CUSTOM" ]]; then
+    KERNELCRASH=0
+    read -p "What code? (NUMBER REQUIRED. DEFAULT IS 2.) " KERNELCRASH 2>/dev/tty
+    if [[ $KERNELCRASH != 0 && ! -z $KERNELCRASH ]]; then
+      exit $KERNELCRASH
     else
-        printf "%s exists as a custom command, but has no command function.\n" "$cmd"
+      exit 2
     fi
-else
-    printf "%s is not a valid command.\n" "$cmd"
-fi
 
+  elif [ $cmd == "mcmdb" ]; then
+    line1=$(sed -n '4p' "$file")
+    line2=$(sed -n '5p' "$file")
+    line3=$(sed -n '6p' "$file")
+    line4=$(sed -n '7p' "$file")
+    line5=$(sed -n '8p' "$file")
+    line=$(sed -n '2p' "$file")
+    name="$line"
+    echo "1
+    $name
+    1
+    $line1
+    $line2
+    $line3
+    $line4
+    $line5" > $file
+    MCMDB=1
+  elif [[ $cmd == *":"* ]]; then
+    printf ""
+  elif [ $cmd == "echo" ]; then
+    echo "$arg"
+    Power=2
+  elif [ -z "$cmd" ]; then
+    printf ""
+  else
+    echo "Command $cmd could not be found."
   fi
-  }
+}
 
 
 
@@ -2071,7 +1960,7 @@ echo "[REMOVED.]"
 
 elif [ $rec == "3" ]; then
 curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
-touch FAILSAF$0
+touch FAILSAFE.SH
 cat SERVER.TMP > $0 | rm SERVER.TMP
 echo "touch tmp.sh
 echo "./$0" >> tmp.sh
@@ -2081,8 +1970,8 @@ if [ -e "$0" ] && [ ! "$(wc -c < "$0")" -gt 3 ]; then
 ./RECOVERY_SCRIPT.SH
 else
 ./$0
-fi" > FAILSAF$0
-./FAILSAF$0
+fi" > FAILSAFE.SH
+./FAILSAFE.SH
 fi
 }
 
