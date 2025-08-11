@@ -40,7 +40,8 @@ elif sub == "update":
     toks = origMsg.split('\n\n')
     print('\x1b[2J\x1b[H',end='')
     print(f"\x1b[1mChanges: {toks[0]}\x1b[0m")
-    print(toks[1])
+    if len(toks) > 1:
+        print(toks[1])
 else:
     print(name, "(update | compare)")
     exit(1)

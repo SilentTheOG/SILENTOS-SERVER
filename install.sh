@@ -1,11 +1,11 @@
 if ! [ "$SILENT_OS_INSTALL_DIR" ];
 then
-    SILENT_OS_INSTALL_DIR=/opt/silentos
+    SILENT_OS_INSTALL_DIR=~/.silentos
 fi
 
-sudo git clone https://github.com/Ding1367/silent-os $SILENT_OS_INSTALL_DIR
+git clone https://github.com/Ding1367/silent-os $SILENT_OS_INSTALL_DIR
 cd $SILENT_OS_INSTALL_DIR
-sudo chmod +x bin/silent-os
+chmod +x bin/silent-os
 
 if [ "$SHELL" == "/bin/zsh" ];
 then
