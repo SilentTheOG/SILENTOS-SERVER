@@ -1,3 +1,4 @@
+#!/bin/bash
 if ! [ "$SILENT_OS_INSTALL_DIR" ];
 then
     SILENT_OS_INSTALL_DIR=~/.silentos
@@ -12,7 +13,12 @@ then
     PROF_FILE=~/.zshrc
 elif [ "$SHELL" == "/bin/bash" ];
 then
-    PROF_FILE=~/.bash_profile
+    if [ -e "~/.bash_profile" ];
+    then
+        PROF_FILE=~/.bash_profile
+    else
+        PROF_FILE=~/.bashrc
+    fi
 else
     echo "Failed to set SILENT_OS_PATH (value is $SILENT_OS_INSTALL_DIR)"
     echo "              PATH=$SILENT_OS_INSTALL_DIR/bin:\$PATH"
