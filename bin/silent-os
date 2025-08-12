@@ -1,3 +1,38 @@
+#!/bin/bash
+cd $SILENT_OS_PATH
+RAW="stty raw opost"
+SANE="stty sane -isig susp undef"
+DISINT="trap '' SIGINT"
+ENINT="trap - SIGINT"
+
+$RAW
+if [ -e ".session.lock" ]; then
+  pid=`cat .session.lock`
+  if kill -0 "$pid" 2>/dev/null; then
+    printf "\e[1;31mLUMINOUS OS IS ALREADY OPEN (PID $pid)\n"
+    printf "Kill and startup? (y/n) \e[0m"
+    read -n 1 OPTION
+    echo
+    if [ "$OPTION" == "y" ]; then
+      kill "$pid"
+    else
+      stty sane
+      exit
+    fi
+  else
+    # the PID is no longer alive; there is no other instance
+    rm .session.lock
+  fi
+fi
+if ! [ -e "CONFIG" ]; then
+  mkdir CONFIG
+fi
+# pre-setup exit handler
+PRE_EXIT_HANDLER='rm .session.lock; stty sane;'
+trap "$PRE_EXIT_HANDLER" EXIT
+SET_EXIT_HANDLER=trap 'code=$?; $PRE_EXIT_HANDLER; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
+echo -n $$ > .session.lock
+clear
 CF="CONFIG/CRASH-DATA"
 cmd0m=0
 nb=0
@@ -6,8 +41,8 @@ devm=0
 exec 2>/dev/null
 
 if [ -e $CF ]; then
-read -p "Luminous OS has crashed last time you have used it, if this is the first time, don't worry. If this keeps happening it's recommended to reinstall!
-Press Enter to continue..." 2>/dev/tty
+read -n 1 -p "Luminous OS has crashed last time you have used it, if this is the first time, don't worry. If this keeps happening it's recommended to reinstall!
+Press any key to continue . . . " 2>/dev/tty
 fi
 
     if declare -f ON > /dev/null; then
@@ -36,37 +71,6 @@ echo "Making commands folder..."
     mkdir "COMMANDS"
 fi
 
-cat << 'EOF' > COMMANDS/repair.sh
-cmdf() {
-    if declare -f e > /dev/null; then
-        BTL="YES"
-    else
-        BTL="NO"
-    fi
-
-    echo "NATIVE BOOTLOADER WORKING: $BTL"
-    echo "SYSTEM CRITICAL FUNCTION: $SYS"
-
-    read -p "Press Enter to continue..." 2>/dev/tty
-
-    if [ "$SYS" = "NO" ] || [ "$BTL" = "NO" ]; then
-        echo "Repair needed, working on it..."
-        curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
-
-        cat SERVER.TMP > e.sh
-        rm SERVER.TMP
-
-        echo "touch tmp.sh"
-        echo "./e.sh" > tmp.sh
-        chmod +x e.sh tmp.sh
-        ./tmp.sh
-        rm tmp.sh
-    else
-        echo "Everything looks good, no repair needed!"
-    fi
-}
-
-EOF
 clear
 echo "                                                                                                       LUMINOUS OS is updating command files...
 
@@ -84,38 +88,6 @@ echo "          [====================                                           
           [====================                                                                                                                                                                                                        ]
           [====================                                                                                                                                                                                                        ]"
 
-cat << 'EOF' > COMMANDS/shutdown.sh
-cmdf(){
-if [ $arg == "/e" ]; then
-exit 0
-elif [ $arg == "/m" ]; then
-cmd0m=1
-cmd0=M
-e
-elif [ $arg == "/r" ]; then
-e
-ON
-elif [ $arg == "/s" ]; then
-setup=1
-echo "0" > CONFIG/CONFIG.CFG
-e
-ON
-elif [ $arg == "/DEVMODE" ]; then
-exec 2>/dev/tty
-devm=1
-e
-ON
-elif [ $arg == "/?" ]; then
-echo "Shutdown command arguments:
-/e - Exits the window
-/r - Restarts the system
-/m - Restarts and boots into boot menu
-/s - Restarts into setup"
-else
-echo "Invalid or empty argument, use 'shutdown /?' for a list of arguments."
-fi
-}
-EOF
 
 clear
 echo "                                                                                                       LUMINOUS OS is updating command files...
@@ -133,20 +105,6 @@ echo "          [==============================                                 
           [==============================                                                                                                                                                                                    ]
           [==============================                                                                                                                                                                                    ]
           [==============================                                                                                                                                                                                    ]"
-
-echo 'echo "Command list:
-    shutdown (NEW!)
-    clear
-    echo
-    update
-    Beta command list:
-    None yet!"' > COMMANDS/listMCMDB.sh
-    echo 'echo "Command list:
-    shutdown (NEW!)
-    clear
-    restart
-    echo
-    update"' > COMMANDS/list.sh
 
 clear
 echo "                                                                                                       LUMINOUS OS is updating command files...
@@ -182,37 +140,6 @@ echo "          [===============================================================
           [======================================================================================================================================================                                                  ]
           [======================================================================================================================================================                                                  ]
           [======================================================================================================================================================                                                  ]"
-echo 'echo "OMG LIGHTNING MCQUEEN SLAYYYY GIRLIE OMGGGGGGGGGGGG
-                                                              ............--                         
-                                                     .....-++###++++++++##-..             ------     
-                                              ...---++#++-------..   ..----+-......--------------    
-                                           .--++++----------              .++.......--------------   
-                                          -+----++-.                        +-.......+-------------  
-                                         ---+-                    .-.       .+.. .........-..... .-  
-                                        +++.        .+###-      +####-       +-...........-..... ... 
-                                       +-..         -####.      --++.        -+..........-...... ... 
-                                      +-..           .-. ....................  .--. ....        ..#+ 
-                                    .++.....-..............----.....-------....---.  ...       ..-## 
-                     . ............... ....--.------------....----------------+###-.... - .   .+.-## 
-                  ...-.........--..-------------------------------. .--------+#####. .-  ..  ....+## 
-                ...--..-----------------------------------------. ..---------++####-. -   .......+#+ 
-               ----------------------------------------.-. -+--...---------.-.-.-+++.-.   -+--+-.#+- 
-              +--.--..-------------------------..---------------------------+++--..++-.-- .---.--##- 
-             #+-----+. -----------------------------+++++++--------------+++######+-.+++- .-+-+--### 
-            ##+-------++++++++------------------+++++++++###++---+++---+++++##########++.+----++###+ 
-           ###++++++++++####+++++++++++++++###+++------+##+-++++++++++++++++###########++++#.-++#+++ 
-           ###+++++++++++###-----------------....--+####-----++++++++++++++########+####+++-+++#+++- 
-          +###+++++++++++#####+++++++++++############+-------++++++++++++++#+###########++++++##+++- 
-           ####++++++++++++####################++++++-------+++++++++++++++#+++#####+###++######+-#+ 
-           ####+++++++---+++-+--.......--..----+++++--+++++++++++++++++++++#++##++++############-+#+ 
-           #####+++++++++++++++++-------++++++++++++++++++++++++++++++++++----##++++#+.+#########-+- 
-            #####+++++++++++++++++++++++++++++++++++++++++++++++++++++++++-##+-++++##-+###########+  
-             #####+++++++++++++++++++++++++++++++++++++++++++++++######+++----++-+#+..############   
-               #########+++++++++++++++++++++++++++####################+ .+#+++#++- +##              
-       ##################################################################+. -.- -.-##                
-    #########################################################################++#####                 
-     #############################################################################                   
-                     ###############################################"' > COMMANDS/IAMSPEED.sh
 clear
 echo "                                                                                                       LUMINOUS OS is updating command files...
 
@@ -230,10 +157,6 @@ echo "          [===============================================================
           [==========================================================================================================================================================================                              ]
           [==========================================================================================================================================================================                              ]"
 
-echo 'echo "NOTE: This only works on a Windows system!"
-psc=0
-read -p "Powershell command:" psc 2>/dev/tty
-powershell -command "$psc"' > COMMANDS/powershell.sh
 clear
 echo "                                                                                                       LUMINOUS OS is updating command files...
 
@@ -251,11 +174,6 @@ echo "          [===============================================================
           [==================================================================================================================================================================================================================          ]
           [==================================================================================================================================================================================================================          ]"
 
-echo 'read -p "What file would you like to see the contents of? " sedfile 2>/dev/tty
-sed '' "$sedfile"
-echo ""' > COMMANDS/sed.sh
-
-
 clear
 echo "                                                                                                       LUMINOUS OS is updating command files...
 
@@ -272,16 +190,20 @@ echo "          [===============================================================
           [============================================================================================================================================================================================================================]
           [============================================================================================================================================================================================================================]
           [============================================================================================================================================================================================================================]"
-read -p "
+$RAW
+$DISINT
+read -n 1 -p "
 
 
 
 
                                                                                                               Command update finished!
-                                                                                                       Press Enter to continue to LUMINOUS OS" 2>/dev/tty
+                                                                                                    Press any key to continue LUMINOUS OS . . ." 2>/dev/tty
 
+echo
 
-
+$SANE
+$ENINT
 
 NF="\033[0m"
 FB="\033[1m"
@@ -467,7 +389,7 @@ fi
   sd="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
   sp="$sd/$sc"
 
-  printf "${BOL}${PK}OS FILE NAME (IF NOT e.sh MAY CAUSE PROBLEMS.): $sc
+  printf "${BOL}${PK}OS FILE NAME (IF NOT $0 MAY CAUSE PROBLEMS.): $sc
 ${BOL}${PK}OS DIRECTORY: $sd
 ${BOL}${PK}OS FULL PATH: $sp${NOCOLOR}
 ${BOL}${PK}LAST COMMAND USED: $cmd $arg
@@ -496,7 +418,7 @@ mkdir BOOTLOADERS
 touch BOOTLOADERS/BACKUP.SH
 cat << 'EOF' > BOOTLOADERS/BACKUP.SH
 function e() {
-  trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
+  $SET_EXIT_HANDLER
   if declare -f ON > /dev/null; then
       echo "Continue"
       else
@@ -643,15 +565,15 @@ read -n1 BOOTMENU
     elif [ "$BOOTMENU" == "2" ]; then
         curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
         touch FAILSAFE.SH
-        cat SERVER.TMP > e.sh | rm SERVER.TMP
+        cat SERVER.TMP > $0 | rm SERVER.TMP
         echo "touch tmp.sh
-echo \"./e.sh\" >> tmp.sh
+echo \"./$0\" >> tmp.sh
 ./tmp.sh
 rm tmp.sh
-if [ -e \"e.sh\" ] && [ ! \"\$(wc -c < \"e.sh\")\" -gt 3 ]; then
+if [ -e \"$0\" ] && [ ! \"\$(wc -c < \"$0\")\" -gt 3 ]; then
 ./RECOVERY_SCRIPT.SH
 else
-./e.sh
+./$0
 fi" > FAILSAFE.SH
         ./FAILSAFE.SH
         elif [ "$BOOTMENU" == "3" ]; then
@@ -753,7 +675,7 @@ MUL=1
 fi
 
   code=0
-  trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
+  $SET_EXIT_HANDLER
 
 
 if [ ! -e "$file" ]; then
@@ -787,7 +709,7 @@ echo "" > CONFIG/CONFIG.CFG
 if [ -e "$file" ]; then
 echo "
 Sucess!"
-./e.sh
+./$0
 else
 echo "There has been an error creating the configuration file, you may still boot, however you will lose access to a number of features.
 It is recommended to reinstall LUMINOUS OS."
@@ -996,7 +918,7 @@ file=CONFIG/CONFIG.CFG
 
 function e() {
   nb=1
-  trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
+  $SET_EXIT_HANDLER
   if declare -f ON > /dev/null; then
       echo "Continue"
       else
@@ -1143,15 +1065,15 @@ read -n1 BOOTMENU
     elif [ "$BOOTMENU" == "2" ]; then
         curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
         touch FAILSAFE.SH
-        cat SERVER.TMP > e.sh | rm SERVER.TMP
+        cat SERVER.TMP > $0 | rm SERVER.TMP
         echo "touch tmp.sh
-echo \"./e.sh\" >> tmp.sh
+echo \"./$0\" >> tmp.sh
 ./tmp.sh
 rm tmp.sh
-if [ -e \"e.sh\" ] && [ ! \"\$(wc -c < \"e.sh\")\" -gt 3 ]; then
+if [ -e \"$0\" ] && [ ! \"\$(wc -c < \"$0\")\" -gt 3 ]; then
 ./RECOVERY_SCRIPT.SH
 else
-./e.sh
+./$0
 fi" > FAILSAFE.SH
         ./FAILSAFE.SH
         elif [ "$BOOTMENU" == "3" ]; then
@@ -1252,7 +1174,7 @@ MUL=1
 fi
 
   code=0
-  trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
+  $SET_EXIT_HANDLER
 
 
 if [ ! -e "$file" ]; then
@@ -1286,7 +1208,7 @@ echo "" > CONFIG/CONFIG.CFG
 if [ -e "$file" ]; then
 echo "
 Sucess!"
-./e.sh
+./$0
 else
 echo "There has been an error creating the configuration file, you may still boot, however you will lose access to a number of features.
 It is recommended to reinstall LUMINOUS OS."
@@ -1395,254 +1317,221 @@ fi
 # ON FUNCTION IS HERE SILLY
 
 function ON () {
-Power=2
-sedfile=0
-filewrite=0
-writefile=0
-einfo=0
-signin=pass.txt
+  Power=2
+  sedfile=0
+  filewrite=0
+  writefile=0
+  einfo=0
+  signin=pass.txt
 
-local code=$?
+  local code=$?
 
   if [[ $code == 1 || $code == 2 || $code == 130 ]]; then
     crashSYS
   fi
-arg=""
-read -p "Command: " cmd arg 2>/dev/tty
+  arg=""
+  read -p "Command: " cmd arg 2>/dev/tty
   if [ $cmd == "list" ]; then
-  if [ $MCMDB == 1 ]; then
-  ./COMMANDS/listMCMDB.sh
-else
-./COMMANDS/list.sh
-fi
-elif [ $cmd == "log" ]; then
-./COMMANDS/log.sh
-
-elif [ $cmd == "errorlog" ]; then
-./COMMANDS/errorlog.sh
-
-elif [ $cmd == "infolog" ]; then
-./COMMANDS/infolog.sh
-
-elif [ $cmd == "warninglog" ]; then
-./COMMANDS/warninglog.sh
-
-elif [ $cmd == "clearlog" ]; then
-./COMMANDS/clearlog.sh
-
-
-elif [ $cmd == "update" ]; then
-curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
-touch FAILSAFE.SH
-cat SERVER.TMP > e.sh | rm SERVER.TMP
-echo "touch tmp.sh
-echo "./e.sh" >> tmp.sh
-./tmp.sh
-rm tmp.sh
-if [ -e "e.sh" ] && [ ! "$(wc -c < "e.sh")" -gt 3 ]; then
-./RECOVERY_SCRIPT.SH
-else
-./e.sh
-fi" > FAILSAFE.SH
-./FAILSAFE.SH
-
-elif [ $cmd == "testcrashfunc" ]; then
-clear
-crash
-
-
-
+    if [ $MCMDB == 1 ]; then
+      ./COMMANDS/listMCMDB.sh
+    else
+      ./COMMANDS/list.sh
+    fi
+  elif [ -e "COMMANDS/$cmd.sh" ]; then
+    . COMMANDS/$cmd.sh
+  elif [ $cmd == "update" ]; then
+    curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
+    touch FAILSAFE.SH
+    cat SERVER.TMP > $0 | rm SERVER.TMP
+    echo "touch tmp.sh
+    echo "./$0" >> tmp.sh
+    ./tmp.sh
+    rm tmp.sh
+    if [ -e "$0" ] && [ ! "$(wc -c < "$0")" -gt 3 ]; then
+    ./RECOVERY_SCRIPT.SH
+    else
+    ./$0
+    fi" > FAILSAFE.SH
+    ./FAILSAFE.SH
+  elif [ $cmd == "testcrashfunc" ]; then
+    clear
+    crash
     if [ $? -ne 0 ]; then
         crash
         sleep 1
     fi
-    
-elif [[ $cmd == "KERNEL CRASH TEST 1" ]]; then
-exit 1
-elif [[ $cmd == "KERNEL CRASH TEST 2" ]]; then
-exit 2
-elif [[ $cmd == "KERNEL CRASH TEST CUSTOM" ]]; then
-  KERNELCRASH=0
-  read -p "What code? (NUMBER REQUIRED. DEFAULT IS 2.) " KERNELCRASH 2>/dev/tty
-  if [[ $KERNELCRASH != 0 && ! -z $KERNELCRASH ]]; then
-    exit $KERNELCRASH
-  else
-    exit 2
-  fi
-elif [ $cmd == "changelog" ]; then
-./COMMANDS/changelog.sh
-
-elif [ $cmd == "mcmdb" ]; then
-line1=$(sed -n '4p' "$file")
-line2=$(sed -n '5p' "$file")
-line3=$(sed -n '6p' "$file")
-line4=$(sed -n '7p' "$file")
-line5=$(sed -n '8p' "$file")
-line=$(sed -n '2p' "$file")
-name="$line"
-echo "1
-$name
-1
-$line1
-$line2
-$line3
-$line4
-$line5" > $file
-MCMDB=1
-
-elif [[ $cmd == *":"* ]]; then
-    printf ""
-
-
-elif [ $cmd == "app" ]; then
-./COMMANDS/app.sh
-
-
-elif [[ $cmd == "IAMSPEED" ]]; then
-./"COMMANDS/IAMSPEED.sh"
-
-
-elif [ $cmd == "powershell" ]; then
-./COMMANDS/powershell.sh
-elif [ $cmd == "clear" ]; then
-    clear
-
-
-    elif [ $cmd == "sed" ]; then
-./COMMANDS/sed.sh
-
-  elif [ $cmd == "echo" ]; then
- echo "$arg"
-    Power=2
-  
-
-
-elif [ -z "$cmd" ]; then
-printf ""
-
-else
-fn="${cmd}.sh"
-
-if [ -e "COMMANDS/$fn" ]; then
-    if grep -q -E '^\s*(function\s+)?cmdf\s*\(\)' "COMMANDS/$fn"; then
-        . "COMMANDS/$fn"
-        cmdf
+  elif [[ $cmd == "KERNEL CRASH TEST 1" ]]; then
+  exit 1
+  elif [[ $cmd == "KERNEL CRASH TEST 2" ]]; then
+  exit 2
+  elif [[ $cmd == "KERNEL CRASH TEST CUSTOM" ]]; then
+    KERNELCRASH=0
+    read -p "What code? (NUMBER REQUIRED. DEFAULT IS 2.) " KERNELCRASH 2>/dev/tty
+    if [[ $KERNELCRASH != 0 && ! -z $KERNELCRASH ]]; then
+      exit $KERNELCRASH
     else
-        printf "%s exists as a custom command, but has no command function.\n" "$cmd"
+      exit 2
     fi
-else
-    printf "%s is not a valid command.\n" "$cmd"
-fi
 
+  elif [ $cmd == "mcmdb" ]; then
+    line1=$(sed -n '4p' "$file")
+    line2=$(sed -n '5p' "$file")
+    line3=$(sed -n '6p' "$file")
+    line4=$(sed -n '7p' "$file")
+    line5=$(sed -n '8p' "$file")
+    line=$(sed -n '2p' "$file")
+    name="$line"
+    echo "1
+    $name
+    1
+    $line1
+    $line2
+    $line3
+    $line4
+    $line5" > $file
+    MCMDB=1
+  elif [[ $cmd == *":"* ]]; then
+    printf ""
+  elif [ $cmd == "echo" ]; then
+    echo "$arg"
+    Power=2
+  elif [ -z "$cmd" ]; then
+    printf ""
+  else
+    echo "Command $cmd could not be found."
   fi
-  }
+}
 
 
 
 
+# only works for options that are single digits
+setup_prompt(){
+  $RAW
+  echo $2
+  for (( i=3; i<=$#; i++)); do
+    printf -- "-%d %s\n" $((i - 2)) "${!i}"
+  done
+  read -n 1 $1
+  local ascii=`printf "%d" "'${!1}"`
+  while (( $ascii <= 48 || $ascii > 48 + $# - 2 )); do
+    read -n 1 $1
+    ascii=`printf "%d" "'${!1}"`
+  done
+  local opt=${!1}
+  local argn=$((opt + 2))
+  local offset=$(($# - 2 - $opt + 1))
+  printf "\e[%dA\e[7;1m-%d %s\e[0m\e[%dB\r" $offset $opt "${!argn}" $offset
+  $SANE
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ynbool() {
+  echo $2 $(( -($1 - 2) ))
+}
 
 
 CRINF() {
-  echo "
-Would you like to use a simpler crash screen, rather than extra info?
-  -1 Yes
-  -2 No
-  -3 Preview screens"
-  CRINF=0
-  read -n1 CRINF
-if [ "$CRINF" != "1" ] && [ "$CRINF" != "2" ] && [ "$CRINF" != "3" ]; then
-    echo "
-    Invalid input, try again."
-    CRINF
-    elif [ $CRINF == "1" ]; then
-    echo "1" >> $file
-    elif [ $CRINF == "2" ]; then
-    echo "0" >> $file
-    elif [ $CRINF == "3" ]; then
+  setup_prompt CRINF "Would you like to use a simpler crash screen, rather than extra info?" "Yes" "No" "Preview screens"
+  if [ $CRINF == "1" ] || [ $CRINF == "2" ]; then
+    ynbool $CRINF >> $file
+  elif [ $CRINF == "3" ]; then
     crsprv1
-    fi
+  fi
 }
 
+# CRDEV() {
+# echo "Do you want to enable extra information in the case of a crash?
+# -1 Yes
+# -2 No"
+# CRDEV=0
+# read -n1 CRDEV
+# if [ "$CRDEV" != "1" ] && [ "$CRDEV" != "2" ]; then
+#     echo "
+#     Invalid input, try again."
+#     CRDEV 
+#     elif [ $CRDEV == "1" ]; then
+#     echo "1" >> $file
+#     CRINF
+#     elif [ $CRDEV == "2" ]; then
+#     echo "0" >> $file
+#     CRINF
+#     fi
+# }
 CRDEV() {
-echo "Do you want to enable extra information in the case of a crash?
--1 Yes
--2 No"
-CRDEV=0
-read -n1 CRDEV
-if [ "$CRDEV" != "1" ] && [ "$CRDEV" != "2" ]; then
-    echo "
-    Invalid input, try again."
-    CRDEV 
-    elif [ $CRDEV == "1" ]; then
-    echo "1" >> $file
-    CRINF
-    elif [ $CRDEV == "2" ]; then
-    echo "0" >> $file
-    CRINF
-    fi
+  setup_prompt CRDEV "Do you want to enable extra information in the case of a crash?" Yes No
+  ynbool $CRDEV >> $file
+  CRINF
 }
 
+# MUF() {
+#   echo "
+#   Alright! Would you like to have up to three total users?
+# -1 Yes
+# -2 No"
+#     FLAG=0
+#   read -n1 FLAG 2>/dev/tty
+#   if [ "$FLAG" != "1" ] && [ "$FLAG" != "2" ]; then
+#     echo "
+#     Invalid input, try again."
+#     MUF
+#   elif [ "$FLAG" = "1" ]; then
+#   echo "1" >> CONFIG/CONFIG.CFG
+#   echo "
+#   What will be the users' name(s)? (Name a user '0' to not create that user.)"
+#   USR2=0
+# read -p "User 2 Name: " USR2 2>/dev/tty
+# echo "$USR2" >> CONFIG/CONFIG.CFG
+#   USR3=0
+# read -p "User 3 Name: " USR3 2>/dev/tty
+# echo "$USR3" >> CONFIG/CONFIG.CFG
+#   else
+#   echo "0" >> CONFIG.CFG
+#   echo "0" >> CONFIG.CFG  
+#   echo "0" >> CONFIG.CFG
+#   fi
+#   CRDEV
+# }
 MUF() {
-  echo "
-  Alright! Would you like to have up to three total users?
--1 Yes
--2 No"
-    FLAG=0
-  read -n1 FLAG 2>/dev/tty
-  if [ "$FLAG" != "1" ] && [ "$FLAG" != "2" ]; then
-    echo "
-    Invalid input, try again."
-    MUF
-  elif [ "$FLAG" = "1" ]; then
-  echo "1" >> CONFIG/CONFIG.CFG
-  echo "
-  What will be the users' name(s)? (Name a user '0' to not create that user.)"
-  USR2=0
-read -p "User 2 Name: " USR2 2>/dev/tty
-echo "$USR2" >> CONFIG/CONFIG.CFG
-  USR3=0
-read -p "User 3 Name: " USR3 2>/dev/tty
-echo "$USR3" >> CONFIG/CONFIG.CFG
+  setup_prompt FLAG "Alright! Would you like to have up to three total users?" Yes No
+  if [ "$FLAG" = "1" ]; then
+    echo "1" >> $file
+    echo "What will be the users' name(s)? (Name a user '0' to not create that user.)"
+    USR2=0
+    read -p "User 2 Name: " USR2 2>/dev/tty
+    echo "$USR2" >> $file
+      USR3=0
+    read -p "User 3 Name: " USR3 2>/dev/tty
+    echo "$USR3" >> $file
   else
-  echo "0" >> CONFIG.CFG
-  echo "0" >> CONFIG.CFG  
-  echo "0" >> CONFIG.CFG
+    echo "0" >> $file
+    echo "0" >> $file
+    echo "0" >> $file
   fi
   CRDEV
 }
 
+# beta() {
+#   echo "Awesome! Would you like to enable beta features? These may be buggy, but are not required.
+# -1 Yeah!
+# -2 Nope."
+#   BETA=0
+#   $RAW
+#   read -n1 BETA
+#   $SANE
+#   if [ "$BETA" != "1" ] && [ "$BETA" != "2" ]; then
+#     beta
+#   elif [ "$BETA" = "1" ]; then
+#     echo -e "\x1b[2A\x1b[7m-1 Yeah!\x1b[0m"
+#     echo "1" >> "$file"
+#   else
+#     echo -e "\x1b[A\x1b[7m-2 Nope.\x1b[0m"
+#     echo "0" >> "$file"
+#   fi
+#   MUF
+# }
 beta() {
-  echo "Awesome! Would you like to enable beta features? These may be buggy, but are not required.
--1 Yeah!
--2 Nope."
-  BETA=0
-  read -n1 BETA
-  if [ "$BETA" != "1" ] && [ "$BETA" != "2" ]; then
-    echo "Invalid input, try again."
-    beta
-  elif [ "$BETA" = "1" ]; then
-    echo "1" >> "$file"
-  else
-    echo "0" >> "$file"
-  fi
+  setup_prompt BETA "Awesome! Would you like to enable beta features? These may be buggy, but are not required." "Yeah!" "Nope."
+  ynbool $BETA >> $file
   MUF
 }
 check() {
@@ -1650,6 +1539,7 @@ check() {
     line=$(sed -n '1p' "$file")
     if [ "$line" = "0" ]; then
     echo "1" > $file
+      $SANE
       echo "Welcome to LUMINOUS OS Setup...
 First off, what is your name?"
       read -p "Name: " name 2>/dev/tty
@@ -1672,10 +1562,10 @@ First off, what is your name?"
 }
 
 check
-trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
+$SET_EXIT_HANDLER
 
 
-rm "save.sh"
+rm "sav$0"
 crashed=0
 rec=0
 touch RECOVERY_SCRIPT.SH
@@ -1891,7 +1781,7 @@ fi
   sd="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
   sp="$sd/$sc"
 
-  printf "${BOL}${PK}OS FILE NAME (IF NOT e.sh MAY CAUSE PROBLEMS.): $sc
+  printf "${BOL}${PK}OS FILE NAME (IF NOT $0 MAY CAUSE PROBLEMS.): $sc
 ${BOL}${PK}OS DIRECTORY: $sd
 ${BOL}${PK}OS FULL PATH: $sp${NOCOLOR}
 ${BOL}${PK}LAST COMMAND USED: $cmd $arg
@@ -1970,6 +1860,7 @@ val_opt=0
 VALIDATION_FAILED() {
   rm -f downloaded.tmp
   clear
+  $RAW
   echo "Your system differs from the current standard version.
 This is likely due to using an outdated version of LUMINOUS OS.
 NOTE: This feature is still buggy, it is not perfect.
@@ -1980,13 +1871,14 @@ Please choose a boot option:
 
   read -n1 -s val_opt
   echo
+  $SANE
 
   case "$val_opt" in
     1)
       curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
-      mv SERVER.TMP e.sh
-      chmod +x e.sh
-      ./e.sh
+      mv SERVER.TMP $0
+      chmod +x $0
+      ./$0
       exit 0
       ;;
     2)
@@ -1996,12 +1888,14 @@ Please choose a boot option:
       exit 0
       ;;
     4)
-    devm=1
-    exec 2>/dev/tty
-    clear
-    read -p "[SECRET] Developer mode enabled.
-Press Enter to continue..." 2>/dev/tty
-clear
+      devm=1
+      exec 2>/dev/tty
+      clear
+      $RAW
+      read -n 1 -p "[SECRET] Developer mode enabled.
+  Press any key to continue . . ." 2>/dev/tty
+      $SANE
+      clear
       ;;
     *)
       VALIDATION_FAILED
@@ -2013,7 +1907,7 @@ VALIDATION_FUNCTION() {
   echo "Validating system..."                              
   curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP > downloaded.tmp
 
-  if cmp -s downloaded.tmp e.sh; then
+  if cmp -s downloaded.tmp $0; then
     echo "System check complete, continuing..."
   else
     VALIDATION_FAILED
@@ -2067,15 +1961,15 @@ echo "[REMOVED.]"
 elif [ $rec == "3" ]; then
 curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
 touch FAILSAFE.SH
-cat SERVER.TMP > e.sh | rm SERVER.TMP
+cat SERVER.TMP > $0 | rm SERVER.TMP
 echo "touch tmp.sh
-echo "./e.sh" >> tmp.sh
+echo "./$0" >> tmp.sh
 ./tmp.sh
 rm tmp.sh
-if [ -e "e.sh" ] && [ ! "$(wc -c < "e.sh")" -gt 3 ]; then
+if [ -e "$0" ] && [ ! "$(wc -c < "$0")" -gt 3 ]; then
 ./RECOVERY_SCRIPT.SH
 else
-./e.sh
+./$0
 fi" > FAILSAFE.SH
 ./FAILSAFE.SH
 fi
@@ -2084,7 +1978,7 @@ fi
 BLUE='\033[0;34m'
 
 
-esh1="e.sh"
+esh1="$0"
 rm LOG.TXT
 if [ -e "$esh1" ]; then
     esh=$(<"$esh1")
@@ -2101,6 +1995,6 @@ EFUNC
 ONFUNC
 RESTARTONCRASH() {
   while [ $CRASHEDRESTARTABLE == 1 ]; do
-  trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
+  $SET_EXIT_HANDLER
   done
 }
