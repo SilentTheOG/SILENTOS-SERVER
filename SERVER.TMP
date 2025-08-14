@@ -4,6 +4,117 @@ nb=0
 printf '\e[8;60;245t'
 devm=0
 exec 2>/dev/null
+NF="\033[0m"
+CW="\033[38;5;15m"
+CR="\033[48;5;88m"
+CGRY58="\033[48;5;237m"
+
+
+
+crashBOOT() {
+  printf "${CR}"
+clear
+printf "${CGRY58}                                                                                                                 LUMINOUS BOOT ERROR                                                                                                                 
+                                                                                                                                                                                                                                                     
+${CR}
+ERROR CODE: $code (BOOT)
+
+LUMINOUS OS has encountered a boot error, typically due to a tampered native boot function. Please retry, or reinstall LUMINOUS OS. 
+WARNING: Hard retrying will only work on the parent operating system Windows. Using it's shell LUMINOUS OS will re-launch.
+
+(1) - HARD RETRY
+(2) - SOFT RETRY
+(3) - REINSTALL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+${NF}"
+CB=0
+read -n1 CB
+    if [ "$CB" != "1" ] && [ "$CB" != "2" ] && [ "$CB" != "3" ]; then
+    crashBOOT
+    elif [ "$CB" == "1" ]; then 
+sc="$(basename "${BASH_SOURCE[0]}")"
+  sd="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+  sp="$sd/$sc"
+echo "3MB FILLER TEXT" > $CF
+powershell -command "$sp"
+exit 0
+elif [ "$CB" == "2" ]; then
+CRASHEDRESTARTABLE=1
+RESTARTONCRASH
+CRASHEDRESTARTABLE=1
+  RESTARTONCRASH
+  Power=1
+  EFUNC
+  Power=2
+  ONFUNC
+clear
+e
+    elif [ "$CB" == "3" ]; then
+curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
+touch FAILSAFE.SH
+cat SERVER.TMP > e.sh | rm SERVER.TMP
+echo "touch tmp.sh
+echo "./e.sh" >> tmp.sh
+./tmp.sh
+rm tmp.sh
+if [ -e "e.sh" ] && [ ! "$(wc -c < "e.sh")" -gt 3 ]; then
+./RECOVERY_SCRIPT.SH
+else
+./e.sh
+fi" > FAILSAFE.SH
+./FAILSAFE.SH
+  fi
+}
+
+
+
 
 if [ -e $CF ]; then
 read -p "Luminous OS has crashed last time you have used it, if this is the first time, don't worry. If this keeps happening it's recommended to reinstall!
@@ -442,7 +553,7 @@ val_opt="YES"
 else
 val_opt="NO"
 fi
-printf "${BOL}${PK}VERSION: 6.0
+printf "${BOL}${PK}VERSION: 6.1
 PASSED VALIDATION: $valf
 IGNORED VALIDATION: $val_opt
 NATIVE BOOTLOADER INTACT: $BTL
@@ -496,7 +607,7 @@ mkdir BOOTLOADERS
 touch BOOTLOADERS/BACKUP.SH
 cat << 'EOF' > BOOTLOADERS/BACKUP.SH
 function e() {
-  trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
+  trap 'code=$?; if [ $code -ne 0 ]; then crashBOOT; fi' EXIT
   if declare -f ON > /dev/null; then
       echo "Continue"
       else
@@ -640,6 +751,7 @@ read -n1 BOOTMENU
         clear
         Power=2
         ON
+        trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
     elif [ "$BOOTMENU" == "2" ]; then
         curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
         touch FAILSAFE.SH
@@ -714,6 +826,7 @@ SIGNIN () {
     fi
 
     MUL=0
+    trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
     read -n1 MUL 2>/dev/tty
     clear
 
@@ -830,11 +943,11 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
-echo "Version 6.0$exc$exc$exc (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 6.1$exc$exc$exc (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
-echo "Version 6.0$exc$exc$exc, contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 6.1$exc$exc$exc, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 fi
@@ -884,11 +997,11 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
-echo "Version 6.0$exc$exc$exc (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 6.1$exc$exc$exc (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
-echo "Version 6.0$exc$exc$exc, contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 6.1$exc$exc$exc, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 fi
@@ -996,7 +1109,7 @@ file=CONFIG/CONFIG.CFG
 
 function e() {
   nb=1
-  trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
+  trap 'code=$?; if [ $code -ne 0 ]; then crashBOOT; fi' EXIT
   if declare -f ON > /dev/null; then
       echo "Continue"
       else
@@ -1140,6 +1253,7 @@ read -n1 BOOTMENU
         clear
         Power=2
         ON
+        trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
     elif [ "$BOOTMENU" == "2" ]; then
         curl -O https://raw.githubusercontent.com/SilentTheOG/SILENTOS-SERVER/main/SERVER.TMP
         touch FAILSAFE.SH
@@ -1213,6 +1327,7 @@ SIGNIN () {
     fi
 
     MUL=0
+    trap 'code=$?; if [ $code -ne 0 ]; then crashSYS; fi' EXIT
     read -n1 MUL 2>/dev/tty
     clear
 
@@ -1328,11 +1443,11 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
-echo "Version 6.0$exc$exc$exc (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 6.1 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
-echo "Version 6.0$exc$exc$exc, contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 6.1, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 fi
@@ -1381,11 +1496,11 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
-echo "Version 6.0$exc$exc$exc (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 6.1 (BETA), contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
-echo "Version 6.0$exc$exc$exc, contact skibiditoiletcumrocket67 on Discord for more details."
+echo "Version 6.1, contact skibiditoiletcumrocket67 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 fi
@@ -1865,7 +1980,7 @@ val_opt="YES"
 else
 val_opt="NO"
 fi
-printf "${BOL}${PK}VERSION: 6.0
+printf "${BOL}${PK}VERSION: 6.1
 PASSED VALIDATION: $valf
 IGNORED VALIDATION: $val_opt
 NATIVE BOOTLOADER INTACT: $BTL
