@@ -1,4 +1,14 @@
-ver=6.2
+mkdir CONFIG
+mkdir COMMANDS
+mkdir BOOTLOADERS
+file=CONFIG/CONFIG.CFG
+trap 'code=$?; if [ $code -ne 0 ]; then crashBOOT; fi' EXIT
+read() {
+    echo -ne "\e[3 q"
+    builtin read "$@"
+    echo -ne "\e[0 q"
+}
+ver="6.3"
 CF="CONFIG/CRASH-DATA"
 cmd0m=0
 nb=0
@@ -34,7 +44,7 @@ WARNING: Hard retrying will only work on the parent operating system Windows. Us
 ========================================================================================================================INFOS========================================================================================================================
 
 If you have made any changes or edits to the system, please either revert them or reinstall LUMINOUS OS.
-If this is happening after an update, or system change, plase ask why_do_yall_hate_this_user on Discord for support.
+If this is happening after an update, or system change, plase ask stcr43 on Discord for support.
 
 
 
@@ -207,6 +217,12 @@ e
 elif [ $arg == "/r" ]; then
 e
 ON
+elif [ $arg == "/REC-B" ]; then
+clear
+RECOV
+elif [ $arg == "/REC-R" ]; then
+clear
+RECOV1
 elif [ $arg == "/s" ]; then
 setup=1
 echo "0" > CONFIG/CONFIG.CFG
@@ -222,7 +238,9 @@ echo "Shutdown command arguments:
 /e - Exits the window
 /r - Restarts the system
 /m - Restarts and boots into boot menu
-/s - Restarts into setup"
+/s - Restarts into setup
+/REC-B - Enters recovery info and boots into the backup loader
+/REC-R - Enters recovery info and reboots normally"
 else
 echo "Invalid or empty argument, use 'shutdown /?' for a list of arguments."
 fi
@@ -612,14 +630,22 @@ function e() {
   if declare -f ON > /dev/null; then
       echo "Continue"
       else
-        echo "The function that keeps the OS on was not found. 
-Your OS is corrupted, please re-install it."
+                NF="\033[0m"
+FB="\033[1m"
+CW="\033[38;5;15m"
+CB3="\033[48;5;20m"
+printf "${CB3}${CW}${FB}NOT FOUND"
+clear
+printf "ON FUNCTION NOT FOUND, PLEASE REINSTALL"
+read
+exit 0
         read -p "Press Enter to continue..." 2>/dev/tty
         exit 0
       fi
 clear
 MCMDB=0
-if [ -e "$file" ]; then
+file=CONFIG/CONFIG.CFG
+if ! [ -e "$file" ]; then
 code="SYSTEM COMMANDED, MISSING CONFIG"
 crashBOOT
 fi
@@ -947,11 +973,11 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
-echo "Version $ver (BETA), contact why_do_yall_hate_this_user on Discord for more details."
+echo "Version $ver (BETA), contact stcr43 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
-echo "Version $ver, contact why_do_yall_hate_this_user on Discord for more details."
+echo "Version $ver, contact stcr43 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 fi
@@ -1001,11 +1027,11 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
-echo "Version $ver (BETA), contact why_do_yall_hate_this_user on Discord for more details."
+echo "Version $ver (BETA), contact stcr43 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
-echo "Version $ver, contact why_do_yall_hate_this_user on Discord for more details."
+echo "Version $ver, contact stcr43 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 fi
@@ -1064,11 +1090,170 @@ read -n1 CBLC 2>/dev/tty
       fi
 }
 
+RECOV () {
+  clear
+  echo " LUMINOUS OS is loading files and testing functions.
+  "
+  echo "
+                                                              
+                                                              
+                                                              "
+  if declare -f ON > /dev/null; then
+on="IN USE"
+else
+on="NOT FOUND"
+  fi
+  clear
+    echo " LUMINOUS OS is loading files and testing functions.
+  "
+  echo "
+ ████████████████████                                         
+ ████████████████████                                         
+ ████████████████████                                         "
+  if declare -f crashSYS > /dev/null; then
+crs="IN USE"
+else
+crs="NOT FOUND"
+  fi
+  clear
+    echo " LUMINOUS OS is loading files and testing functions.
+  "
+  echo "
+ ████████████████████████████████████████                     
+ ████████████████████████████████████████                     
+ ████████████████████████████████████████                     "
+    if declare -f crashBOOT > /dev/null; then
+crsb="IN USE"
+else
+crsb="NOT FOUND"
+  fi
+  clear
+    echo " LUMINOUS OS is loading files and testing functions.
+  "
+  echo "
+ ████████████████████████████████████████                     
+ ████████████████████████████████████████                     
+ ████████████████████████████████████████                     "
+  if ! [ -e "$file" ]; then
+cfg="NOT FOUND"
+else
+cfg="IN USE"
+  fi
+  clear
+  echo " LUMINOUS OS is loading files and testing functions.
+  "
+  echo "
+ ████████████████████████████████████████████████████████████ 
+ ████████████████████████████████████████████████████████████ 
+ ████████████████████████████████████████████████████████████ 
+                              DONE
+                              
+                              
+                              "                           
+
+echo "CRITICAL SYSTEM FUNCTION: $on
+CRASH HANDLER STATUS: $crs
+BOOT CRASH HANDLER STATUS: $crsb
+CONFIGURATION REGISTRY FILE FOUND: $cfg
+
+Falling back to the backup loader. In case of a fail, if the critical system function is working, you may continue and re-install via the command.
+If you have made any system changes, revert them, and see if that fixes this problem.
+Press Enter to continue."
+read
+echo "
+
+"
+  . BOOTLOADERS/BACKUP.SH
+  e
+
+
+ON
+}
+
+RECOV1 () {
+  clear
+  echo " LUMINOUS OS is loading files and testing functions.
+  "
+  echo "
+                                                              
+                                                              
+                                                              "
+  if declare -f ON > /dev/null; then
+on="IN USE"
+else
+on="NOT FOUND"
+  fi
+  clear
+    echo " LUMINOUS OS is loading files and testing functions.
+  "
+  echo "
+ ████████████████████                                         
+ ████████████████████                                         
+ ████████████████████                                         "
+  if declare -f crashSYS > /dev/null; then
+crs="IN USE"
+else
+crs="NOT FOUND"
+  fi
+  clear
+    echo " LUMINOUS OS is loading files and testing functions.
+  "
+  echo "
+ ████████████████████████████████████████                     
+ ████████████████████████████████████████                     
+ ████████████████████████████████████████                     "
+    if declare -f crashBOOT > /dev/null; then
+crsb="IN USE"
+else
+crsb="NOT FOUND"
+  fi
+  clear
+    echo " LUMINOUS OS is loading files and testing functions.
+  "
+  echo "
+ ████████████████████████████████████████                     
+ ████████████████████████████████████████                     
+ ████████████████████████████████████████                     "
+  if ! [ -e "$file" ]; then
+cfg="NOT FOUND"
+else
+cfg="IN USE"
+  fi
+  clear
+  echo " LUMINOUS OS is loading files and testing functions.
+  "
+  echo "
+ ████████████████████████████████████████████████████████████ 
+ ████████████████████████████████████████████████████████████ 
+ ████████████████████████████████████████████████████████████ 
+                              DONE
+                              
+                              
+                              "                           
+
+echo "CRITICAL SYSTEM FUNCTION: $on
+CRASH HANDLER STATUS: $crs
+BOOT CRASH HANDLER STATUS: $crsb
+CONFIGURATION REGISTRY FILE FOUND: $cfg
+
+Displaying recovery stats, if everything looks good then continue.
+Press Enter to continue."
+read
+echo "
+
+"
+
+  e
+
+
+ON
+}
+
 EFUNC()  {
 while [ $Power -eq 1 ]; do
-    if declare -f e > /dev/null; then
+    if declare -f e > /dev/null || [ $RECB == "1" ] ; then
     cbl
-
+RECB=0
       e
       break
     else
@@ -1142,14 +1327,19 @@ CRASH HANDLER STATUS: $crs
 BOOT CRASH HANDLER STATUS: $crsb
 CONFIGURATION REGISTRY FILE FOUND: $cfg
 
-If the critical system function is working, you may continue and re-install via the command.
+Falling back to the backup loader. In case of a fail, if the critical system function is working, you may continue and re-install via the command.
 If you have made any system changes, revert them, and see if that fixes this problem.
 Press Enter to continue."
 read
 echo "
 
 "
+  . BOOTLOADERS/BACKUP.SH
+  e
+
+
 ON
+
   else
   . BOOTLOADERS/BACKUP.SH
   e
@@ -1160,10 +1350,15 @@ ON
     ON
     break
   else
-    echo "The function that keeps the OS on was not found. 
-Your OS is corrupted, please re-install it."
-    read -p "Press Enter to continue..." 2>/dev/tty
-    exit 0
+NF="\033[0m"
+FB="\033[1m"
+CW="\033[38;5;15m"
+CB3="\033[48;5;20m"
+printf "${CB3}${CW}${FB}NOT FOUND"
+clear
+printf "ON FUNCTION NOT FOUND, PLEASE REINSTALL"
+read
+exit 0
   fi
 done
 }
@@ -1178,7 +1373,7 @@ LO=0
 NOCOLOR='\033[0m'
 exc='!'
 printf '\e[8;60;245t'
-file=CONFIG/CONFIG.CFG
+
 
 function e() {
   line9=$(sed -n '9p' "$file")
@@ -1200,10 +1395,15 @@ fi
   if declare -f ON > /dev/null; then
       echo "Continue"
       else
-        echo "The function that keeps the OS on was not found. 
-Your OS is corrupted, please re-install it."
-        read -p "Press Enter to continue..." 2>/dev/tty
-        exit 0
+        NF="\033[0m"
+FB="\033[1m"
+CW="\033[38;5;15m"
+CB3="\033[48;5;20m"
+printf "${CB3}${CW}${FB}NOT FOUND"
+clear
+printf "ON FUNCTION NOT FOUND, PLEASE REINSTALL"
+read
+exit 0
       fi
 clear
 MCMDB=0
@@ -1533,11 +1733,11 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
-echo "Version $ver (BETA), contact why_do_yall_hate_this_user on Discord for more details."
+echo "Version $ver (BETA), contact stcr43 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
-echo "Version $ver, contact why_do_yall_hate_this_user on Discord for more details."
+echo "Version $ver, contact stcr43 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 fi
@@ -1586,11 +1786,11 @@ else
 fi
 echo "Welcome, $line$exc $res"
 if [ $MCMDB == 1 ]; then 
-echo "Version $ver (BETA), contact why_do_yall_hate_this_user on Discord for more details."
+echo "Version $ver (BETA), contact stcr43 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 else
-echo "Version $ver, contact why_do_yall_hate_this_user on Discord for more details."
+echo "Version $ver, contact stcr43 on Discord for more details."
                        echo "Use command $quote2 for a list of commands
 "
 fi
@@ -1600,6 +1800,10 @@ fi
 # ON FUNCTION IS HERE SILLY
 
 function ON () {
+if ! [ -e "$file" ]; then
+code="SYSTEM COMMANDED, MISSING CONFIG"
+crashSYS
+fi
 Power=2
 sedfile=0
 filewrite=0
@@ -1712,6 +1916,8 @@ elif [ $cmd == "powershell" ]; then
 elif [ $cmd == "clear" ]; then
     clear
 
+elif [[ $cmd == "i" ]] && [[ $arg == "have aids" ]]; then
+echo "damn bro good luck"
 
     elif [ $cmd == "sed" ]; then
 ./COMMANDS/sed.sh
@@ -2139,7 +2345,7 @@ This normally isn't an issue and you can reboot, if this is the first time.
 If this isn't your first time having this screen you can try the following:
 - Reinstalling via the same source you have installed it from
 - Finding the cause of the error by its error code
-- Contacting 'why_do_yall_hate_this_user' on Discord for support
+- Contacting 'stcr43' on Discord for support
 
 "
 if [ $cmd == "sed" ]; then
